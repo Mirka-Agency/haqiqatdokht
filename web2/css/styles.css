@@ -2112,28 +2112,34 @@ footer {
     }
 
     .hero-visual {
-        height: 325px
+        height: 325px;
+        place-items: center
     }
 
     .hero-art-bg {
-        inset: 12px 2px 20px;
-        border-radius: 80px 16px
+        inset: 12px 12px 20px;
+        border-radius: 80px 16px;
+        transform: none
     }
 
     .machine-svg {
-        width: 110%
+        width: 100%;
+        max-width: 100%;
+        transform: none
     }
 
     .hero-video {
-        width: 100%;
+        width: min(100%, 360px);
         max-height: 280px;
-        border-radius: 20px
+        border-radius: 20px;
+        margin-inline: auto
     }
 
     .floating-note {
         padding: 9px 12px;
         bottom: 15px;
-        right: -5px
+        right: 50%;
+        transform: translateX(50%)
     }
 
     .floating-note strong {
@@ -3185,7 +3191,9 @@ footer .brand-mark {
         width: 100% !important;
         max-width: 100% !important;
         margin-inline: auto !important;
-        justify-self: stretch !important
+        justify-self: stretch !important;
+        padding-inline: 10px !important;
+        gap: 0 !important
     }
 
     .hero .hero-content .hero-tag {
@@ -3196,7 +3204,15 @@ footer .brand-mark {
     .hero .hero-content h1,
     .hero .hero-content h1 .hero-line {
         text-align: center !important;
-        width: 100% !important
+        width: 100% !important;
+        max-width: 18ch !important;
+        margin-inline: auto !important;
+        line-height: 1.55 !important
+    }
+
+    .hero .hero-content h1 {
+        margin-top: 28px !important;
+        margin-bottom: 22px !important
     }
 
     .hero .hero-content h1 .hero-line>span {
@@ -3206,8 +3222,11 @@ footer .brand-mark {
     .hero .hero-content .hero-desc {
         text-align: center !important;
         margin-inline: auto !important;
-        max-width: 100% !important;
-        width: 100% !important
+        margin-bottom: 38px !important;
+        max-width: 30ch !important;
+        width: auto !important;
+        line-height: 2.45 !important;
+        padding-inline: 4px !important
     }
 
     .hero .hero-content .hero-actions {
@@ -3216,7 +3235,8 @@ footer .brand-mark {
         align-items: center !important;
         justify-content: center !important;
         width: 100% !important;
-        margin-inline: auto !important
+        margin-inline: auto !important;
+        gap: 14px !important
     }
 
     .hero .hero-content .hero-actions .btn {
@@ -3228,5 +3248,46 @@ footer .brand-mark {
         justify-content: center !important;
         margin-inline: auto !important;
         text-align: center !important
+    }
+
+    .hero .hero-visual {
+        display: grid !important;
+        place-items: center !important;
+        justify-self: center !important;
+        width: 100% !important;
+        margin-inline: auto !important;
+        overflow: visible !important
+    }
+
+    .hero .hero-art-bg {
+        inset: 14px 14px 24px !important;
+        transform: none !important
+    }
+
+    .hero .machine-motion {
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        width: 100% !important;
+        margin-inline: auto !important;
+        transform: none !important;
+        left: 0 !important;
+        right: 0 !important
+    }
+
+    .hero .machine-motion .hero-video,
+    .hero .hero-video {
+        display: block !important;
+        width: min(100%, 420px) !important;
+        max-width: 100% !important;
+        margin-inline: auto !important;
+        transform: none !important
+    }
+
+    .hero .floating-note {
+        right: 50% !important;
+        transform: translateX(50%) !important;
+        left: auto !important;
+        bottom: 18px !important
     }
 }
