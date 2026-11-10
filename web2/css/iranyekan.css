@@ -1,0 +1,48 @@
+/* فونت ایران‌یکان (IRANYekanX) — محلی */
+@font-face {
+  font-family: 'IRANYekan';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../fonts/IRANYekanX-Regular.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'IRANYekan';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('../fonts/IRANYekanX-Medium.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'IRANYekan';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('../fonts/IRANYekanX-DemiBold.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'IRANYekan';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('../fonts/IRANYekanX-Bold.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'IRANYekan';
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url('../fonts/IRANYekanX-ExtraBold.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'IRANYekan';
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+  src: url('../fonts/IRANYekanX-Black.woff') format('woff');
+}

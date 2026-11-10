@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>حقیقت دوخت | چرخ خیاطی صنعتی و خانگی</title>
+  <meta name="description" content="یک قرن دوخت حقیقت؛ نماینده انحصاری پریشس و وستا در ایران از ۱۲۹۶. چرخ خیاطی صنعتی، خانگی و اتو صنعتی با نصب، آموزش و گارانتی.">
+  <meta name="theme-color" content="#efe6d4">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;700&family=Lalezar&family=Noto+Nastaliq+Urdu:wght@500&family=Vazirmatn:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Icon sprite -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="i-phone" viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></symbol>
+    <symbol id="i-wa" viewBox="0 0 24 24"><path fill="currentColor" stroke="none" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.8 14.2c-.2.7-1.4 1.3-2 1.4-.5.1-1.2.1-1.9-.1a17 17 0 0 1-1.7-.6 13.4 13.4 0 0 1-5.2-4.6c-.4-.5-1-1.5-1-2.8s.7-2 1-2.3c.2-.3.5-.4.7-.4h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .5l-.3.5-.4.4c-.1.2-.3.3-.1.6.2.3.8 1.3 1.6 2 1.1 1 2 1.3 2.3 1.4.3.2.4.1.6 0l.9-1c.2-.3.4-.3.6-.2l1.9.9c.3.1.5.2.5.3.1.1.1.7-.1 1.4Z"/></symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+    <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 5 5 9-10"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M19 12H5m6-6-6 6 6 6"/></symbol>
+    <symbol id="i-scissors" viewBox="0 0 24 24"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M8.6 7.6 20 18M8.6 16.4 20 6"/></symbol>
+  </svg>
+
+  <a class="skip" href="#products">رفتن به محصولات</a>
+
+  <!-- Header with measuring tape -->
+  <header class="header" id="header">
+    <div class="wrap header__in">
+      <a href="#top" class="header__logo" aria-label="حقیقت دوخت، صفحه اصلی">
+        <img src="assets/img/logo.png" alt="یک قرن دوخت حقیقت" width="220" height="44">
+      </a>
+      <nav class="nav" id="nav" aria-label="منوی اصلی">
+        <a href="#products">محصولات</a>
+        <a href="#services">خدمات</a>
+        <a href="#about">داستان ما</a>
+        <a href="#wholesale">خرید عمده</a>
+        <a href="#contact">تماس</a>
+      </nav>
+      <div class="header__end">
+        <a href="tel:02151033" class="header__tel"><svg class="ic"><use href="#i-phone"/></svg><span dir="ltr">021 51033</span></a>
+        <a href="https://wa.me/989121168939" target="_blank" rel="noopener" class="btn btn--red btn--sm header__wa"><svg class="ic"><use href="#i-wa"/></svg>مشاوره رایگان</a>
+        <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="nav" aria-label="باز کردن منو">
+          <svg class="ic"><use href="#i-menu"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="tape" aria-hidden="true">
+      <div class="tape__ruler" id="tapeRuler"></div>
+      <span class="tape__fill" id="tapeFill"></span>
+    </div>
+  </header>
+
+  <main id="top">
+    <!-- Red thread stitched down the page as you scroll -->
+    <svg class="thread" id="thread" aria-hidden="true">
+      <defs><clipPath id="threadClip"><rect id="threadRect" x="0" y="0" width="100%" height="0"/></clipPath></defs>
+      <path id="threadGhost" class="thread__ghost"/>
+      <path id="threadPath" class="thread__line" clip-path="url(#threadClip)"/>
+      <g id="needle" class="needle"><line x1="0" y1="-26" x2="0" y2="18"/><ellipse cx="0" cy="-20" rx="1.6" ry="4"/></g>
+    </svg>
+
+    <!-- ============ HERO ============ -->
+    <section class="hero">
+      <div class="wrap hero__in">
+        <div class="hero__copy">
+          <p class="label-strip">نماینده انحصاری <b dir="ltr">PRECIOUS</b> و <b dir="ltr">VESTA</b> در ایران</p>
+          <h1>اول تست کنید،<br><span class="red">بعد بخرید.</span></h1>
+          <p class="hero__lead">بیش از یک قرن است که چرخ خیاطی می‌فروشیم، نصب می‌کنیم و تعمیر می‌کنیم. هر دستگاه را در فروشگاه با پارچه خودتان امتحان کنید و با نصب، آموزش و گارانتی تحویل بگیرید.</p>
+          <div class="hero__cta">
+            <a href="#products" class="btn btn--red btn--lg">دیدن دستگاه‌ها</a>
+            <a href="tel:02151033" class="btn btn--line btn--lg"><svg class="ic"><use href="#i-phone"/></svg>تماس با فروش</a>
+          </div>
+          <ul class="checks">
+            <li><svg class="ic"><use href="#i-check"/></svg>گارانتی تا ۳ سال</li>
+            <li><svg class="ic"><use href="#i-check"/></svg>نصب و آموزش</li>
+            <li><svg class="ic"><use href="#i-check"/></svg>قطعات یدکی همیشه موجود</li>
+          </ul>
+        </div>
+
+        <figure class="swatch-photo">
+          <span class="pin pin--a"></span><span class="pin pin--b"></span>
+          <div class="swatch-photo__img">
+            <img src="assets/img/V-20.jpg" alt="چرخ سردوز پنج نخ پریشس V20" width="560" height="560">
+          </div>
+          <figcaption class="dim"><span dir="ltr">PRECIOUS · V20</span><i></i><span>سردوز پنج نخ</span></figcaption>
+          <p class="chalk chalk--hero">پرفروش‌ترینِ کارگاه‌ها
+            <svg viewBox="0 0 120 60" aria-hidden="true"><path d="M110 8 C 80 10, 40 18, 14 48 M14 48 l3 -14 M14 48 l14 -4"/></svg>
+          </p>
+        </figure>
+      </div>
+
+      <div class="wrap cats">
+        <button class="piece-card" data-go="industrial">
+          <span class="piece-card__no">قطعه A</span>
+          <img src="assets/img/PC9322B.jpg" alt="" loading="lazy">
+          <span class="piece-card__txt"><strong>چرخ خیاطی صنعتی</strong><small data-count-cat="industrial"></small></span>
+          <svg class="ic"><use href="#i-arrow"/></svg>
+        </button>
+        <button class="piece-card" data-go="home">
+          <span class="piece-card__no">قطعه B</span>
+          <img src="assets/img/2015.jpg" alt="" loading="lazy">
+          <span class="piece-card__txt"><strong>چرخ خیاطی خانگی</strong><small data-count-cat="home"></small></span>
+          <svg class="ic"><use href="#i-arrow"/></svg>
+        </button>
+        <a class="piece-card" href="#wholesale">
+          <span class="piece-card__no">قطعه C</span>
+          <span class="piece-card__icon"><svg class="ic"><use href="#i-scissors"/></svg></span>
+          <span class="piece-card__txt"><strong>خرید عمده کارگاه</strong><small>قیمت ویژه و مشاوره خط تولید</small></span>
+          <svg class="ic"><use href="#i-arrow"/></svg>
+        </a>
+      </div>
+    </section>
+
+    <!-- ============ STATS AS SEWING BUTTONS ============ -->
+    <section class="buttons" aria-label="حقیقت دوخت در یک نگاه">
+      <div class="wrap buttons__in">
+        <div class="sbtn"><span class="sbtn__holes"></span><strong>+۱۰۰</strong><small>سال سابقه</small></div>
+        <div class="sbtn sbtn--red"><span class="sbtn__holes"></span><strong>۲</strong><small>برند انحصاری</small></div>
+        <div class="sbtn sbtn--ink"><span class="sbtn__holes"></span><strong>۳ سال</strong><small>گارانتی</small></div>
+        <div class="sbtn sbtn--bone"><span class="sbtn__holes"></span><strong>۴</strong><small>کشور صادرات</small></div>
+      </div>
+    </section>
+
+    <!-- ============ PRODUCTS ============ -->
+    <section class="section" id="products">
+      <div class="wrap">
+        <header class="sec-head">
+          <div class="cutline"><span>قطعه ۰۱</span><svg class="ic"><use href="#i-scissors"/></svg></div>
+          <div class="sec-head__row">
+            <div>
+              <h2>دستگاه‌ها، با برچسب</h2>
+              <p class="chalk">قیمت روز را روی هر برچسب بپرسید</p>
+            </div>
+            <div class="toolbar">
+              <div class="seg" role="tablist" aria-label="دسته محصولات">
+                <button class="seg__btn is-active" data-filter="all" role="tab" aria-selected="true">همه <span data-count-cat="all"></span></button>
+                <button class="seg__btn" data-filter="industrial" role="tab" aria-selected="false">صنعتی <span data-count-cat="industrial"></span></button>
+                <button class="seg__btn" data-filter="home" role="tab" aria-selected="false">خانگی <span data-count-cat="home"></span></button>
+              </div>
+              <label class="search">
+                <svg class="ic"><use href="#i-search"/></svg>
+                <input type="search" id="search" placeholder="جستجوی مدل یا نوع دستگاه" aria-label="جستجو در محصولات">
+              </label>
+            </div>
+          </div>
+        </header>
+
+        <div class="tags" id="grid" aria-live="polite"><!-- rendered by script.js --></div>
+        <p class="empty" id="empty" hidden>برچسبی با این مشخصات پیدا نشد. <button class="link" id="clearSearch">نمایش همه</button></p>
+      </div>
+    </section>
+
+    <!-- ============ SERVICES AS FABRIC SWATCHES ============ -->
+    <section class="section" id="services">
+      <div class="wrap">
+        <header class="sec-head">
+          <div class="cutline"><span>قطعه ۰۲</span><svg class="ic"><use href="#i-scissors"/></svg></div>
+          <h2>خرید شما با تحویل تمام نمی‌شود</h2>
+        </header>
+
+        <div class="swatches">
+          <article class="swatch swatch--denim">
+            <span class="swatch__code">۰۱ · جین</span>
+            <h3>تست قبل از خرید</h3>
+            <p>همه دستگاه‌ها در فروشگاه پاچنار آماده تست هستند. با پارچه خودتان امتحان کنید.</p>
+          </article>
+          <article class="swatch swatch--felt">
+            <span class="swatch__code">۰۲ · نمد</span>
+            <h3>نصب و آموزش</h3>
+            <p>دستگاه‌های صنعتی در تهران و حومه توسط تکنسین ما نصب و آموزش داده می‌شوند.</p>
+          </article>
+          <article class="swatch swatch--linen">
+            <span class="swatch__code">۰۳ · کتان</span>
+            <h3>گارانتی تا ۳ سال</h3>
+            <p>گارانتی رسمی همراه با خدمات پس از فروش و پشتیبانی فنی مستقیم.</p>
+          </article>
+          <article class="swatch swatch--cord">
+            <span class="swatch__code">۰۴ · مخمل کبریتی</span>
+            <h3>قطعات یدکی</h3>
+            <p>سوزن، ماکو، بوبین و سایر قطعات؛ همیشه از همان‌جایی که خرید کردید.</p>
+          </article>
+        </div>
+
+        <div class="seam">
+          <h3 class="seam__title">مسیر خرید، کوک به کوک</h3>
+          <ol>
+            <li><b>۱</b>انتخاب دستگاه</li>
+            <li><b>۲</b>استعلام قیمت</li>
+            <li><b>۳</b>مشاوره رایگان</li>
+            <li><b>۴</b>ارسال و نصب</li>
+            <li><b>۵</b>گارانتی و پشتیبانی</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ STORY ============ -->
+    <section class="section" id="about">
+      <div class="wrap story">
+        <figure class="polaroid">
+          <span class="pin pin--a"></span>
+          <img src="assets/img/exhibition.jpg" alt="تیم حقیقت دوخت در نمایشگاه پریشس" loading="lazy">
+          <figcaption class="chalk">تیم ما، نمایشگاه پریشس</figcaption>
+        </figure>
+        <div class="story__copy">
+          <div class="cutline"><span>قطعه ۰۳</span><svg class="ic"><use href="#i-scissors"/></svg></div>
+          <h2>یک قرن، یک نخ پیوسته</h2>
+          <p class="story__lead">از یک کارگاه کوچک در مشهد تا نماینده انحصاری دو برند جهانی در تهران. کسانی که دستگاه را به شما می‌فروشند، همان‌هایی هستند که آن را می‌شناسند و تعمیر می‌کنند.</p>
+          <ol class="knots">
+            <li><span>۱۲۹۶</span><div><h3>آغاز در مشهد</h3><p>اولین کارگاه حقیقت راه‌اندازی شد.</p></div></li>
+            <li><span>۱۳۲۰</span><div><h3>انتقال به تهران</h3><p>شروع واردات از ژاپن و آلمان.</p></div></li>
+            <li><span>صادرات</span><div><h3>فراتر از مرزها</h3><p>عراق، ارمنستان، ترکیه و افغانستان.</p></div></li>
+            <li><span>امروز</span><div><h3>نماینده انحصاری</h3><p>تولید و واردات پریشس و وستا با خدمات پس از فروش مستقیم.</p></div></li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ WHOLESALE ON A CUTTING MAT ============ -->
+    <section class="section" id="wholesale">
+      <div class="wrap">
+        <div class="mat">
+          <div class="mat__copy">
+            <div class="cutline cutline--light"><span>قطعه ۰۴</span><svg class="ic"><use href="#i-scissors"/></svg></div>
+            <h2>خرید عمده برای کارگاه</h2>
+            <p>نوع کارگاه و تعداد دستگاه را بنویسید. کارشناس ما با قیمت روز و پیشنهاد مناسب خط تولید با شما تماس می‌گیرد.</p>
+            <ul class="checks checks--light">
+              <li><svg class="ic"><use href="#i-check"/></svg>قیمت ویژه برای خرید بیش از یک دستگاه</li>
+              <li><svg class="ic"><use href="#i-check"/></svg>مشاوره چیدمان خط تولید</li>
+              <li><svg class="ic"><use href="#i-check"/></svg>نصب و راه‌اندازی در محل</li>
+            </ul>
+          </div>
+
+          <form class="slip" id="wholesaleForm" novalidate>
+            <div class="slip__head">
+              <strong>برگه سفارش</strong>
+              <span dir="ltr">No. 1404 / B2B</span>
+            </div>
+
+            <fieldset>
+              <legend>نوع کارگاه</legend>
+              <div class="chips">
+                <label><input type="radio" name="type" value="تولیدی پوشاک"><span>تولیدی پوشاک</span></label>
+                <label><input type="radio" name="type" value="کیف، کفش و چرم"><span>کیف، کفش و چرم</span></label>
+                <label><input type="radio" name="type" value="کیسه و بسته‌بندی"><span>کیسه و بسته‌بندی</span></label>
+                <label><input type="radio" name="type" value="آموزشگاه"><span>آموزشگاه</span></label>
+              </div>
+              <p class="form__err" data-for="type">نوع کارگاه را انتخاب کنید.</p>
+            </fieldset>
+
+            <div class="slip__row">
+              <label class="field">
+                <span>تعداد دستگاه</span>
+                <input type="text" name="count" inputmode="numeric" placeholder="مثلاً ۵">
+                <p class="form__err" data-for="count">تعداد دستگاه را وارد کنید.</p>
+              </label>
+              <label class="field">
+                <span>شماره موبایل</span>
+                <input type="tel" name="mobile" dir="ltr" placeholder="0912 000 0000" autocomplete="tel">
+                <p class="form__err" data-for="mobile">شماره موبایل معتبر نیست.</p>
+              </label>
+            </div>
+
+            <button class="btn btn--red btn--lg btn--block" type="submit"><svg class="ic"><use href="#i-wa"/></svg>ارسال برگه در واتساپ</button>
+            <p class="form__hint">در ساعات کاری معمولاً کمتر از یک ساعت پاسخ می‌دهیم.</p>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ CONTACT + FAQ ============ -->
+    <section class="section" id="contact">
+      <div class="wrap contact">
+        <div class="label-card">
+          <div class="cutline"><span>قطعه ۰۵</span><svg class="ic"><use href="#i-scissors"/></svg></div>
+          <h2>سر بزنید و تست کنید</h2>
+          <ul class="contact__list">
+            <li><svg class="ic"><use href="#i-pin"/></svg><div><small>آدرس</small>تهران، خیابان خیام شمالی، مقابل بازار پاچنار، پلاک ۶۶۴</div></li>
+            <li><svg class="ic"><use href="#i-clock"/></svg><div><small>ساعت کاری</small>شنبه تا پنجشنبه، ۹ تا ۱۸</div></li>
+            <li><svg class="ic"><use href="#i-phone"/></svg><div><small>تلفن</small><span><a href="tel:02151033" dir="ltr">021 51033</a> · <a href="tel:09121168939" dir="ltr">0912 116 8939</a></span></div></li>
+            <li><svg class="ic"><use href="#i-mail"/></svg><div><small>ایمیل</small><a href="mailto:info@haqiqatdokht.com">info@haqiqatdokht.com</a></div></li>
+          </ul>
+          <a class="btn btn--ink btn--block" href="https://www.google.com/maps/search/?api=1&query=Khayyam+St+Pachenar+Tehran" target="_blank" rel="noopener"><svg class="ic"><use href="#i-pin"/></svg>مسیریابی در نقشه</a>
+        </div>
+
+        <div class="faq">
+          <h2>قبل از خرید بدانید</h2>
+          <p class="chalk">سوال‌هایی که هر روز در فروشگاه می‌شنویم</p>
+          <details open><summary>می‌توانم قبل از خرید تست کنم؟</summary><p>بله. همه دستگاه‌ها در فروشگاه حضوری پاچنار قابل تست هستند.</p></details>
+          <details><summary>گارانتی چقدر است؟</summary><p>بسته به محصول، از ۶ ماه تا ۳ سال.</p></details>
+          <details><summary>نصب و آموزش دارید؟</summary><p>بله، برای دستگاه‌های صنعتی در تهران و حومه.</p></details>
+          <details><summary>قطعات یدکی موجود است؟</summary><p>سوزن، ماکو، بوبین و سایر قطعات. برای موجودی تماس بگیرید.</p></details>
+          <details><summary>چرخ خانگی برای کار درآمدزا مناسب است؟</summary><p>برای دوخت تمام‌وقت، چرخ صنعتی پیشنهاد می‌شود. چرخ خانگی برای مصرف روزمره و اصلاح لباس عالی است.</p></details>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============ FOOTER (denim) ============ -->
+  <footer class="footer">
+    <div class="woven"><span>حقیقت دوخت</span><i>✦</i><span dir="ltr">SINCE 1917</span><i>✦</i><span>تهران</span></div>
+    <div class="wrap footer__in">
+      <div class="footer__brand">
+        <img src="assets/img/logo.png" alt="یک قرن دوخت حقیقت" width="200" height="40">
+        <p>نماینده انحصاری پریشس و وستا در ایران. فروش، نصب و خدمات چرخ خیاطی از ۱۲۹۶.</p>
+      </div>
+      <div class="footer__col">
+        <h4>محصولات</h4>
+        <a href="#products" data-go="industrial">چرخ خیاطی صنعتی</a>
+        <a href="#products" data-go="home">چرخ خیاطی خانگی</a>
+        <a href="#contact">اتو صنعتی</a>
+      </div>
+      <div class="footer__col">
+        <h4>خدمات</h4>
+        <a href="https://haqiqatdokht.com/warranty/">گارانتی</a>
+        <a href="https://haqiqatdokht.com/video/">ویدئوهای آموزشی</a>
+        <a href="https://haqiqatdokht.com/blog/">وبلاگ</a>
+      </div>
+      <div class="footer__col">
+        <h4>شبکه‌های اجتماعی</h4>
+        <a href="https://www.instagram.com/haqiqatdokht" target="_blank" rel="noopener">اینستاگرام</a>
+        <a href="https://t.me/haqiqatdokht" target="_blank" rel="noopener">تلگرام</a>
+        <a href="https://www.aparat.com/HAQIQATDOKHT" target="_blank" rel="noopener">آپارات</a>
+        <a href="https://www.youtube.com/channel/UC2vU9ic2P-tChWRxPHci4Zw" target="_blank" rel="noopener">یوتیوب</a>
+      </div>
+    </div>
+    <div class="wrap footer__copy">© شرکت یک قرن دوخت حقیقت · از ۱۲۹۶</div>
+  </footer>
+
+  <!-- Mobile action bar -->
+  <div class="actionbar">
+    <a href="tel:02151033" class="btn btn--line"><svg class="ic"><use href="#i-phone"/></svg>تماس</a>
+    <a href="https://wa.me/989121168939" target="_blank" rel="noopener" class="btn btn--red"><svg class="ic"><use href="#i-wa"/></svg>واتساپ</a>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

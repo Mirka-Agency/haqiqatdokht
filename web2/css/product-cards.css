@@ -1,0 +1,154 @@
+/* =========================================================
+   product-cards.css — فاصله کارت‌های محصولات
+   این فایل بعد از styles.css لود می‌شود
+   فقط متغیرهای :root را عوض کنید
+   ========================================================= */
+
+/* ---------- متغیرها (همین‌جا ویرایش کنید) ---------- */
+:root {
+  --card-pad: 12px;
+  /* فاصله داخلی کل کارت */
+  --card-image-height: 205px;
+  /* ارتفاع تصویر */
+  --card-body-pad-top: 8px;
+  /* فاصله تصویر تا متن */
+  --card-type-gap: 2px;
+  /* فاصله زیر برچسب قرمز */
+  --card-title-gap: 2px;
+  /* فاصله زیر عنوان */
+  --card-desc-gap: 4px;
+  /* فاصله توضیحات تا خط */
+  --card-footer-pad: 6px;
+  /* فاصله خط تا لینک‌ها */
+  --card-footer-gap: 6px;
+  /* فاصله افقی برچسب ↔ مشاهده محصولات */
+  --card-desc-line: 1.55;
+  /* ارتفاع خط توضیحات */
+  --card-radius: 18px;
+  /* گردی گوشه */
+  --card-gap: 18px;
+  /* فاصله بین کارت‌ها */
+}
+
+/* ---------- گرید سه ستونه ---------- */
+#products .product-grid {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: var(--card-gap) !important;
+  align-items: stretch !important;
+  grid-auto-rows: 1fr !important;
+}
+
+/* ---------- خود کارت ---------- */
+#products .product-card {
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: flex-start !important;
+  align-self: stretch !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  padding: var(--card-pad) !important;
+  border-radius: var(--card-radius) !important;
+  background: var(--card, #fff) !important;
+}
+
+/* فیلتر: بدون این، display:flex!important ویژگی hidden را خنثی می‌کند */
+#products .product-card[hidden] {
+  display: none !important;
+}
+
+/* ---------- تصویر محصول ---------- */
+#products .product-image {
+  flex: 0 0 auto !important;
+  height: var(--card-image-height) !important;
+  margin: 0 !important;
+}
+
+/* ---------- متن کارت ---------- */
+#products .product-body {
+  display: flex !important;
+  flex-direction: column !important;
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  height: auto !important;
+  padding: var(--card-body-pad-top) 6px 0 !important;
+  margin: 0 !important;
+}
+
+#products .product-type {
+  display: block !important;
+  margin: 0 0 var(--card-type-gap) !important;
+}
+
+#products .product-body h3 {
+  margin: 0 0 var(--card-title-gap) !important;
+  line-height: 1.45 !important;
+  min-height: 2.9em !important;
+}
+
+#products .product-body p {
+  margin: 0 0 var(--card-desc-gap) !important;
+  padding: 0 !important;
+  flex: 1 1 auto !important;
+  min-height: 3.1em !important;
+  line-height: var(--card-desc-line) !important;
+  font-size: 12.5px !important;
+}
+
+/* ---------- ردیف پایین کارت ---------- */
+#products .product-bottom {
+  display: flex !important;
+  flex: 0 0 auto !important;
+  flex-wrap: wrap !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  gap: var(--card-footer-gap) !important;
+  height: auto !important;
+  min-height: 0 !important;
+  margin: auto 6px 0 !important;
+  padding: var(--card-footer-pad) 0 0 !important;
+  border-top: 1px solid var(--line, #e2e5ea) !important;
+}
+
+#products .product-bottom a,
+#products .product-bottom .text-btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  padding: 0 !important;
+  background: transparent !important;
+  line-height: 1.4 !important;
+  height: auto !important;
+  border: 0 !important;
+  color: var(--accent, #c11f2a) !important;
+  font: inherit !important;
+  font-weight: 800 !important;
+  cursor: pointer !important;
+}
+
+/* ---------- فلش SVG (بدون height قبلاً تا ~150px کش می‌آمد) ---------- */
+#products .product-bottom svg {
+  width: 15px !important;
+  height: 15px !important;
+  flex: none !important;
+  display: block !important;
+}
+
+/* ---------- ریسپانسیو ---------- */
+@media (max-width: 850px) {
+  #products .product-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 570px) {
+  #products .product-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  #products .product-image {
+    height: auto !important;
+    aspect-ratio: 1.75 !important;
+  }
+}

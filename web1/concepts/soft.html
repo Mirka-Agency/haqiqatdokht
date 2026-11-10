@@ -1,0 +1,369 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>حقیقت دوخت | سبک مدرن نرم</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    /* Style — Soft modern: warm gradient glow, frosted glass cards, bento layout */
+    :root {
+      --bg: #fbfafa; --ink: #18151a; --ink-2: #4a4550; --muted: #8b8590; --line: rgba(24,21,26,.08);
+      --red: #e0182f; --rose: #ff5a7a; --peach: #ffb38a; --violet: #8d6bff;
+      --glass: rgba(255,255,255,.62); --glass-line: rgba(255,255,255,.8);
+      --grad: linear-gradient(120deg, var(--red), var(--rose) 55%, var(--peach));
+      --sans: "Vazirmatn", system-ui, sans-serif; --wrap: 1200px; --g: 24px; --r: 28px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; scroll-padding-top: 96px; }
+    body { font-family: var(--sans); background: var(--bg); color: var(--ink); line-height: 1.8; -webkit-font-smoothing: antialiased; overflow-x: clip; }
+    img { display: block; max-width: 100%; height: auto; }
+    a { color: inherit; text-decoration: none; }
+    ol, ul { list-style: none; }
+    button, input { font: inherit; color: inherit; }
+    button { cursor: pointer; }
+    h1, h2, h3 { font-weight: 900; line-height: 1.3; letter-spacing: -.01em; }
+    :focus-visible { outline: 2px solid var(--red); outline-offset: 3px; border-radius: 8px; }
+    .wrap { max-width: calc(var(--wrap) + var(--g) * 2); margin-inline: auto; padding-inline: var(--g); }
+    .grad-text { background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .pill { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px 6px 6px; border-radius: 999px; background: var(--glass); border: 1px solid var(--glass-line); backdrop-filter: blur(12px); font-size: .85rem; font-weight: 500; box-shadow: 0 6px 20px -12px rgba(224,24,47,.4); }
+    .pill b { background: var(--grad); color: #fff; padding: 2px 10px; border-radius: 999px; font-size: .78rem; }
+    .glass { background: var(--glass); border: 1px solid var(--glass-line); backdrop-filter: blur(18px) saturate(1.4); border-radius: var(--r); box-shadow: 0 1px 0 rgba(255,255,255,.9) inset, 0 20px 50px -30px rgba(60,20,40,.35); }
+
+    /* Glow blobs */
+    .blobs { position: absolute; inset: 0; overflow: hidden; z-index: -1; pointer-events: none; }
+    .blobs i { position: absolute; border-radius: 50%; filter: blur(70px); opacity: .55; }
+    .blobs i:nth-child(1) { width: 520px; height: 520px; background: var(--rose); top: -160px; right: -120px; }
+    .blobs i:nth-child(2) { width: 420px; height: 420px; background: var(--peach); top: 200px; left: -140px; opacity: .45; }
+    .blobs i:nth-child(3) { width: 360px; height: 360px; background: var(--violet); bottom: -120px; right: 30%; opacity: .25; }
+
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: 52px; padding: 0 26px; border-radius: 999px; font-weight: 700; border: 0; transition: transform .2s, box-shadow .2s, background-color .2s; }
+    .btn--grad { background: var(--grad); color: #fff; box-shadow: 0 12px 26px -12px rgba(224,24,47,.7); }
+    .btn--grad:hover { transform: translateY(-2px); box-shadow: 0 16px 30px -12px rgba(224,24,47,.8); }
+    .btn--glass { background: var(--glass); border: 1px solid var(--glass-line); backdrop-filter: blur(12px); }
+    .btn--glass:hover { background: #fff; }
+    .btn--ink { background: var(--ink); color: #fff; }
+    .btn--ink:hover { background: #000; }
+
+    /* Floating header */
+    .header { position: sticky; top: 14px; z-index: 50; padding-inline: var(--g); }
+    .header__in { max-width: var(--wrap); margin-inline: auto; display: flex; align-items: center; gap: 28px; height: 62px; padding: 0 10px 0 20px; border-radius: 999px; }
+    .logo img { height: 30px; width: auto; }
+    .nav { display: flex; gap: 4px; margin-inline-start: auto; font-size: .92rem; }
+    .nav a { padding: 6px 14px; border-radius: 999px; color: var(--ink-2); transition: background-color .2s; }
+    .nav a:hover { background: rgba(255,255,255,.9); color: var(--ink); }
+    .header .btn { height: 44px; padding: 0 20px; font-size: .9rem; }
+    .menu-btn { display: none; width: 44px; height: 44px; border-radius: 50%; background: var(--ink); color: #fff; border: 0; }
+
+    /* Hero */
+    .hero { position: relative; padding: 70px 0 60px; }
+    .hero .wrap { display: grid; grid-template-columns: 1.05fr 1fr; gap: 40px; align-items: center; }
+    .hero h1 { font-size: clamp(2.5rem, 5.4vw, 4.4rem); margin: 20px 0 18px; }
+    .hero p { color: var(--ink-2); font-size: 1.12rem; max-width: 46ch; margin-bottom: 30px; }
+    .hero .cta { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 34px; }
+    .avatars { display: flex; align-items: center; gap: 12px; font-size: .9rem; color: var(--ink-2); }
+    .avatars span { display: flex; }
+    .avatars span i { width: 36px; height: 36px; border-radius: 50%; border: 2px solid #fff; margin-inline-start: -10px; background: var(--grad); display: grid; place-items: center; color: #fff; font-style: normal; font-size: .75rem; font-weight: 700; }
+    .avatars span i:nth-child(2) { background: linear-gradient(120deg, var(--violet), var(--rose)); }
+    .avatars span i:nth-child(3) { background: linear-gradient(120deg, var(--peach), #ffd36e); }
+    .showcase { position: relative; padding: 28px; }
+    .showcase__img { border-radius: 36px; background: #fff; padding: 8%; aspect-ratio: 1; box-shadow: 0 40px 80px -40px rgba(120,30,60,.45); animation: float 6s ease-in-out infinite; }
+    .showcase__img img { width: 100%; height: 100%; object-fit: contain; }
+    @keyframes float { 50% { transform: translateY(-12px); } }
+    .chip { position: absolute; padding: 12px 16px; display: flex; align-items: center; gap: 10px; font-size: .85rem; line-height: 1.4; border-radius: 18px; }
+    .chip b { display: block; font-size: 1rem; }
+    .chip i { width: 38px; height: 38px; border-radius: 12px; background: var(--grad); color: #fff; display: grid; place-items: center; font-style: normal; flex: none; }
+    .chip--a { top: 8%; left: 0; }
+    .chip--b { bottom: 10%; right: 0; }
+
+    /* Logos strip */
+    .strip { padding: 10px 0 40px; }
+    .strip .wrap { display: flex; justify-content: center; align-items: center; gap: 48px; flex-wrap: wrap; color: var(--muted); font-size: .9rem; }
+    .strip b { font-size: 1.4rem; letter-spacing: .25em; color: var(--ink); font-weight: 800; }
+
+    /* Sections */
+    .sec { position: relative; padding: 90px 0; }
+    .sec-head { text-align: center; max-width: 640px; margin: 0 auto 40px; }
+    .sec-head h2 { font-size: clamp(2rem, 4vw, 3rem); margin: 14px 0 6px; }
+    .sec-head p { color: var(--muted); }
+    .seg { display: inline-flex; gap: 4px; padding: 5px; border-radius: 999px; margin: 0 auto 36px; }
+    .seg-wrap { text-align: center; }
+    .seg button { border: 0; background: none; padding: 9px 20px; border-radius: 999px; font-weight: 500; color: var(--ink-2); transition: .2s; }
+    .seg button.is-active { background: var(--ink); color: #fff; }
+    .seg button span { opacity: .6; font-size: .8rem; }
+
+    .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+    .card { padding: 14px; display: flex; flex-direction: column; transition: transform .3s, box-shadow .3s; }
+    .card:hover { transform: translateY(-6px); box-shadow: 0 1px 0 #fff inset, 0 30px 50px -28px rgba(120,30,60,.5); }
+    .card__img { border-radius: 20px; background: #fff; aspect-ratio: 1 / .9; position: relative; }
+    .card__img img { width: 100%; height: 100%; object-fit: contain; padding: 10%; }
+    .card__img span { position: absolute; top: 10px; right: 10px; font-size: .72rem; font-weight: 700; padding: 2px 10px; border-radius: 999px; background: rgba(24,21,26,.06); }
+    .card__body { padding: 14px 6px 4px; display: flex; flex-direction: column; flex: 1; }
+    .card small { color: var(--muted); font-size: .75rem; letter-spacing: .1em; font-weight: 700; }
+    .card h3 { font-size: 1.35rem; direction: ltr; text-align: right; }
+    .card p { color: var(--ink-2); font-size: .88rem; flex: 1; margin-bottom: 14px; }
+    .card .btn { height: 42px; font-size: .85rem; }
+
+    /* Bento */
+    .bento { display: grid; grid-template-columns: repeat(4, 1fr); grid-auto-rows: minmax(200px, auto); gap: 16px; }
+    .bento > * { padding: 28px; display: flex; flex-direction: column; justify-content: space-between; gap: 14px; }
+    .b-wide { grid-column: span 2; }
+    .b-tall { grid-row: span 2; }
+    .b-grad { background: var(--grad); color: #fff; border-radius: var(--r); box-shadow: 0 24px 50px -28px rgba(224,24,47,.8); }
+    .b-ink { background: var(--ink); color: #fff; border-radius: var(--r); }
+    .bento h3 { font-size: 1.3rem; }
+    .bento p { opacity: .78; font-size: .93rem; }
+    .bento .big { font-size: clamp(3rem, 6vw, 5rem); font-weight: 900; line-height: 1; }
+    .bento .ico { width: 46px; height: 46px; border-radius: 14px; display: grid; place-items: center; background: rgba(224,24,47,.1); color: var(--red); font-size: 1.3rem; }
+    .b-photo { padding: 0 !important; border-radius: var(--r); overflow: hidden; position: relative; }
+    .b-photo img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 25%; }
+    .b-photo figcaption { position: absolute; bottom: 14px; right: 14px; left: 14px; padding: 12px 16px; border-radius: 16px; font-size: .9rem; }
+    .years { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 16px; font-size: .88rem; }
+    .years b { display: block; font-size: 1.2rem; }
+
+    .steps { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin-top: 40px; }
+    .steps li { padding: 10px 18px; border-radius: 999px; font-weight: 500; font-size: .92rem; display: flex; align-items: center; gap: 8px; }
+    .steps li b { width: 24px; height: 24px; border-radius: 50%; background: var(--grad); color: #fff; display: grid; place-items: center; font-size: .75rem; }
+
+    /* Wholesale */
+    .wholesale { padding: clamp(26px, 5vw, 56px); display: grid; grid-template-columns: 1fr 1.1fr; gap: 48px; align-items: center; position: relative; overflow: hidden; }
+    .wholesale h2 { font-size: clamp(1.9rem, 3.4vw, 2.6rem); margin: 14px 0 10px; }
+    .wholesale > div > p { color: var(--ink-2); }
+    .form { display: grid; gap: 16px; background: #fff; border-radius: 24px; padding: 26px; box-shadow: 0 20px 40px -28px rgba(60,20,40,.4); }
+    .form fieldset { border: 0; }
+    .form legend, .field > span { display: block; font-weight: 700; font-size: .88rem; margin-bottom: 8px; }
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+    .chips input { position: absolute; opacity: 0; pointer-events: none; }
+    .chips span { display: inline-block; padding: 8px 16px; border-radius: 999px; background: #f4f1f3; font-size: .9rem; cursor: pointer; transition: .2s; }
+    .chips input:checked + span { background: var(--grad); color: #fff; font-weight: 700; }
+    .chips input:focus-visible + span { outline: 2px solid var(--red); outline-offset: 2px; }
+    .frow { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .field input { width: 100%; height: 50px; padding: 0 16px; border-radius: 14px; border: 1.5px solid transparent; background: #f4f1f3; font-size: 1rem; outline: 0; transition: .2s; }
+    .field input:focus { background: #fff; border-color: var(--rose); }
+    .field input[dir="ltr"] { text-align: right; }
+    .form__err { display: none; color: var(--red); font-size: .82rem; margin-top: 6px; }
+    .form__err.is-on { display: block; }
+    .is-bad input { border-color: var(--red); }
+
+    /* Contact */
+    .contact { display: grid; grid-template-columns: 1fr 1.2fr; gap: 24px; }
+    .contact > div { padding: 32px; }
+    .contact h2 { font-size: 1.8rem; margin-bottom: 14px; }
+    .info li { display: flex; gap: 14px; padding: 10px 0; }
+    .info li i { width: 40px; height: 40px; flex: none; border-radius: 12px; background: #fff; display: grid; place-items: center; font-style: normal; color: var(--red); }
+    .info small { display: block; color: var(--muted); font-size: .8rem; }
+    .info a:hover { color: var(--red); }
+    .info .btn { margin-top: 14px; width: 100%; }
+    details { background: rgba(255,255,255,.7); border-radius: 18px; margin-bottom: 8px; padding: 0 18px; }
+    summary { list-style: none; cursor: pointer; padding: 16px 0; display: flex; justify-content: space-between; align-items: center; gap: 16px; font-weight: 700; }
+    summary::-webkit-details-marker { display: none; }
+    summary::after { content: "+"; width: 28px; height: 28px; flex: none; border-radius: 50%; background: #f1edf0; display: grid; place-items: center; transition: transform .25s, background .25s; }
+    details[open] summary::after { transform: rotate(45deg); background: var(--grad); color: #fff; }
+    details p { color: var(--ink-2); padding-bottom: 16px; }
+
+    .footer { margin: 60px var(--g) var(--g); border-radius: 36px; background: var(--ink); color: rgba(255,255,255,.7); position: relative; overflow: hidden; }
+    .footer::before { content: ""; position: absolute; width: 500px; height: 500px; border-radius: 50%; background: var(--red); filter: blur(120px); opacity: .35; top: -300px; left: -100px; }
+    .footer .wrap { position: relative; display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 32px; padding-block: 56px 28px; font-size: .9rem; }
+    .footer img { height: 34px; width: auto; filter: brightness(0) invert(1); margin-bottom: 14px; }
+    .footer h4 { color: #fff; margin-bottom: 10px; }
+    .footer .col { display: flex; flex-direction: column; gap: 6px; }
+    .footer .col a:hover { color: #fff; }
+    .copy { grid-column: 1 / -1; border-top: 1px solid rgba(255,255,255,.12); padding-top: 18px; font-size: .82rem; color: rgba(255,255,255,.5); }
+
+    @media (max-width: 1040px) {
+      .grid { grid-template-columns: repeat(3, 1fr); }
+      .bento { grid-template-columns: repeat(2, 1fr); }
+      .b-tall { grid-row: auto; min-height: 300px; }
+    }
+    @media (max-width: 860px) {
+      .nav { display: none; position: absolute; top: calc(100% + 8px); inset-inline: 0; flex-direction: column; padding: 10px; border-radius: 24px; background: rgba(255,255,255,.96); box-shadow: 0 20px 40px -20px rgba(0,0,0,.3); }
+      .nav.is-open { display: flex; }
+      .nav a { padding: 12px 16px; }
+      .header__in { position: relative; gap: 10px; }
+      .header .btn { margin-inline-start: auto; }
+      .menu-btn { display: grid; place-items: center; }
+      .hero .wrap, .wholesale, .contact { grid-template-columns: 1fr; }
+      .showcase { max-width: 440px; margin-inline: auto; }
+      .grid { grid-template-columns: repeat(2, 1fr); }
+      .footer .wrap { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 560px) {
+      :root { --g: 14px; --r: 22px; }
+      .sec { padding: 64px 0; }
+      .hero { padding-top: 40px; }
+      .header .btn { display: none; }
+      .menu-btn { margin-inline-start: auto; }
+      .chip--a { left: 0; } .chip--b { right: 0; }
+      .grid { gap: 10px; }
+      .card { padding: 8px; }
+      .card h3 { font-size: 1.05rem; }
+      .card p { font-size: .8rem; }
+      .bento { grid-template-columns: 1fr; }
+      .b-wide { grid-column: auto; }
+      .frow { grid-template-columns: 1fr; }
+      .contact > div { padding: 22px; }
+      .footer { border-radius: 26px; }
+      .footer .wrap { grid-template-columns: 1fr; }
+    }
+    @media (prefers-reduced-motion: reduce) { .showcase__img { animation: none; } }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="header__in glass">
+      <a href="#top" class="logo"><img src="../assets/img/logo.png" alt="یک قرن دوخت حقیقت" width="150" height="30"></a>
+      <nav class="nav" id="nav">
+        <a href="#products">محصولات</a>
+        <a href="#why">چرا ما</a>
+        <a href="#wholesale">خرید عمده</a>
+        <a href="#contact">تماس</a>
+      </nav>
+      <a class="btn btn--grad" href="https://wa.me/989121168939" target="_blank" rel="noopener">مشاوره رایگان</a>
+      <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="nav" aria-label="منو">☰</button>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="blobs" aria-hidden="true"><i></i><i></i><i></i></div>
+      <div class="wrap">
+        <div>
+          <span class="pill"><b>جدید</b>کلکسیون ۱۴۰۴ پریشس و وستا</span>
+          <h1>دوخت بهتر،<br><span class="grad-text">با دستگاه درست.</span></h1>
+          <p>نماینده انحصاری PRECIOUS و VESTA در ایران. دستگاه را در فروشگاه تست کنید و با نصب، آموزش و گارانتی تا سه سال تحویل بگیرید.</p>
+          <div class="cta">
+            <a class="btn btn--grad" href="#products">مشاهده محصولات</a>
+            <a class="btn btn--glass" href="tel:02151033">تماس: <span dir="ltr">021 51033</span></a>
+          </div>
+          <div class="avatars"><span><i>۱۰۰</i><i>۳</i><i>۲</i></span>بیش از یک قرن تجربه در کنار خیاط‌ها</div>
+        </div>
+        <div class="showcase">
+          <div class="showcase__img"><img src="../assets/img/V-20.jpg" alt="چرخ سردوز پنج نخ پریشس V20" width="480" height="480"></div>
+          <div class="chip chip--a glass"><i>✓</i><span><b>گارانتی ۳ ساله</b>رسمی و مستقیم</span></div>
+          <div class="chip chip--b glass"><i>★</i><span><b>PRECIOUS V20</b>سردوز پنج نخ</span></div>
+        </div>
+      </div>
+    </section>
+
+    <div class="strip"><div class="wrap"><b>PRECIOUS</b><span>نماینده انحصاری در ایران</span><b>VESTA</b></div></div>
+
+    <section class="sec" id="products">
+      <div class="blobs" aria-hidden="true"><i style="top:30%;right:-200px"></i></div>
+      <div class="wrap">
+        <div class="sec-head"><span class="pill"><b><span data-count-cat="all"></span></b>مدل دستگاه</span><h2>دستگاه‌ها</h2><p>قیمت روز هر مدل را در واتساپ بپرسید.</p></div>
+        <div class="seg-wrap">
+          <div class="seg glass" role="tablist">
+            <button class="is-active" data-filter="all" role="tab" aria-selected="true">همه <span data-count-cat="all"></span></button>
+            <button data-filter="industrial" role="tab" aria-selected="false">صنعتی <span data-count-cat="industrial"></span></button>
+            <button data-filter="home" role="tab" aria-selected="false">خانگی <span data-count-cat="home"></span></button>
+          </div>
+        </div>
+        <div class="grid" id="grid"></div>
+      </div>
+    </section>
+
+    <section class="sec" id="why">
+      <div class="wrap">
+        <div class="sec-head"><span class="pill"><b>چرا ما</b>حقیقت دوخت</span><h2>بیشتر از یک فروشگاه</h2></div>
+        <div class="bento">
+          <div class="b-grad b-wide"><span>از ۱۲۹۶ تا امروز</span><div><div class="big">+۱۰۰ سال</div><p>از یک کارگاه در مشهد تا نماینده انحصاری دو برند جهانی.</p></div></div>
+          <figure class="b-photo b-tall"><img src="../assets/img/exhibition.jpg" alt="تیم حقیقت دوخت در نمایشگاه پریشس" loading="lazy"><figcaption class="glass">تیم ما در نمایشگاه پریشس</figcaption></figure>
+          <div class="glass"><span class="ico">◎</span><div><h3>تست قبل از خرید</h3><p>همه دستگاه‌ها در فروشگاه پاچنار.</p></div></div>
+          <div class="glass"><span class="ico">⚙</span><div><h3>نصب و آموزش</h3><p>در تهران و حومه برای دستگاه‌های صنعتی.</p></div></div>
+          <div class="b-ink"><span class="ico" style="background:rgba(255,255,255,.1);color:#fff">✓</span><div><h3>گارانتی تا ۳ سال</h3><p>با خدمات پس از فروش مستقیم.</p></div></div>
+          <div class="glass b-wide"><h3>داستان ما</h3><ol class="years"><li><b>۱۲۹۶</b>آغاز در مشهد</li><li><b>۱۳۲۰</b>انتقال به تهران</li><li><b>صادرات</b>عراق، ارمنستان، ترکیه، افغانستان</li><li><b>امروز</b>نماینده پریشس و وستا</li></ol></div>
+          <div class="glass"><span class="ico">✂</span><div><h3>قطعات یدکی</h3><p>سوزن، ماکو و بوبین؛ همیشه موجود.</p></div></div>
+        </div>
+        <ol class="steps">
+          <li class="glass"><b>۱</b>انتخاب</li>
+          <li class="glass"><b>۲</b>استعلام قیمت</li>
+          <li class="glass"><b>۳</b>مشاوره رایگان</li>
+          <li class="glass"><b>۴</b>ارسال و نصب</li>
+          <li class="glass"><b>۵</b>گارانتی</li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="sec" id="wholesale">
+      <div class="wrap">
+        <div class="wholesale glass">
+          <div class="blobs" aria-hidden="true"><i style="width:380px;height:380px;top:-140px;right:-120px"></i></div>
+          <div>
+            <span class="pill"><b>B2B</b>برای کارگاه و تولیدی</span>
+            <h2>خرید عمده، <span class="grad-text">قیمت ویژه</span></h2>
+            <p>نوع کارگاه و تعداد دستگاه را بنویسید. کارشناس ما با قیمت روز و پیشنهاد خط تولید تماس می‌گیرد.</p>
+          </div>
+          <form class="form" id="wholesaleForm" novalidate>
+            <fieldset>
+              <legend>نوع کارگاه</legend>
+              <div class="chips">
+                <label><input type="radio" name="type" value="تولیدی پوشاک"><span>تولیدی پوشاک</span></label>
+                <label><input type="radio" name="type" value="کیف، کفش و چرم"><span>کیف، کفش و چرم</span></label>
+                <label><input type="radio" name="type" value="کیسه و بسته‌بندی"><span>کیسه و بسته‌بندی</span></label>
+                <label><input type="radio" name="type" value="آموزشگاه"><span>آموزشگاه</span></label>
+              </div>
+              <p class="form__err" data-for="type">نوع کارگاه را انتخاب کنید.</p>
+            </fieldset>
+            <div class="frow">
+              <label class="field"><span>تعداد دستگاه</span><input name="count" inputmode="numeric" placeholder="مثلاً ۵"><p class="form__err" data-for="count">تعداد دستگاه را وارد کنید.</p></label>
+              <label class="field"><span>شماره موبایل</span><input name="mobile" type="tel" dir="ltr" placeholder="0912 000 0000"><p class="form__err" data-for="mobile">شماره موبایل معتبر نیست.</p></label>
+            </div>
+            <button class="btn btn--grad" type="submit">ارسال در واتساپ</button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" id="contact">
+      <div class="wrap contact">
+        <div class="glass info">
+          <h2>فروشگاه پاچنار</h2>
+          <ul>
+            <li><i>⌖</i><div><small>آدرس</small>تهران، خیابان خیام شمالی، مقابل بازار پاچنار، پلاک ۶۶۴</div></li>
+            <li><i>◷</i><div><small>ساعت کاری</small>شنبه تا پنجشنبه، ۹ تا ۱۸</div></li>
+            <li><i>☏</i><div><small>تلفن</small><a href="tel:02151033" dir="ltr">021 51033</a> · <a href="tel:09121168939" dir="ltr">0912 116 8939</a></div></li>
+            <li><i>@</i><div><small>ایمیل</small><a href="mailto:info@haqiqatdokht.com">info@haqiqatdokht.com</a></div></li>
+          </ul>
+          <a class="btn btn--ink" href="https://www.google.com/maps/search/?api=1&query=Khayyam+St+Pachenar+Tehran" target="_blank" rel="noopener">مسیریابی</a>
+        </div>
+        <div>
+          <h2>سوالات پرتکرار</h2>
+          <details open><summary>می‌توانم قبل از خرید تست کنم؟</summary><p>بله. همه دستگاه‌ها در فروشگاه حضوری پاچنار قابل تست هستند.</p></details>
+          <details><summary>گارانتی چقدر است؟</summary><p>بسته به محصول، از ۶ ماه تا ۳ سال.</p></details>
+          <details><summary>نصب و آموزش دارید؟</summary><p>بله، برای دستگاه‌های صنعتی در تهران و حومه.</p></details>
+          <details><summary>قطعات یدکی موجود است؟</summary><p>سوزن، ماکو، بوبین و سایر قطعات. برای موجودی تماس بگیرید.</p></details>
+          <details><summary>چرخ خانگی برای کار درآمدزا مناسب است؟</summary><p>برای دوخت تمام‌وقت، چرخ صنعتی پیشنهاد می‌شود.</p></details>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap">
+      <div><img src="../assets/img/logo.png" alt="یک قرن دوخت حقیقت" width="170" height="34"><p>فروش، نصب و خدمات چرخ خیاطی از ۱۲۹۶.</p></div>
+      <div class="col"><h4>محصولات</h4><a href="#products">چرخ صنعتی</a><a href="#products">چرخ خانگی</a><a href="#contact">اتو صنعتی</a></div>
+      <div class="col"><h4>خدمات</h4><a href="https://haqiqatdokht.com/warranty/">گارانتی</a><a href="https://haqiqatdokht.com/video/">ویدئوهای آموزشی</a><a href="https://haqiqatdokht.com/blog/">وبلاگ</a></div>
+      <div class="col"><h4>شبکه‌ها</h4><a href="https://www.instagram.com/haqiqatdokht" target="_blank" rel="noopener">اینستاگرام</a><a href="https://t.me/haqiqatdokht" target="_blank" rel="noopener">تلگرام</a><a href="https://www.youtube.com/channel/UC2vU9ic2P-tChWRxPHci4Zw" target="_blank" rel="noopener">یوتیوب</a></div>
+      <p class="copy">© شرکت یک قرن دوخت حقیقت · از ۱۲۹۶</p>
+    </div>
+  </footer>
+
+  <script src="shared.js"></script>
+  <script>
+    initPage({
+      card: (p) => `
+        <article class="card glass">
+          <div class="card__img"><span>${CAT_LABEL[p.cat]}</span><img src="${IMG + p.img}" alt="${p.brand} ${p.model}" loading="lazy"></div>
+          <div class="card__body">
+            <small>${p.brand}</small>
+            <h3>${p.model}</h3>
+            <p>${p.name}</p>
+            <a class="btn btn--ink" href="${priceLink(p)}" target="_blank" rel="noopener">استعلام قیمت</a>
+          </div>
+        </article>`,
+    });
+  </script>
+</body>
+</html>

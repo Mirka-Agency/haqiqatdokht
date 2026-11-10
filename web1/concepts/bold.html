@@ -1,0 +1,395 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>حقیقت دوخت | سبک برند قرمز</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    /* Style 3 — Bold red brand: Swiss poster grid, brand red blocks, black rules, big type */
+    :root {
+      --red: #d7142a; --red-2: #b30f22; --black: #111; --white: #fff; --grey: #f2f2f2; --muted: #6e6e6e;
+      --sans: "Vazirmatn", system-ui, sans-serif; --wrap: 1280px; --g: 24px; --rule: 2px solid var(--black);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; scroll-padding-top: 72px; }
+    body { font-family: var(--sans); background: var(--white); color: var(--black); line-height: 1.75; -webkit-font-smoothing: antialiased; }
+    img { display: block; max-width: 100%; height: auto; }
+    a { color: inherit; text-decoration: none; }
+    ol, ul { list-style: none; }
+    button, input { font: inherit; color: inherit; }
+    button { cursor: pointer; }
+    h1, h2, h3 { font-weight: 900; line-height: 1.2; }
+    :focus-visible { outline: 3px solid var(--black); outline-offset: 2px; }
+    .wrap { max-width: calc(var(--wrap) + var(--g) * 2); margin-inline: auto; padding-inline: var(--g); }
+    .num { font-weight: 900; font-size: .85rem; display: flex; gap: 10px; align-items: center; margin-bottom: 18px; }
+    .num::after { content: ""; flex: 1; border-top: var(--rule); }
+    .num--light::after { border-color: #fff; }
+
+    .btn { display: inline-flex; align-items: center; justify-content: space-between; gap: 24px; height: 56px; padding: 0 22px; font-weight: 900; border: var(--rule); transition: background-color .15s, color .15s; }
+    .btn--black { background: var(--black); color: #fff; }
+    .btn--black:hover { background: var(--red); border-color: var(--red); }
+    .btn--white { background: #fff; color: var(--black); }
+    .btn--white:hover { background: var(--black); color: #fff; }
+    .btn--red { background: var(--red); border-color: var(--red); color: #fff; }
+    .btn--red:hover { background: var(--black); border-color: var(--black); }
+
+    /* Header */
+    .header { position: sticky; top: 0; z-index: 50; background: #fff; border-bottom: var(--rule); }
+    .header .wrap { display: flex; align-items: center; height: 68px; gap: 32px; }
+    .logo img { height: 34px; width: auto; }
+    .nav { display: flex; gap: 0; margin-inline-start: auto; height: 100%; }
+    .nav a { display: flex; align-items: center; padding: 0 18px; font-weight: 700; border-inline-start: var(--rule); transition: background-color .15s, color .15s; }
+    .nav a:hover { background: var(--red); color: #fff; }
+    .header__tel { display: flex; align-items: center; height: 100%; padding: 0 20px; background: var(--red); color: #fff; font-weight: 900; direction: ltr; margin-inline-end: calc(var(--g) * -1); }
+    .menu-btn { display: none; width: 44px; height: 44px; background: var(--black); color: #fff; border: 0; font-size: 1.2rem; }
+
+    /* Hero */
+    .hero { display: grid; grid-template-columns: 1.1fr 1fr; border-bottom: var(--rule); }
+    .hero__red { background: var(--red); color: #fff; padding: 64px max(var(--g), calc((100vw - var(--wrap)) / 2)) 48px 48px; padding-inline-end: 48px; display: flex; flex-direction: column; justify-content: space-between; gap: 48px; min-height: 640px; }
+    .hero__red .kicker { font-weight: 700; font-size: .95rem; }
+    .hero h1 { font-size: clamp(3rem, 7.4vw, 7rem); line-height: 1.12; letter-spacing: -.01em; }
+    .hero__foot { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; flex-wrap: wrap; }
+    .hero__foot p { max-width: 38ch; font-size: 1.05rem; }
+    .hero__img { position: relative; background: var(--grey); display: grid; place-items: center; }
+    .hero__img img { width: 78%; }
+    .hero__img .cap { position: absolute; bottom: 0; inset-inline: 0; display: flex; justify-content: space-between; padding: 16px 24px; border-top: var(--rule); background: #fff; font-weight: 900; }
+    .hero__img .cap span:first-child { direction: ltr; }
+
+    /* Facts */
+    .facts { border-bottom: var(--rule); }
+    .facts .wrap { display: grid; grid-template-columns: repeat(4, 1fr); }
+    .facts div { padding: 28px 24px; }
+    .facts div + div { border-inline-start: var(--rule); }
+    .facts strong { display: block; font-size: clamp(2.2rem, 4vw, 3.4rem); font-weight: 900; line-height: 1.2; }
+    .facts span { font-weight: 500; color: var(--muted); }
+    .facts div:first-child strong { color: var(--red); }
+
+    /* Sections */
+    .sec { padding: 88px 0; }
+    .sec h2 { font-size: clamp(2.2rem, 5vw, 4.2rem); margin-bottom: 36px; }
+    .bar { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; flex-wrap: wrap; margin-bottom: 36px; }
+    .bar h2 { margin-bottom: 0; }
+    .filters { display: flex; border: var(--rule); }
+    .filters button { background: #fff; border: 0; padding: 10px 22px; font-weight: 900; }
+    .filters button + button { border-inline-start: var(--rule); }
+    .filters button.is-active { background: var(--black); color: #fff; }
+    .filters button:not(.is-active):hover { background: var(--red); color: #fff; }
+    .filters sup { font-weight: 500; }
+
+    .grid { display: grid; grid-template-columns: repeat(4, 1fr); border-top: var(--rule); border-inline-start: var(--rule); }
+    .card { border-inline-end: var(--rule); border-bottom: var(--rule); display: flex; flex-direction: column; transition: background-color .15s; }
+    .card__img { position: relative; aspect-ratio: 1 / .9; background: #fff; border-bottom: var(--rule); }
+    .card__img img { width: 100%; height: 100%; object-fit: contain; padding: 12%; }
+    .card__img .no { position: absolute; top: 12px; right: 14px; font-weight: 900; font-size: .85rem; }
+    .card__img .cat { position: absolute; top: 12px; left: 14px; font-weight: 700; font-size: .78rem; background: var(--black); color: #fff; padding: 0 8px; }
+    .card__body { padding: 18px; display: flex; flex-direction: column; flex: 1; }
+    .card__brand { font-weight: 700; color: var(--red); font-size: .78rem; letter-spacing: .14em; direction: ltr; text-align: right; }
+    .card h3 { font-size: 1.8rem; direction: ltr; text-align: right; }
+    .card p { color: var(--muted); font-size: .92rem; flex: 1; margin-bottom: 16px; }
+    .card .btn { height: 46px; font-size: .9rem; }
+    .card:hover { background: var(--red); color: #fff; }
+    .card:hover .card__brand, .card:hover p { color: #fff; }
+    .card:hover .btn { background: #fff; color: var(--black); border-color: #fff; }
+
+    /* Services */
+    .services { display: grid; grid-template-columns: repeat(4, 1fr); border-top: var(--rule); }
+    .services article { padding: 28px 24px 8px 0; }
+    .services article + article { border-inline-start: var(--rule); padding-inline-start: 24px; }
+    .services b { display: block; font-size: 4rem; font-weight: 900; color: var(--red); line-height: 1.1; margin-bottom: 18px; }
+    .services h3 { font-size: 1.3rem; margin-bottom: 6px; }
+    .services p { color: var(--muted); }
+    .steps { display: grid; grid-template-columns: repeat(5, 1fr); margin-top: 64px; background: var(--black); color: #fff; }
+    .steps li { padding: 22px; font-weight: 900; font-size: 1.05rem; display: flex; flex-direction: column; gap: 18px; }
+    .steps li + li { border-inline-start: 2px solid #333; }
+    .steps li span { font-size: .85rem; color: var(--red); }
+
+    /* Story band */
+    .story { background: var(--red); color: #fff; }
+    .story .wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; }
+    .story img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; object-position: center 25%; border: 2px solid #fff; }
+    .story .lead { font-size: 1.1rem; margin-bottom: 28px; }
+    .years { display: grid; grid-template-columns: 1fr 1fr; border-top: 2px solid #fff; }
+    .years li { padding: 18px 0; border-bottom: 2px solid rgba(255,255,255,.5); }
+    .years li:nth-child(odd) { padding-inline-end: 18px; border-inline-end: 2px solid rgba(255,255,255,.5); }
+    .years li:nth-child(even) { padding-inline-start: 18px; }
+    .years span { display: block; font-size: 2rem; font-weight: 900; line-height: 1.3; }
+
+    /* Wholesale */
+    .wholesale { background: var(--black); color: #fff; }
+    .wholesale .wrap { display: grid; grid-template-columns: 1fr 1.1fr; gap: 64px; }
+    .wholesale h2 { color: #fff; }
+    .wholesale p.lead { color: #bbb; max-width: 40ch; font-size: 1.05rem; }
+    .form { display: grid; gap: 22px; }
+    .form fieldset { border: 0; }
+    .form legend, .field > span { display: block; font-weight: 900; margin-bottom: 10px; }
+    .chips { display: grid; grid-template-columns: 1fr 1fr; border: 2px solid #fff; }
+    .chips label { display: contents; }
+    .chips input { position: absolute; opacity: 0; pointer-events: none; }
+    .chips span { padding: 12px 16px; cursor: pointer; font-weight: 700; border-bottom: 2px solid #fff; transition: .15s; }
+    .chips label:nth-child(odd) span { border-inline-end: 2px solid #fff; }
+    .chips label:nth-child(n+3) span { border-bottom: 0; }
+    .chips input:checked + span { background: var(--red); }
+    .chips input:focus-visible + span { outline: 3px solid #fff; outline-offset: -5px; }
+    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .field input { width: 100%; height: 54px; padding: 0 16px; background: #fff; color: var(--black); border: 0; font-weight: 700; font-size: 1.05rem; outline: 0; }
+    .field input:focus { box-shadow: inset 0 0 0 3px var(--red); }
+    .field input[dir="ltr"] { text-align: right; }
+    .field input::placeholder { color: #aaa; font-weight: 400; }
+    .form__err { display: none; color: #ff6b7b; font-size: .85rem; font-weight: 700; margin-top: 6px; }
+    .form__err.is-on { display: block; }
+    .is-bad .chips { border-color: #ff6b7b; }
+    .is-bad input { box-shadow: inset 0 0 0 3px #ff6b7b; }
+
+    /* Contact */
+    .contact { display: grid; grid-template-columns: 1fr 1.2fr; border: var(--rule); }
+    .contact > div { padding: 36px; }
+    .contact > div + div { border-inline-start: var(--rule); }
+    .contact h3 { font-size: 1.8rem; margin-bottom: 18px; }
+    .contact dl div { padding: 12px 0; border-top: 1px solid #ddd; }
+    .contact dt { font-weight: 900; font-size: .85rem; color: var(--red); }
+    .contact dd a:hover { color: var(--red); }
+    .contact .btn { margin-top: 20px; width: 100%; }
+    details { border-top: var(--rule); }
+    summary { list-style: none; cursor: pointer; padding: 16px 0; display: flex; justify-content: space-between; gap: 16px; font-weight: 900; font-size: 1.05rem; }
+    summary::-webkit-details-marker { display: none; }
+    summary::after { content: "+"; width: 28px; height: 28px; flex: none; display: grid; place-items: center; background: var(--black); color: #fff; }
+    details[open] summary::after { content: "−"; background: var(--red); }
+    details p { color: var(--muted); padding-bottom: 16px; }
+
+    /* Footer */
+    .footer { background: var(--red); color: #fff; margin-top: 88px; }
+    .footer .wrap { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 32px; padding-block: 56px 32px; }
+    .footer img { height: 38px; width: auto; filter: brightness(0) invert(1); margin-bottom: 14px; }
+    .footer h4 { font-weight: 900; margin-bottom: 10px; border-bottom: 2px solid #fff; padding-bottom: 6px; }
+    .footer .col { display: flex; flex-direction: column; gap: 4px; }
+    .footer .col a:hover { text-decoration: underline; text-underline-offset: 4px; }
+    .footer__big { font-size: clamp(3rem, 13vw, 11rem); font-weight: 900; line-height: 1; padding: 0 var(--g) 20px; letter-spacing: -.02em; white-space: nowrap; overflow: hidden; }
+    .copy { grid-column: 1 / -1; font-size: .85rem; border-top: 2px solid #fff; padding-top: 16px; }
+
+    @media (max-width: 1060px) {
+      .grid { grid-template-columns: repeat(3, 1fr); }
+      .nav a { padding: 0 12px; }
+      .header__tel { display: none; }
+    }
+    @media (max-width: 860px) {
+      .nav { display: none; position: absolute; top: 100%; inset-inline: 0; height: auto; flex-direction: column; background: #fff; border-bottom: var(--rule); }
+      .nav.is-open { display: flex; }
+      .nav a { padding: 14px var(--g); border-inline-start: 0; border-top: 1px solid #ddd; }
+      .header .wrap { position: relative; justify-content: space-between; }
+      .menu-btn { display: grid; place-items: center; }
+      .hero { grid-template-columns: 1fr; }
+      .hero__red { min-height: 0; padding: 48px var(--g) 40px; }
+      .hero__img { min-height: 380px; padding-bottom: 60px; }
+      .facts .wrap { grid-template-columns: 1fr 1fr; padding: 0; }
+      .facts div:nth-child(3) { border-inline-start: 0; }
+      .facts div:nth-child(n+3) { border-top: var(--rule); }
+      .grid { grid-template-columns: repeat(2, 1fr); }
+      .services { grid-template-columns: 1fr 1fr; }
+      .services article { padding-inline-start: 0 !important; border-inline-start: 0 !important; }
+      .steps { grid-template-columns: 1fr; }
+      .steps li { flex-direction: row; }
+      .steps li + li { border-inline-start: 0; border-top: 2px solid #333; }
+      .story .wrap, .wholesale .wrap, .contact { grid-template-columns: 1fr; }
+      .contact > div + div { border-inline-start: 0; border-top: var(--rule); }
+      .footer .wrap { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 560px) {
+      :root { --g: 16px; }
+      .sec { padding: 60px 0; }
+      .hero h1 { font-size: 3rem; }
+      .hero__foot .btn { width: 100%; }
+      .services { grid-template-columns: 1fr; }
+      .services b { font-size: 3rem; margin-bottom: 6px; }
+      .card__body { padding: 12px; }
+      .card h3 { font-size: 1.25rem; }
+      .card .btn { font-size: .8rem; padding: 0 10px; gap: 8px; }
+      .row, .chips { grid-template-columns: 1fr; }
+      .chips label:nth-child(odd) span { border-inline-end: 0; }
+      .chips label:nth-child(3) span { border-bottom: 2px solid #fff; }
+      .contact > div { padding: 22px; }
+      .footer .wrap { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="wrap">
+      <a href="#top" class="logo"><img src="../assets/img/logo.png" alt="یک قرن دوخت حقیقت" width="180" height="36"></a>
+      <nav class="nav" id="nav">
+        <a href="#products">محصولات</a>
+        <a href="#services">خدمات</a>
+        <a href="#story">داستان</a>
+        <a href="#wholesale">عمده</a>
+        <a href="#contact">تماس</a>
+      </nav>
+      <a class="header__tel" href="tel:02151033">021 51033</a>
+      <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="nav" aria-label="منو">☰</button>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="hero__red">
+        <p class="kicker">نماینده انحصاری PRECIOUS و VESTA در ایران</p>
+        <h1>یک قرن<br>دوخت<br>حقیقت.</h1>
+        <div class="hero__foot">
+          <p>چرخ خیاطی صنعتی و خانگی. اول در فروشگاه تست کنید، بعد با نصب و آموزش تحویل بگیرید.</p>
+          <a class="btn btn--white" href="#products">دیدن محصولات <span>←</span></a>
+        </div>
+      </div>
+      <div class="hero__img">
+        <img src="../assets/img/V-20.jpg" alt="چرخ سردوز پنج نخ پریشس V20" width="520" height="520">
+        <div class="cap"><span>PRECIOUS V20</span><span>سردوز پنج نخ · پرفروش</span></div>
+      </div>
+    </section>
+
+    <section class="facts">
+      <div class="wrap">
+        <div><strong>۱۲۹۶</strong><span>سال تأسیس</span></div>
+        <div><strong>۲</strong><span>برند انحصاری</span></div>
+        <div><strong>۳ سال</strong><span>گارانتی</span></div>
+        <div><strong><span data-count-cat="all"></span></strong><span>مدل دستگاه</span></div>
+      </div>
+    </section>
+
+    <section class="sec" id="products">
+      <div class="wrap">
+        <p class="num">۰۱ — محصولات</p>
+        <div class="bar">
+          <h2>انتخاب حرفه‌ای‌ها.</h2>
+          <div class="filters" role="tablist">
+            <button class="is-active" data-filter="all" role="tab" aria-selected="true">همه <sup data-count-cat="all"></sup></button>
+            <button data-filter="industrial" role="tab" aria-selected="false">صنعتی <sup data-count-cat="industrial"></sup></button>
+            <button data-filter="home" role="tab" aria-selected="false">خانگی <sup data-count-cat="home"></sup></button>
+          </div>
+        </div>
+        <div class="grid" id="grid"></div>
+      </div>
+    </section>
+
+    <section class="sec" id="services">
+      <div class="wrap">
+        <p class="num">۰۲ — خدمات</p>
+        <h2>فقط نمی‌فروشیم.</h2>
+        <div class="services">
+          <article><b>۱</b><h3>تست قبل از خرید</h3><p>هر دستگاه را در فروشگاه پاچنار امتحان کنید.</p></article>
+          <article><b>۲</b><h3>نصب و آموزش</h3><p>برای دستگاه‌های صنعتی در تهران و حومه.</p></article>
+          <article><b>۳</b><h3>گارانتی ۳ ساله</h3><p>با خدمات پس از فروش و پشتیبانی فنی.</p></article>
+          <article><b>۴</b><h3>قطعات یدکی</h3><p>سوزن، ماکو و بوبین؛ همیشه موجود.</p></article>
+        </div>
+        <ol class="steps">
+          <li><span>۰۱</span>انتخاب</li>
+          <li><span>۰۲</span>استعلام قیمت</li>
+          <li><span>۰۳</span>مشاوره رایگان</li>
+          <li><span>۰۴</span>ارسال و نصب</li>
+          <li><span>۰۵</span>گارانتی</li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="sec story" id="story">
+      <div class="wrap">
+        <img src="../assets/img/exhibition.jpg" alt="تیم حقیقت دوخت در نمایشگاه پریشس" loading="lazy">
+        <div>
+          <p class="num num--light">۰۳ — داستان</p>
+          <h2>از مشهد تا تهران.</h2>
+          <p class="lead">از یک کارگاه کوچک تا نماینده انحصاری دو برند جهانی؛ با همان تیمی که دستگاه را می‌شناسد.</p>
+          <ol class="years">
+            <li><span>۱۲۹۶</span>آغاز در مشهد</li>
+            <li><span>۱۳۲۰</span>انتقال به تهران</li>
+            <li><span>صادرات</span>عراق، ارمنستان، ترکیه، افغانستان</li>
+            <li><span>امروز</span>نماینده انحصاری پریشس و وستا</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec wholesale" id="wholesale">
+      <div class="wrap">
+        <div>
+          <p class="num num--light">۰۴ — خرید عمده</p>
+          <h2>کارگاه دارید؟</h2>
+          <p class="lead">نوع کارگاه و تعداد دستگاه را بنویسید. با قیمت روز و پیشنهاد خط تولید تماس می‌گیریم.</p>
+        </div>
+        <form class="form" id="wholesaleForm" novalidate>
+          <fieldset>
+            <legend>نوع کارگاه</legend>
+            <div class="chips">
+              <label><input type="radio" name="type" value="تولیدی پوشاک"><span>تولیدی پوشاک</span></label>
+              <label><input type="radio" name="type" value="کیف، کفش و چرم"><span>کیف، کفش و چرم</span></label>
+              <label><input type="radio" name="type" value="کیسه و بسته‌بندی"><span>کیسه و بسته‌بندی</span></label>
+              <label><input type="radio" name="type" value="آموزشگاه"><span>آموزشگاه</span></label>
+            </div>
+            <p class="form__err" data-for="type">نوع کارگاه را انتخاب کنید.</p>
+          </fieldset>
+          <div class="row">
+            <label class="field"><span>تعداد دستگاه</span><input name="count" inputmode="numeric" placeholder="مثلاً ۵"><p class="form__err" data-for="count">تعداد دستگاه را وارد کنید.</p></label>
+            <label class="field"><span>شماره موبایل</span><input name="mobile" type="tel" dir="ltr" placeholder="0912 000 0000"><p class="form__err" data-for="mobile">شماره موبایل معتبر نیست.</p></label>
+          </div>
+          <button class="btn btn--red" type="submit">ارسال در واتساپ <span>←</span></button>
+        </form>
+      </div>
+    </section>
+
+    <section class="sec" id="contact">
+      <div class="wrap">
+        <p class="num">۰۵ — تماس</p>
+        <div class="contact">
+          <div>
+            <h3>بیایید، تست کنید.</h3>
+            <dl>
+              <div><dt>آدرس</dt><dd>تهران، خیابان خیام شمالی، مقابل بازار پاچنار، پلاک ۶۶۴</dd></div>
+              <div><dt>ساعت</dt><dd>شنبه تا پنجشنبه، ۹ تا ۱۸</dd></div>
+              <div><dt>تلفن</dt><dd><a href="tel:02151033" dir="ltr">021 51033</a> · <a href="tel:09121168939" dir="ltr">0912 116 8939</a></dd></div>
+              <div><dt>ایمیل</dt><dd><a href="mailto:info@haqiqatdokht.com">info@haqiqatdokht.com</a></dd></div>
+            </dl>
+            <a class="btn btn--black" href="https://www.google.com/maps/search/?api=1&query=Khayyam+St+Pachenar+Tehran" target="_blank" rel="noopener">مسیریابی <span>←</span></a>
+          </div>
+          <div>
+            <h3>سوالات پرتکرار</h3>
+            <details open><summary>می‌توانم قبل از خرید تست کنم؟</summary><p>بله. همه دستگاه‌ها در فروشگاه حضوری پاچنار قابل تست هستند.</p></details>
+            <details><summary>گارانتی چقدر است؟</summary><p>بسته به محصول، از ۶ ماه تا ۳ سال.</p></details>
+            <details><summary>نصب و آموزش دارید؟</summary><p>بله، برای دستگاه‌های صنعتی در تهران و حومه.</p></details>
+            <details><summary>قطعات یدکی موجود است؟</summary><p>سوزن، ماکو، بوبین و سایر قطعات. برای موجودی تماس بگیرید.</p></details>
+            <details><summary>چرخ خانگی برای کار درآمدزا مناسب است؟</summary><p>برای دوخت تمام‌وقت، چرخ صنعتی پیشنهاد می‌شود.</p></details>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap">
+      <div><img src="../assets/img/logo.png" alt="یک قرن دوخت حقیقت" width="190" height="38"><p>فروش، نصب و خدمات چرخ خیاطی از ۱۲۹۶.</p></div>
+      <div class="col"><h4>محصولات</h4><a href="#products">چرخ صنعتی</a><a href="#products">چرخ خانگی</a><a href="#contact">اتو صنعتی</a></div>
+      <div class="col"><h4>خدمات</h4><a href="https://haqiqatdokht.com/warranty/">گارانتی</a><a href="https://haqiqatdokht.com/video/">ویدئوهای آموزشی</a><a href="https://haqiqatdokht.com/blog/">وبلاگ</a></div>
+      <div class="col"><h4>شبکه‌ها</h4><a href="https://www.instagram.com/haqiqatdokht" target="_blank" rel="noopener">اینستاگرام</a><a href="https://t.me/haqiqatdokht" target="_blank" rel="noopener">تلگرام</a><a href="https://www.youtube.com/channel/UC2vU9ic2P-tChWRxPHci4Zw" target="_blank" rel="noopener">یوتیوب</a></div>
+      <p class="copy">© شرکت یک قرن دوخت حقیقت · از ۱۲۹۶</p>
+    </div>
+    <p class="footer__big" aria-hidden="true">حقیقت دوخت</p>
+  </footer>
+
+  <script src="shared.js"></script>
+  <script>
+    initPage({
+      card: (p, i) => `
+        <article class="card">
+          <div class="card__img">
+            <span class="no">${toFa(String(i + 1).padStart(2, "0"))}</span>
+            <span class="cat">${CAT_LABEL[p.cat]}</span>
+            <img src="${IMG + p.img}" alt="${p.brand} ${p.model}" loading="lazy">
+          </div>
+          <div class="card__body">
+            <span class="card__brand">${p.brand}</span>
+            <h3>${p.model}</h3>
+            <p>${p.name}</p>
+            <a class="btn btn--black" href="${priceLink(p)}" target="_blank" rel="noopener">استعلام قیمت <span>←</span></a>
+          </div>
+        </article>`,
+    });
+  </script>
+</body>
+</html>

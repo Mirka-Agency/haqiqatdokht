@@ -1,0 +1,441 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>حقیقت دوخت | سبک فروشگاه آنلاین</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    /* Style — Online store: search-first, category bar, banners, filter sidebar */
+    :root {
+      --bg: #f2f3f5; --card: #fff; --ink: #23254e; --ink-2: #3f4064; --muted: #81858b; --line: #e0e0e2;
+      --red: #e1192d; --red-2: #c0101f; --green: #00a049; --blue: #19bfd3;
+      --sans: "Vazirmatn", system-ui, sans-serif; --wrap: 1280px; --g: 16px; --r: 12px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; scroll-padding-top: 130px; }
+    body { font-family: var(--sans); background: var(--bg); color: var(--ink); line-height: 1.75; -webkit-font-smoothing: antialiased; font-size: 15px; }
+    img { display: block; max-width: 100%; height: auto; }
+    a { color: inherit; text-decoration: none; }
+    ol, ul { list-style: none; }
+    button, input { font: inherit; color: inherit; }
+    button { cursor: pointer; }
+    h1, h2, h3 { font-weight: 800; line-height: 1.4; }
+    :focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; border-radius: 6px; }
+    .wrap { max-width: calc(var(--wrap) + var(--g) * 2); margin-inline: auto; padding-inline: var(--g); }
+    .box { background: var(--card); border-radius: var(--r); }
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; height: 44px; padding: 0 18px; border-radius: 8px; font-weight: 700; border: 1px solid transparent; transition: background-color .15s, color .15s, border-color .15s; white-space: nowrap; }
+    .btn--red { background: var(--red); color: #fff; }
+    .btn--red:hover { background: var(--red-2); }
+    .btn--line { border-color: var(--line); }
+    .btn--line:hover { border-color: var(--ink); }
+    .btn--green { background: var(--green); color: #fff; }
+    .btn--green:hover { filter: brightness(.92); }
+    .ttl { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 16px; }
+    .ttl h2 { font-size: 1.2rem; display: flex; align-items: center; gap: 10px; }
+    .ttl h2::before { content: ""; width: 4px; height: 22px; border-radius: 4px; background: var(--red); }
+    .ttl a { color: var(--blue); font-size: .88rem; font-weight: 500; }
+
+    /* Promo + header */
+    .promo { background: var(--red); color: #fff; text-align: center; font-size: .85rem; padding: 7px 12px; }
+    .promo a { font-weight: 800; direction: ltr; display: inline-block; }
+    .header { position: sticky; top: 0; z-index: 50; background: #fff; box-shadow: 0 1px 0 var(--line); }
+    .header__top { display: flex; align-items: center; gap: 24px; height: 70px; }
+    .logo img { height: 34px; width: auto; }
+    .search { flex: 1; max-width: 560px; display: flex; align-items: center; gap: 10px; height: 46px; padding: 0 16px; background: var(--bg); border-radius: 10px; color: var(--muted); }
+    .search input { flex: 1; min-width: 0; background: none; border: 0; outline: 0; color: var(--ink); }
+    .header__acts { margin-inline-start: auto; display: flex; gap: 10px; align-items: center; }
+    .header__acts .sep { width: 1px; height: 24px; background: var(--line); }
+    .menu-btn { display: none; width: 44px; height: 44px; background: none; border: 0; font-size: 1.3rem; }
+    .nav { display: flex; gap: 6px; height: 46px; align-items: stretch; font-size: .9rem; color: var(--ink-2); }
+    .nav a { display: flex; align-items: center; padding: 0 12px; border-bottom: 2px solid transparent; transition: color .15s, border-color .15s; }
+    .nav a:first-child { font-weight: 800; color: var(--ink); }
+    .nav a:hover { color: var(--red); border-color: var(--red); }
+
+    main { padding-top: 16px; }
+    section { margin-bottom: 16px; }
+
+    /* Banners */
+    .banners { display: grid; grid-template-columns: 2fr 1fr; grid-template-rows: 1fr 1fr; gap: 16px; }
+    .bn { position: relative; border-radius: var(--r); overflow: hidden; display: flex; align-items: center; padding: 28px; min-height: 160px; }
+    .bn--main { grid-row: span 2; background: linear-gradient(110deg, #b90d20, var(--red) 45%, #ff4d5e); color: #fff; padding: 40px 48px; min-height: 360px; }
+    .bn--main .txt { max-width: 52%; position: relative; z-index: 1; }
+    .bn--main small { display: inline-block; background: rgba(255,255,255,.18); padding: 2px 12px; border-radius: 999px; font-size: .82rem; margin-bottom: 12px; }
+    .bn--main h1 { font-size: clamp(1.6rem, 3vw, 2.6rem); margin-bottom: 8px; }
+    .bn--main p { opacity: .9; margin-bottom: 20px; }
+    .bn--main .btn { background: #fff; color: var(--red); }
+    .bn--main img { position: absolute; left: 4%; bottom: 8%; width: 42%; aspect-ratio: 1; object-fit: contain; background: #fff; border-radius: 24px; padding: 3%; box-shadow: 0 30px 50px -24px rgba(0,0,0,.5); }
+    .bn--b { background: #eaf6f8; }
+    .bn--c { background: #23254e; color: #fff; }
+    .bn h3 { font-size: 1.15rem; }
+    .bn p { font-size: .85rem; opacity: .8; }
+    .bn .go { margin-top: 8px; display: inline-block; font-weight: 700; font-size: .85rem; color: var(--red); }
+    .bn--c .go { color: #ffb4bc; }
+    .bn .txt { position: relative; z-index: 1; max-width: 60%; }
+    .bn--b img { position: absolute; left: 12px; bottom: 10px; width: 36%; aspect-ratio: 1; object-fit: contain; mix-blend-mode: multiply; }
+    .bn--c .big { position: absolute; left: 20px; top: 50%; translate: 0 -50%; font-size: 4rem; font-weight: 900; opacity: .12; }
+
+    /* Category circles */
+    .cats { display: flex; justify-content: space-around; gap: 12px; padding: 22px; overflow-x: auto; }
+    .cat { display: flex; flex-direction: column; align-items: center; gap: 8px; font-size: .85rem; font-weight: 500; min-width: 90px; background: none; border: 0; }
+    .cat span { width: 84px; height: 84px; border-radius: 50%; background: var(--bg); display: grid; place-items: center; overflow: hidden; transition: box-shadow .2s; font-size: 1.8rem; color: var(--red); }
+    .cat span img { width: 100%; height: 100%; object-fit: contain; padding: 12px; mix-blend-mode: multiply; }
+    .cat:hover span { box-shadow: 0 0 0 2px var(--red); }
+
+    /* Trust badges */
+    .badges { display: grid; grid-template-columns: repeat(5, 1fr); padding: 18px 10px; }
+    .badges li { display: flex; flex-direction: column; align-items: center; gap: 6px; text-align: center; font-size: .82rem; color: var(--ink-2); }
+    .badges li + li { border-inline-start: 1px solid var(--line); }
+    .badges i { width: 44px; height: 44px; border-radius: 50%; background: #fff3f4; color: var(--red); display: grid; place-items: center; font-style: normal; font-size: 1.2rem; }
+
+    /* Shop */
+    .shop { display: grid; grid-template-columns: 260px 1fr; gap: 16px; align-items: start; }
+    .side { padding: 18px; position: sticky; top: 140px; }
+    .side h3 { font-size: 1rem; margin-bottom: 10px; }
+    .side .group + .group { margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--line); }
+    .side button[data-filter] { display: flex; justify-content: space-between; width: 100%; padding: 8px 10px; border-radius: 8px; border: 0; background: none; text-align: start; color: var(--ink-2); }
+    .side button[data-filter]:hover { background: var(--bg); }
+    .side button.is-active { background: #fff3f4; color: var(--red); font-weight: 700; }
+    .side button span { font-size: .8rem; color: var(--muted); }
+    .side .brands li { padding: 6px 10px; display: flex; justify-content: space-between; color: var(--ink-2); font-size: .9rem; }
+    .side .help { margin-top: 18px; padding: 14px; border-radius: 10px; background: var(--bg); font-size: .85rem; color: var(--ink-2); }
+    .side .help a { display: block; font-weight: 800; color: var(--ink); direction: ltr; text-align: right; font-size: 1.05rem; }
+    .results { padding: 0; overflow: hidden; }
+    .results__bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 18px; border-bottom: 1px solid var(--line); font-size: .88rem; color: var(--muted); }
+    .grid { display: grid; grid-template-columns: repeat(4, 1fr); }
+    .card { padding: 16px; border-inline-start: 1px solid var(--line); border-bottom: 1px solid var(--line); display: flex; flex-direction: column; transition: box-shadow .2s; position: relative; background: #fff; }
+    .card:hover { box-shadow: 0 6px 24px -8px rgba(0,0,0,.22); z-index: 1; }
+    .card__img { aspect-ratio: 1; margin-bottom: 12px; }
+    .card__img img { width: 100%; height: 100%; object-fit: contain; }
+    .card__tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 6px; }
+    .card__tags span { font-size: .7rem; padding: 0 8px; border-radius: 4px; background: var(--bg); color: var(--ink-2); }
+    .card__tags .hot { background: var(--red); color: #fff; }
+    .card h3 { font-size: .92rem; font-weight: 500; line-height: 1.7; min-height: 3.4em; color: var(--ink-2); }
+    .card h3 b { font-weight: 800; color: var(--ink); }
+    .card__feat { font-size: .76rem; color: var(--green); margin: 4px 0 10px; }
+    .card__price { margin-top: auto; display: flex; justify-content: space-between; align-items: center; font-size: .82rem; color: var(--muted); margin-bottom: 10px; }
+    .card__price b { color: var(--ink); font-size: .95rem; }
+    .card .btn { height: 40px; font-size: .85rem; }
+    .empty { padding: 48px 20px; text-align: center; color: var(--muted); }
+
+    /* Brands row */
+    .brandrow { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .brandrow div { padding: 26px; text-align: center; }
+    .brandrow b { font-size: 1.4rem; letter-spacing: .18em; display: block; }
+    .brandrow span { color: var(--muted); font-size: .85rem; }
+
+    /* About + wholesale */
+    .duo { display: grid; grid-template-columns: 1fr 1.1fr; gap: 16px; }
+    .about { padding: 0; overflow: hidden; display: flex; flex-direction: column; }
+    .about img { aspect-ratio: 16 / 8; object-fit: cover; object-position: 50% 28%; width: 100%; }
+    .about > div { padding: 22px; }
+    .about p { color: var(--ink-2); margin-bottom: 14px; }
+    .tl { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; font-size: .8rem; color: var(--muted); }
+    .tl b { display: block; color: var(--red); font-size: 1rem; }
+    .wholesale { padding: 24px; }
+    .wholesale > p { color: var(--ink-2); margin-bottom: 16px; }
+    .form { display: grid; gap: 14px; }
+    .form fieldset { border: 0; }
+    .form legend, .field > span { display: block; font-weight: 700; font-size: .85rem; margin-bottom: 6px; }
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+    .chips input { position: absolute; opacity: 0; pointer-events: none; }
+    .chips span { display: inline-block; padding: 6px 14px; border-radius: 8px; border: 1px solid var(--line); font-size: .88rem; cursor: pointer; }
+    .chips input:checked + span { border-color: var(--red); background: #fff3f4; color: var(--red); font-weight: 700; }
+    .chips input:focus-visible + span { outline: 2px solid var(--blue); outline-offset: 2px; }
+    .frow { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .field input { width: 100%; height: 46px; padding: 0 12px; border-radius: 8px; border: 1px solid var(--line); background: var(--bg); outline: 0; }
+    .field input:focus { border-color: var(--blue); background: #fff; }
+    .field input[dir="ltr"] { text-align: right; }
+    .form__err { display: none; color: var(--red); font-size: .8rem; margin-top: 4px; }
+    .form__err.is-on { display: block; }
+    .is-bad input, .is-bad .chips span { border-color: var(--red); }
+
+    /* FAQ + contact */
+    .faqc { display: grid; grid-template-columns: 1.3fr 1fr; gap: 16px; }
+    .faq, .contact { padding: 22px; }
+    details { border-bottom: 1px solid var(--line); }
+    summary { list-style: none; cursor: pointer; padding: 14px 0; display: flex; justify-content: space-between; gap: 12px; font-weight: 700; font-size: .95rem; }
+    summary::-webkit-details-marker { display: none; }
+    summary::after { content: "⌄"; color: var(--muted); transition: transform .2s; }
+    details[open] summary::after { transform: rotate(180deg); }
+    details p { color: var(--ink-2); padding-bottom: 14px; font-size: .92rem; }
+    .contact li { padding: 10px 0; border-bottom: 1px dashed var(--line); font-size: .92rem; }
+    .contact li small { display: block; color: var(--muted); font-size: .78rem; }
+    .contact .btn { margin-top: 14px; width: 100%; }
+
+    .footer { background: #fff; margin-top: 24px; border-top: 1px solid var(--line); font-size: .88rem; color: var(--ink-2); }
+    .footer .cols { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 24px; padding-block: 36px 24px; }
+    .footer img { height: 32px; width: auto; margin-bottom: 12px; }
+    .footer h4 { color: var(--ink); margin-bottom: 8px; font-size: .95rem; }
+    .footer .col { display: flex; flex-direction: column; gap: 4px; }
+    .footer .col a:hover { color: var(--red); }
+    .footer .copy { border-top: 1px solid var(--line); padding-block: 16px; font-size: .8rem; color: var(--muted); text-align: center; }
+
+    .tabbar { display: none; }
+
+    @media (max-width: 1100px) {
+      .grid { grid-template-columns: repeat(3, 1fr); }
+      .badges { grid-template-columns: repeat(3, 1fr); row-gap: 16px; }
+      .badges li:nth-child(4) { border-inline-start: 0; }
+    }
+    @media (max-width: 880px) {
+      .header__top { flex-wrap: wrap; height: auto; padding-block: 10px; gap: 10px; }
+      .search { order: 3; max-width: none; flex-basis: 100%; }
+      .header__acts .btn--line, .header__acts .sep { display: none; }
+      .menu-btn { display: block; }
+      .nav { display: none; position: absolute; top: 100%; inset-inline: 0; height: auto; flex-direction: column; background: #fff; padding: 6px var(--g) 12px; box-shadow: 0 10px 20px -10px rgba(0,0,0,.2); }
+      .nav.is-open { display: flex; }
+      .nav a { padding: 12px 4px; border-bottom: 1px solid var(--line); }
+      .banners { grid-template-columns: 1fr 1fr; }
+      .bn--main { grid-column: 1 / -1; grid-row: auto; min-height: 300px; padding: 28px; }
+      .shop, .duo, .faqc { grid-template-columns: 1fr; }
+      .side { position: static; }
+      .side .brands, .side .help, .side .group:nth-child(2) { display: none; }
+      .side .group:first-child > div { display: flex; gap: 6px; }
+      .side button[data-filter] { justify-content: center; gap: 6px; border: 1px solid var(--line); }
+      .grid { grid-template-columns: repeat(2, 1fr); }
+      .brandrow { grid-template-columns: 1fr; }
+      .footer .cols { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 560px) {
+      html { scroll-padding-top: 150px; }
+      body { padding-bottom: 64px; }
+      .header__acts .btn--red { display: none; }
+      .promo { font-size: .78rem; }
+      .bn--main .txt { max-width: 100%; }
+      .bn--main img { position: static; width: 60%; margin: 16px auto 0; }
+      .bn--main { flex-direction: column; align-items: flex-start; }
+      .banners { grid-template-columns: 1fr; }
+      .badges { grid-template-columns: repeat(2, 1fr); }
+      .badges li { border: 0 !important; }
+      .cats { justify-content: flex-start; }
+      .card { padding: 10px; min-width: 0; }
+      .card .btn { white-space: normal; height: auto; min-height: 40px; padding: 6px 8px; font-size: .78rem; line-height: 1.5; text-align: center; }
+      .card h3 { font-size: .82rem; }
+      .card__feat { display: none; }
+      .frow, .tl { grid-template-columns: 1fr 1fr; }
+      .frow { grid-template-columns: 1fr; }
+      .footer .cols { grid-template-columns: 1fr; }
+      .tabbar { display: grid; grid-template-columns: repeat(4, 1fr); position: fixed; bottom: 0; inset-inline: 0; z-index: 60; background: #fff; border-top: 1px solid var(--line); height: 60px; padding-bottom: env(safe-area-inset-bottom); }
+      .tabbar a { display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: .72rem; color: var(--muted); gap: 2px; }
+      .tabbar a i { font-style: normal; font-size: 1.1rem; }
+      .tabbar a.wa { color: var(--green); font-weight: 700; }
+    }
+  </style>
+</head>
+<body>
+  <div class="promo">مشاوره رایگان قبل از خرید: <a href="tel:02151033">021 51033</a> · شنبه تا پنجشنبه ۹ تا ۱۸</div>
+
+  <header class="header">
+    <div class="wrap header__top">
+      <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="nav" aria-label="منو">☰</button>
+      <a href="#top" class="logo"><img src="../assets/img/logo.png" alt="یک قرن دوخت حقیقت" width="170" height="34"></a>
+      <label class="search">⌕<input type="search" id="search" placeholder="جستجو در حقیقت دوخت؛ مثلاً سردوز یا V20" aria-label="جستجو"></label>
+      <div class="header__acts">
+        <a class="btn btn--line" href="#contact">فروشگاه حضوری</a>
+        <span class="sep"></span>
+        <a class="btn btn--red" href="https://wa.me/989121168939" target="_blank" rel="noopener">واتساپ فروش</a>
+      </div>
+    </div>
+    <div class="wrap">
+      <nav class="nav" id="nav">
+        <a href="#products">☰ همه محصولات</a>
+        <a href="#products" data-jump="industrial">چرخ خیاطی صنعتی</a>
+        <a href="#products" data-jump="home">چرخ خیاطی خانگی</a>
+        <a href="#contact">اتو صنعتی</a>
+        <a href="#contact">قطعات یدکی</a>
+        <a href="#wholesale">خرید عمده</a>
+        <a href="#about">درباره ما</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top" class="wrap">
+    <section class="banners">
+      <a class="bn bn--main" href="#products" data-jump="industrial">
+        <div class="txt">
+          <small>نماینده انحصاری PRECIOUS</small>
+          <h1>پرفروش‌ترین سردوز صنعتی</h1>
+          <p>PRECIOUS V20؛ سردوز پنج نخ. تست حضوری، نصب و گارانتی.</p>
+          <span class="btn">مشاهده چرخ‌های صنعتی</span>
+        </div>
+        <img src="../assets/img/V-20.jpg" alt="PRECIOUS V20" width="300" height="300">
+      </a>
+      <a class="bn bn--b" href="#products" data-jump="home">
+        <div class="txt"><h3>چرخ‌های خانگی وستا</h3><p>برای دوخت روزمره و اصلاح لباس</p><span class="go">مشاهده ←</span></div>
+        <img src="../assets/img/2015.jpg" alt="" loading="lazy">
+      </a>
+      <a class="bn bn--c" href="#wholesale">
+        <div class="txt"><h3>خرید عمده کارگاه</h3><p>قیمت ویژه و مشاوره خط تولید</p><span class="go">ثبت درخواست ←</span></div>
+        <span class="big">B2B</span>
+      </a>
+    </section>
+
+    <section class="box cats">
+      <button class="cat" data-jump="industrial"><span><img src="../assets/img/V-19.jpg" alt=""></span>سردوز صنعتی</button>
+      <button class="cat" data-jump="industrial"><span><img src="../assets/img/V-21.jpg" alt=""></span>میان‌دوز</button>
+      <button class="cat" data-jump="industrial"><span><img src="../assets/img/PC9920D.jpg" alt=""></span>دو سوزن</button>
+      <button class="cat" data-jump="home"><span><img src="../assets/img/2012.jpg" alt=""></span>چرخ خانگی</button>
+      <a class="cat" href="#wholesale"><span>✂</span>خرید عمده</a>
+      <a class="cat" href="#contact"><span>⚙</span>قطعات یدکی</a>
+    </section>
+
+    <section class="box">
+      <ul class="badges">
+        <li><i>◎</i>تست قبل از خرید</li>
+        <li><i>⚙</i>نصب و آموزش</li>
+        <li><i>✓</i>گارانتی تا ۳ سال</li>
+        <li><i>✂</i>قطعات یدکی</li>
+        <li><i>☏</i>مشاوره رایگان</li>
+      </ul>
+    </section>
+
+    <section class="shop" id="products">
+      <aside class="box side">
+        <div class="group">
+          <h3>دسته‌بندی</h3>
+          <div role="tablist">
+            <button class="is-active" data-filter="all" role="tab" aria-selected="true">همه محصولات <span data-count-cat="all"></span></button>
+            <button data-filter="industrial" role="tab" aria-selected="false">چرخ صنعتی <span data-count-cat="industrial"></span></button>
+            <button data-filter="home" role="tab" aria-selected="false">چرخ خانگی <span data-count-cat="home"></span></button>
+          </div>
+        </div>
+        <div class="group">
+          <h3>برندها</h3>
+          <ul class="brands"><li>PRECIOUS <span>صنعتی</span></li><li>VESTA <span>خانگی</span></li><li>KACHIRAN <span>خانگی</span></li></ul>
+          <div class="help">برای انتخاب دستگاه مشاوره رایگان بگیرید<a href="tel:02151033">021 51033</a></div>
+        </div>
+      </aside>
+      <div class="box results">
+        <div class="results__bar"><span id="resultCount"></span><span>قیمت‌ها روزانه به‌روز می‌شوند</span></div>
+        <div class="grid" id="grid"></div>
+        <p class="empty" id="empty" hidden>کالایی با این مشخصات پیدا نشد.</p>
+      </div>
+    </section>
+
+    <section class="brandrow">
+      <div class="box"><b>PRECIOUS</b><span>نماینده انحصاری · چرخ‌های صنعتی</span></div>
+      <div class="box"><b>VESTA</b><span>نماینده انحصاری · چرخ‌های خانگی</span></div>
+      <div class="box"><b>KACHIRAN</b><span>چرخ خانگی جاسمین</span></div>
+    </section>
+
+    <section class="duo">
+      <div class="box about" id="about">
+        <img src="../assets/img/exhibition.jpg" alt="تیم حقیقت دوخت در نمایشگاه پریشس" loading="lazy">
+        <div>
+          <div class="ttl"><h2>درباره حقیقت دوخت</h2></div>
+          <p>از ۱۲۹۶؛ از یک کارگاه در مشهد تا نماینده انحصاری دو برند جهانی در تهران.</p>
+          <ol class="tl"><li><b>۱۲۹۶</b>آغاز در مشهد</li><li><b>۱۳۲۰</b>انتقال به تهران</li><li><b>صادرات</b>چهار کشور</li><li><b>امروز</b>نماینده انحصاری</li></ol>
+        </div>
+      </div>
+      <div class="box wholesale" id="wholesale">
+        <div class="ttl"><h2>استعلام قیمت عمده</h2></div>
+        <p>نوع کارگاه و تعداد دستگاه را بنویسید؛ کارشناس ما با قیمت روز تماس می‌گیرد.</p>
+        <form class="form" id="wholesaleForm" novalidate>
+          <fieldset>
+            <legend>نوع کارگاه</legend>
+            <div class="chips">
+              <label><input type="radio" name="type" value="تولیدی پوشاک"><span>تولیدی پوشاک</span></label>
+              <label><input type="radio" name="type" value="کیف، کفش و چرم"><span>کیف، کفش و چرم</span></label>
+              <label><input type="radio" name="type" value="کیسه و بسته‌بندی"><span>کیسه و بسته‌بندی</span></label>
+              <label><input type="radio" name="type" value="آموزشگاه"><span>آموزشگاه</span></label>
+            </div>
+            <p class="form__err" data-for="type">نوع کارگاه را انتخاب کنید.</p>
+          </fieldset>
+          <div class="frow">
+            <label class="field"><span>تعداد دستگاه</span><input name="count" inputmode="numeric" placeholder="مثلاً ۵"><p class="form__err" data-for="count">تعداد دستگاه را وارد کنید.</p></label>
+            <label class="field"><span>شماره موبایل</span><input name="mobile" type="tel" dir="ltr" placeholder="0912 000 0000"><p class="form__err" data-for="mobile">شماره موبایل معتبر نیست.</p></label>
+          </div>
+          <button class="btn btn--red" type="submit">ارسال در واتساپ</button>
+        </form>
+      </div>
+    </section>
+
+    <section class="faqc" id="contact">
+      <div class="box faq">
+        <div class="ttl"><h2>سوالات متداول</h2></div>
+        <details open><summary>می‌توانم قبل از خرید تست کنم؟</summary><p>بله. همه دستگاه‌ها در فروشگاه حضوری پاچنار قابل تست هستند.</p></details>
+        <details><summary>گارانتی چقدر است؟</summary><p>بسته به محصول، از ۶ ماه تا ۳ سال.</p></details>
+        <details><summary>نصب و آموزش دارید؟</summary><p>بله، برای دستگاه‌های صنعتی در تهران و حومه.</p></details>
+        <details><summary>قطعات یدکی موجود است؟</summary><p>سوزن، ماکو، بوبین و سایر قطعات. برای موجودی تماس بگیرید.</p></details>
+        <details><summary>چرخ خانگی برای کار درآمدزا مناسب است؟</summary><p>برای دوخت تمام‌وقت، چرخ صنعتی پیشنهاد می‌شود.</p></details>
+      </div>
+      <div class="box contact">
+        <div class="ttl"><h2>فروشگاه حضوری</h2></div>
+        <ul>
+          <li><small>آدرس</small>تهران، خیابان خیام شمالی، مقابل بازار پاچنار، پلاک ۶۶۴</li>
+          <li><small>ساعت کاری</small>شنبه تا پنجشنبه، ۹ تا ۱۸</li>
+          <li><small>تلفن</small><a href="tel:02151033" dir="ltr">021 51033</a> · <a href="tel:09121168939" dir="ltr">0912 116 8939</a></li>
+          <li><small>ایمیل</small><a href="mailto:info@haqiqatdokht.com">info@haqiqatdokht.com</a></li>
+        </ul>
+        <a class="btn btn--line" href="https://www.google.com/maps/search/?api=1&query=Khayyam+St+Pachenar+Tehran" target="_blank" rel="noopener">مسیریابی در نقشه</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap cols">
+      <div><img src="../assets/img/logo.png" alt="یک قرن دوخت حقیقت" width="160" height="32"><p>فروش، نصب و خدمات چرخ خیاطی از ۱۲۹۶. نماینده انحصاری پریشس و وستا.</p></div>
+      <div class="col"><h4>محصولات</h4><a href="#products">چرخ صنعتی</a><a href="#products">چرخ خانگی</a><a href="#contact">اتو صنعتی</a></div>
+      <div class="col"><h4>خدمات مشتریان</h4><a href="https://haqiqatdokht.com/warranty/">گارانتی</a><a href="https://haqiqatdokht.com/video/">ویدئوهای آموزشی</a><a href="https://haqiqatdokht.com/blog/">وبلاگ</a></div>
+      <div class="col"><h4>ما را دنبال کنید</h4><a href="https://www.instagram.com/haqiqatdokht" target="_blank" rel="noopener">اینستاگرام</a><a href="https://t.me/haqiqatdokht" target="_blank" rel="noopener">تلگرام</a><a href="https://www.youtube.com/channel/UC2vU9ic2P-tChWRxPHci4Zw" target="_blank" rel="noopener">یوتیوب</a></div>
+    </div>
+    <div class="wrap copy">© شرکت یک قرن دوخت حقیقت · از ۱۲۹۶</div>
+  </footer>
+
+  <nav class="tabbar" aria-label="دسترسی سریع">
+    <a href="#top"><i>⌂</i>خانه</a>
+    <a href="#products"><i>☰</i>محصولات</a>
+    <a href="tel:02151033"><i>☏</i>تماس</a>
+    <a class="wa" href="https://wa.me/989121168939" target="_blank" rel="noopener"><i>✆</i>واتساپ</a>
+  </nav>
+
+  <script src="shared.js"></script>
+  <script>
+    initPage({
+      card: (p) => `
+        <article class="card" data-text="${p.brand} ${p.model} ${p.name} ${CAT_LABEL[p.cat]}">
+          <div class="card__img"><img src="${IMG + p.img}" alt="${p.brand} ${p.model}" loading="lazy"></div>
+          <div class="card__tags">${p.model === "V20" ? '<span class="hot">پرفروش</span>' : ""}<span>${CAT_LABEL[p.cat]}</span><span>${p.brand}</span></div>
+          <h3><b dir="ltr">${p.model}</b> · ${p.name}</h3>
+          <p class="card__feat">✓ قابل تست در فروشگاه</p>
+          <div class="card__price"><span>قیمت</span><b>تماس بگیرید</b></div>
+          <a class="btn btn--green" href="${priceLink(p)}" target="_blank" rel="noopener">استعلام قیمت در واتساپ</a>
+        </article>`,
+    });
+
+    // Search on top of the category filter
+    const search = document.getElementById("search");
+    const grid = document.getElementById("grid");
+    const empty = document.getElementById("empty");
+    const resultCount = document.getElementById("resultCount");
+    const norm = (s) => faToEn(s).toLowerCase().trim();
+    function applySearch() {
+      const q = norm(search.value);
+      let shown = 0;
+      grid.querySelectorAll(".card").forEach((c) => {
+        const ok = !q || norm(c.dataset.text).includes(q);
+        c.hidden = !ok;
+        shown += ok;
+      });
+      empty.hidden = shown > 0;
+      resultCount.textContent = `${toFa(shown)} کالا`;
+    }
+    search.addEventListener("input", () => {
+      applySearch();
+      if (search.value.length === 1) document.getElementById("products").scrollIntoView({ behavior: "smooth" });
+    });
+    document.querySelectorAll("[data-filter]").forEach((b) => b.addEventListener("click", applySearch));
+    applySearch();
+
+    // Banners, circles and menu links jump to a filtered list
+    document.querySelectorAll("[data-jump]").forEach((el) => el.addEventListener("click", (e) => {
+      e.preventDefault();
+      document.querySelector(`[data-filter="${el.dataset.jump}"]`).click();
+      document.getElementById("products").scrollIntoView({ behavior: "smooth" });
+    }));
+  </script>
+</body>
+</html>
