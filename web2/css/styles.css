@@ -1260,8 +1260,13 @@ section {
 }
 
 /* پرتره بلند: سر کامل از بالا، کراپ از پایین */
+.blog-card__media:has(img.blog-media--top) {
+    height: 200px
+}
+
 .blog-card__media img.blog-media--top {
-    object-position: center 12%
+    object-fit: cover !important;
+    object-position: center top !important
 }
 
 .blog-card:hover .blog-card__media img {
@@ -3195,38 +3200,44 @@ footer .brand-mark {
     position: relative
 }
 
+.carousel-viewport {
+    width: 100%;
+    overflow: hidden
+}
+
 .carousel-btn {
     display: none;
     position: absolute;
-    top: 42%;
-    z-index: 5;
+    top: 50%;
+    z-index: 6;
     width: 42px;
     height: 42px;
+    margin: 0;
     border-radius: 50%;
     border: 1px solid var(--line);
-    background: rgba(255, 255, 255, .96);
-    box-shadow: 0 8px 22px rgba(42, 46, 53, .12);
+    background: rgba(255, 255, 255, .97);
+    box-shadow: 0 8px 22px rgba(42, 46, 53, .14);
     color: var(--ink);
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    padding: 0;
-    transition: transform .2s, background .2s, color .2s
+    padding: 0
 }
 
 .carousel-btn svg {
     width: 18px;
     height: 18px;
-    display: block
+    display: block;
+    pointer-events: none
 }
 
 .carousel-btn--prev {
-    right: -2px;
+    right: 0;
     transform: translateY(-50%)
 }
 
 .carousel-btn--next {
-    left: -2px;
+    left: 0;
     transform: translateY(-50%) rotate(180deg)
 }
 
@@ -3237,12 +3248,17 @@ footer .brand-mark {
 }
 
 @media (max-width: 850px) {
+    .carousel-shell.is-carousel {
+        padding-inline: 22px
+    }
+
     .carousel-shell.is-carousel .carousel-btn {
         display: inline-flex
     }
 
-    .carousel-shell.is-carousel {
-        padding-inline: 18px
+    .carousel-shell.is-carousel .carousel-viewport {
+        overflow: hidden;
+        touch-action: pan-y
     }
 
     #products .product-grid.carousel-track,
@@ -3252,32 +3268,21 @@ footer .brand-mark {
         flex-wrap: nowrap !important;
         grid-template-columns: none !important;
         gap: 14px !important;
-        overflow-x: auto !important;
-        overflow-y: hidden !important;
-        scroll-snap-type: x mandatory;
-        scroll-behavior: smooth;
-        -webkit-overflow-scrolling: touch;
-        overscroll-behavior-x: contain;
-        padding: 6px 8px 20px;
+        overflow: visible !important;
+        width: max-content !important;
+        max-width: none !important;
+        padding: 6px 0 18px;
         margin: 0;
-        scrollbar-width: none;
-        touch-action: pan-x;
-        direction: ltr
-    }
-
-    #products .product-grid.carousel-track::-webkit-scrollbar,
-    #videos .video-grid.carousel-track::-webkit-scrollbar,
-    #blog .blog-grid.carousel-track::-webkit-scrollbar {
-        display: none
+        direction: ltr;
+        will-change: transform
     }
 
     #products .product-grid.carousel-track > .product-card,
     #videos .video-grid.carousel-track > .video-card,
     #blog .blog-grid.carousel-track > .blog-card {
-        flex: 0 0 min(76vw, 280px) !important;
-        width: min(76vw, 280px) !important;
-        max-width: min(76vw, 280px) !important;
-        scroll-snap-align: center;
+        flex: 0 0 min(78vw, 300px) !important;
+        width: min(78vw, 300px) !important;
+        max-width: min(78vw, 300px) !important;
         height: auto !important;
         min-height: 100%;
         direction: rtl
@@ -3296,6 +3301,17 @@ footer .brand-mark {
 @media (min-width: 851px) {
     .carousel-btn {
         display: none !important
+    }
+
+    .carousel-viewport {
+        overflow: visible
+    }
+
+    #products .product-grid.carousel-track,
+    #videos .video-grid.carousel-track,
+    #blog .blog-grid.carousel-track {
+        transform: none !important;
+        width: auto !important
     }
 }
 

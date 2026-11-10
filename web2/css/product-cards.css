@@ -142,18 +142,26 @@
     flex-wrap: nowrap !important;
     grid-template-columns: none !important;
     grid-auto-rows: auto !important;
-    overflow-x: auto !important;
+    overflow: visible !important;
+    width: max-content !important;
     gap: 14px !important;
     direction: ltr !important;
   }
 
   #products .product-card {
-    flex: 0 0 min(76vw, 280px) !important;
-    width: min(76vw, 280px) !important;
-    max-width: min(76vw, 280px) !important;
+    flex: 0 0 min(78vw, 300px) !important;
+    width: min(78vw, 300px) !important;
+    max-width: min(78vw, 300px) !important;
     height: auto !important;
     align-self: stretch !important;
     direction: rtl !important;
+  }
+}
+
+@media (min-width: 851px) {
+  #products .product-grid.carousel-track {
+    transform: none !important;
+    width: auto !important;
   }
 }
 

@@ -11,9 +11,9 @@
   <!-- فونت ایران‌یکان -->
   <link rel="stylesheet" href="css/iranyekan.css">
   <!-- CSS اصلی -->
-  <link rel="stylesheet" href="css/styles.css?v=20260310e">
+  <link rel="stylesheet" href="css/styles.css?v=20260310f">
   <!-- فاصله کارت‌ها (قابل ویرایش) -->
-  <link rel="stylesheet" href="css/product-cards.css?v=20260310d">
+  <link rel="stylesheet" href="css/product-cards.css?v=20260310f">
 </head>
 
 <body>
@@ -281,6 +281,7 @@
             <button type="button" class="carousel-btn carousel-btn--prev" aria-label="قبلی"><svg>
                 <use href="#i-arrow" />
               </svg></button>
+            <div class="carousel-viewport">
             <div class="product-grid carousel-track">
               <article class="product-card reveal" data-category="industrial">
                 <div class="product-image"><img src="assets/category-industrial.webp" alt="چرخ خیاطی صنعتی"
@@ -319,6 +320,7 @@
                 </div>
               </article>
             </div>
+            </div>
             <button type="button" class="carousel-btn carousel-btn--next" aria-label="بعدی"><svg>
                 <use href="#i-arrow" />
               </svg></button>
@@ -340,6 +342,7 @@
           <button type="button" class="carousel-btn carousel-btn--prev" aria-label="قبلی"><svg>
               <use href="#i-arrow" />
             </svg></button>
+          <div class="carousel-viewport">
           <div class="video-grid carousel-track">
             <article class="video-card reveal">
               <div class="video-card__frame">
@@ -370,6 +373,7 @@
               <h3>معرفی چرخ خیاطی وستا 2015</h3>
             </article>
           </div>
+          </div>
           <button type="button" class="carousel-btn carousel-btn--next" aria-label="بعدی"><svg>
               <use href="#i-arrow" />
             </svg></button>
@@ -395,6 +399,7 @@
           <button type="button" class="carousel-btn carousel-btn--prev" aria-label="قبلی"><svg>
               <use href="#i-arrow" />
             </svg></button>
+          <div class="carousel-viewport">
           <div class="blog-grid carousel-track">
             <article class="blog-card reveal">
               <div class="blog-card__media">
@@ -455,6 +460,7 @@
                   </svg></button>
               </div>
             </article>
+          </div>
           </div>
           <button type="button" class="carousel-btn carousel-btn--next" aria-label="بعدی"><svg>
               <use href="#i-arrow" />
@@ -698,26 +704,34 @@
       }));
       const observer = new IntersectionObserver(entries => entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target) } }), { threshold: .08 }); document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-      /* Mobile carousels with full loop + prev/next */
+      /* Mobile carousels: transform loop + arrows + swipe */
       (() => {
         const mq = window.matchMedia('(max-width:850px)');
         const shells = [...document.querySelectorAll('[data-carousel]')];
         const states = new WeakMap();
 
-        const visibleSlides = (track) =>
-          [...track.children].filter(el => !el.hidden && !el.dataset.clone);
+        const slidesOf = (track) => [...track.children].filter(el => !el.hidden);
 
-        const goTo = (shell, index, smooth = true) => {
+        const stepWidth = (track) => {
+          const slides = slidesOf(track);
+          if (!slides.length) return 0;
+          const gap = parseFloat(getComputedStyle(track).columnGap || getComputedStyle(track).gap) || 14;
+          return slides[0].getBoundingClientRect().width + gap;
+        };
+
+        const apply = (state, animate) => {
+          const w = stepWidth(state.track);
+          state.track.style.transition = animate ? 'transform .38s cubic-bezier(.22,.7,.25,1)' : 'none';
+          state.track.style.transform = `translate3d(${-state.index * w}px,0,0)`;
+        };
+
+        const go = (shell, delta, animate = true) => {
           const state = states.get(shell);
-          if (!state) return;
-          const slides = visibleSlides(state.track);
-          if (!slides.length) return;
-          const n = slides.length;
-          const i = ((index % n) + n) % n;
-          state.index = i;
-          const slide = slides[i];
-          const left = slide.offsetLeft - (state.track.clientWidth - slide.clientWidth) / 2;
-          state.track.scrollTo({ left, behavior: smooth ? 'smooth' : 'auto' });
+          if (!state || state.locked) return;
+          const n = slidesOf(state.track).length;
+          if (n < 2) return;
+          state.index = (state.index + delta + n) % n;
+          apply(state, animate);
         };
 
         const setup = (shell) => {
@@ -727,71 +741,68 @@
           if (!track || !prev || !next) return;
 
           const old = states.get(shell);
-          if (old?.timer) clearInterval(old.timer);
+          if (old) {
+            if (old.timer) clearInterval(old.timer);
+            if (old.onResize) window.removeEventListener('resize', old.onResize);
+          }
 
-          const slides = visibleSlides(track);
-          shell.classList.toggle('is-carousel', mq.matches && slides.length > 1);
-          if (!mq.matches || slides.length < 2) {
-            track.scrollLeft = 0;
-            states.set(shell, { track, index: 0, timer: null });
+          const slides = slidesOf(track);
+          const active = mq.matches && slides.length > 1;
+          shell.classList.toggle('is-carousel', active);
+          track.style.transform = '';
+          track.style.transition = '';
+
+          if (!active) {
+            states.set(shell, { track, index: 0, timer: null, locked: false });
             return;
           }
 
-          let index = 0;
-          let timer = null;
-          const state = { track, index, timer };
+          const state = { track, index: 0, timer: null, locked: false };
           states.set(shell, state);
 
-          const pauseAndResume = () => {
-            if (state.timer) clearInterval(state.timer);
-            state.timer = null;
-            if (reducedMotion.matches) return;
-            clearTimeout(shell._resumeT);
-            shell._resumeT = setTimeout(startAuto, 3500);
-          };
-
+          const stopAuto = () => { if (state.timer) { clearInterval(state.timer); state.timer = null; } };
           const startAuto = () => {
-            if (state.timer) clearInterval(state.timer);
+            stopAuto();
             if (reducedMotion.matches || !mq.matches) return;
-            state.timer = setInterval(() => {
-              goTo(shell, state.index + 1, true);
-            }, 3200);
+            state.timer = setInterval(() => go(shell, 1, true), 3400);
+          };
+          const bump = () => {
+            stopAuto();
+            clearTimeout(shell._resumeT);
+            shell._resumeT = setTimeout(startAuto, 4200);
           };
 
-          prev.onclick = () => { pauseAndResume(); goTo(shell, state.index - 1, true); };
-          next.onclick = () => { pauseAndResume(); goTo(shell, state.index + 1, true); };
+          prev.onclick = (e) => { e.preventDefault(); bump(); go(shell, -1, true); };
+          next.onclick = (e) => { e.preventDefault(); bump(); go(shell, 1, true); };
 
-          track.onpointerdown = pauseAndResume;
-          track.ontouchstart = pauseAndResume;
-
-          // Keep index in sync after manual swipe
-          let scrollT;
-          track.onscroll = () => {
-            clearTimeout(scrollT);
-            scrollT = setTimeout(() => {
-              const slidesNow = visibleSlides(track);
-              if (!slidesNow.length) return;
-              const center = track.scrollLeft + track.clientWidth / 2;
-              let best = 0, bestDist = Infinity;
-              slidesNow.forEach((slide, i) => {
-                const c = slide.offsetLeft + slide.clientWidth / 2;
-                const d = Math.abs(c - center);
-                if (d < bestDist) { bestDist = d; best = i; }
-              });
-              state.index = best;
-            }, 80);
+          // Touch swipe
+          let startX = 0, startY = 0, dragging = false;
+          const onStart = (e) => {
+            const t = e.touches ? e.touches[0] : e;
+            startX = t.clientX; startY = t.clientY; dragging = true; bump();
           };
+          const onEnd = (e) => {
+            if (!dragging) return;
+            dragging = false;
+            const t = e.changedTouches ? e.changedTouches[0] : e;
+            const dx = t.clientX - startX;
+            const dy = t.clientY - startY;
+            if (Math.abs(dx) < 40 || Math.abs(dx) < Math.abs(dy)) return;
+            go(shell, dx < 0 ? 1 : -1, true);
+          };
+          track.addEventListener('touchstart', onStart, { passive: true });
+          track.addEventListener('touchend', onEnd, { passive: true });
 
-          goTo(shell, 0, false);
+          const onResize = () => apply(state, false);
+          window.addEventListener('resize', onResize, { passive: true });
+          state.onResize = onResize;
+
+          requestAnimationFrame(() => apply(state, false));
           startAuto();
         };
 
         const refreshAll = () => shells.forEach(setup);
         refreshAll();
-        window.addEventListener('resize', () => {
-          clearTimeout(window._carouselResizeT);
-          window._carouselResizeT = setTimeout(refreshAll, 160);
-        }, { passive: true });
         window.addEventListener('mobile-carousels-refresh', () => setTimeout(refreshAll, 40));
         if (mq.addEventListener) mq.addEventListener('change', refreshAll);
         else mq.addListener(refreshAll);
