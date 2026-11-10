@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="fa" dir="rtl">
 
 <head>
@@ -11,9 +11,9 @@
   <!-- فونت ایران‌یکان -->
   <link rel="stylesheet" href="css/iranyekan.css">
   <!-- CSS اصلی -->
-  <link rel="stylesheet" href="css/styles.css?v=20260310h">
+  <link rel="stylesheet" href="css/styles.css?v=20260310j">
   <!-- فاصله کارت‌ها (قابل ویرایش) -->
-  <link rel="stylesheet" href="css/product-cards.css?v=20260310h">
+  <link rel="stylesheet" href="css/product-cards.css?v=20260310j">
 </head>
 
 <body>
@@ -278,9 +278,6 @@
             <button class="filter-btn" data-filter="iron" aria-pressed="false">اتو صنعتی</button>
           </div>
           <div class="carousel-shell" data-carousel>
-            <button type="button" class="carousel-btn carousel-btn--prev" aria-label="قبلی"><svg>
-                <use href="#i-arrow" />
-              </svg></button>
             <div class="carousel-viewport">
             <div class="product-grid carousel-track">
               <article class="product-card reveal" data-category="industrial">
@@ -321,9 +318,6 @@
               </article>
             </div>
             </div>
-            <button type="button" class="carousel-btn carousel-btn--next" aria-label="بعدی"><svg>
-                <use href="#i-arrow" />
-              </svg></button>
           </div>
         </div>
       </div>
@@ -339,9 +333,6 @@
           </div>
         </div>
         <div class="carousel-shell" data-carousel>
-          <button type="button" class="carousel-btn carousel-btn--prev" aria-label="قبلی"><svg>
-              <use href="#i-arrow" />
-            </svg></button>
           <div class="carousel-viewport">
           <div class="video-grid carousel-track">
             <article class="video-card reveal">
@@ -374,9 +365,6 @@
             </article>
           </div>
           </div>
-          <button type="button" class="carousel-btn carousel-btn--next" aria-label="بعدی"><svg>
-              <use href="#i-arrow" />
-            </svg></button>
         </div>
         <div class="blog-more reveal">
           <button type="button" class="btn btn-outline">مشاهده همه فیلم‌های آموزشی <svg>
@@ -396,9 +384,6 @@
           </div>
         </div>
         <div class="carousel-shell" data-carousel>
-          <button type="button" class="carousel-btn carousel-btn--prev" aria-label="قبلی"><svg>
-              <use href="#i-arrow" />
-            </svg></button>
           <div class="carousel-viewport">
           <div class="blog-grid carousel-track">
             <article class="blog-card reveal">
@@ -462,9 +447,6 @@
             </article>
           </div>
           </div>
-          <button type="button" class="carousel-btn carousel-btn--next" aria-label="بعدی"><svg>
-              <use href="#i-arrow" />
-            </svg></button>
         </div>
         <div class="blog-more reveal">
           <button type="button" class="btn btn-outline">مشاهده همه مطالب وبلاگ <svg>
@@ -704,115 +686,128 @@
       }));
       const observer = new IntersectionObserver(entries => entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target) } }), { threshold: .08 }); document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-      /* Mobile carousels: native scroll (page stays fixed) + seamless loop */
+      /* Mobile carousels: transform loop, swipe only, no page scroll */
       (() => {
         const mq = window.matchMedia('(max-width:850px)');
+        const GAP = 12;
         const shells = [...document.querySelectorAll('[data-carousel]')];
 
-        const realsOf = (track) =>
-          [...track.children].filter(el => !el.dataset.clone && !el.hidden);
-
         const setup = (shell) => {
+          const viewport = shell.querySelector('.carousel-viewport');
           const track = shell.querySelector('.carousel-track');
-          const prev = shell.querySelector('.carousel-btn--prev');
-          const next = shell.querySelector('.carousel-btn--next');
-          if (!track || !prev || !next) return;
+          if (!viewport || !track) return;
 
           if (track._abort) track._abort.abort();
           if (track._timer) clearInterval(track._timer);
           track.querySelectorAll('[data-clone]').forEach(n => n.remove());
-          track.style.transform = 'none';
+          track.style.transform = '';
+          track.style.transition = '';
+          viewport.style.height = '';
 
-          const originals = realsOf(track);
+          const originals = [...track.children].filter(el => !el.hidden);
           const active = mq.matches && originals.length > 1;
           shell.classList.toggle('is-carousel', active);
-          if (!active) { track.scrollLeft = 0; return; }
+          if (!active) return;
 
           const cloneLast = originals[originals.length - 1].cloneNode(true);
           const cloneFirst = originals[0].cloneNode(true);
           [cloneLast, cloneFirst].forEach(c => {
             c.dataset.clone = '1';
             c.setAttribute('aria-hidden', 'true');
+            c.querySelectorAll('iframe').forEach(f => f.removeAttribute('src'));
           });
           track.insertBefore(cloneLast, track.firstChild);
           track.appendChild(cloneFirst);
 
+          const count = originals.length;
           const abort = new AbortController();
           track._abort = abort;
-          let jumping = false;
+          let index = 1;
+          let step = 0;
+          let busy = false;
 
-          const items = () => [...track.children].filter(el => !el.hidden);
-          const contentLeft = (el) => {
-            const tr = track.getBoundingClientRect();
-            const er = el.getBoundingClientRect();
-            return track.scrollLeft + (er.left - tr.left);
-          };
-          const centerOf = (el) => contentLeft(el) - (track.clientWidth - el.clientWidth) / 2;
-          const step = () => {
-            const list = items();
-            if (list.length < 2) return track.clientWidth * 0.86;
-            return Math.abs(contentLeft(list[1]) - contentLeft(list[0])) || track.clientWidth * 0.86;
-          };
-          const jumpTo = (el) => {
-            if (!el) return;
-            jumping = true;
-            track.style.scrollSnapType = 'none';
-            track.scrollLeft = centerOf(el);
-            requestAnimationFrame(() => {
-              track.style.scrollSnapType = '';
-              jumping = false;
-            });
-          };
-          const closest = () => {
-            const list = items();
-            const mid = track.scrollLeft + track.clientWidth / 2;
-            let best = list[0], bestD = Infinity, idx = 0;
-            list.forEach((el, i) => {
-              const c = contentLeft(el) + el.clientWidth / 2;
-              const d = Math.abs(c - mid);
-              if (d < bestD) { bestD = d; best = el; idx = i; }
-            });
-            return { el: best, idx, list };
-          };
-          const normalize = () => {
-            if (jumping) return;
-            const { el, idx, list } = closest();
-            if (!el || !el.dataset.clone) return;
-            const reals = list.filter(n => !n.dataset.clone);
-            jumpTo(idx === 0 ? reals[reals.length - 1] : reals[0]);
+          const kids = () => [...track.children].filter(el => !el.hidden);
+
+          const measure = () => {
+            const slide = Math.max(180, Math.round(viewport.clientWidth * 0.84));
+            shell.style.setProperty('--slide', slide + 'px');
+            void track.offsetWidth;
+            const list = kids();
+            step = list.length > 1 ? list[1].offsetLeft - list[0].offsetLeft : slide + GAP;
+            if (!step || step < 40) step = slide + GAP;
+            const heights = list.map(el => el.offsetHeight).filter(Boolean);
+            const h = heights.length ? Math.max(...heights) : 0;
+            if (h) viewport.style.height = h + 'px';
           };
 
-          const go = (dir) => {
-            track.scrollTo({ left: track.scrollLeft + dir * step(), behavior: 'smooth' });
+          const place = (animate) => {
+            const slideW = kids()[0] ? kids()[0].offsetWidth : step - GAP;
+            const x = (viewport.clientWidth - slideW) / 2 - index * step;
+            track.style.transition = animate ? 'transform .42s cubic-bezier(.22,.8,.25,1)' : 'none';
+            track.style.transform = `translate3d(${Math.round(x)}px,0,0)`;
+          };
+
+          const settle = () => {
+            let jumped = false;
+            if (index <= 0) { index = count; jumped = true; }
+            else if (index >= count + 1) { index = 1; jumped = true; }
+            if (jumped) place(false);
+            busy = false;
+          };
+
+          const move = (dir) => {
+            if (busy || !step) return;
+            busy = true;
+            index += dir;
+            place(true);
+            clearTimeout(track._unlock);
+            track._unlock = setTimeout(settle, 460);
           };
 
           const stopAuto = () => { if (track._timer) { clearInterval(track._timer); track._timer = null; } };
           const startAuto = () => {
             stopAuto();
-            if (reducedMotion.matches || !mq.matches) return;
-            track._timer = setInterval(() => go(1), 3800);
+            if (reducedMotion.matches) return;
+            track._timer = setInterval(() => move(1), 3600);
           };
-          const bump = () => {
+          const pause = () => {
             stopAuto();
             clearTimeout(track._resume);
-            track._resume = setTimeout(startAuto, 4200);
+            track._resume = setTimeout(startAuto, 4500);
           };
 
-          prev.onclick = (e) => { e.preventDefault(); bump(); go(-1); };
-          next.onclick = (e) => { e.preventDefault(); bump(); go(1); };
-
-          let scrollT = 0;
-          track.addEventListener('scroll', () => {
-            if (jumping) return;
-            clearTimeout(scrollT);
-            scrollT = setTimeout(normalize, 90);
+          let sx = 0, sy = 0, tracking = false;
+          viewport.addEventListener('touchstart', (e) => {
+            const t = e.touches[0];
+            sx = t.clientX; sy = t.clientY; tracking = true;
+            pause();
           }, { passive: true, signal: abort.signal });
-          track.addEventListener('pointerdown', bump, { passive: true, signal: abort.signal });
-          track.addEventListener('touchstart', bump, { passive: true, signal: abort.signal });
+          viewport.addEventListener('touchend', (e) => {
+            if (!tracking) return;
+            tracking = false;
+            const t = e.changedTouches[0];
+            const dx = t.clientX - sx;
+            const dy = t.clientY - sy;
+            if (Math.abs(dx) < 36 || Math.abs(dx) < Math.abs(dy)) return;
+            move(dx < 0 ? 1 : -1);
+          }, { passive: true, signal: abort.signal });
+          viewport.addEventListener('touchcancel', () => { tracking = false; }, { signal: abort.signal });
 
+          track.addEventListener('transitionend', (e) => {
+            if (e.target !== track || e.propertyName !== 'transform') return;
+            clearTimeout(track._unlock);
+            settle();
+          }, { signal: abort.signal });
+
+          track.querySelectorAll('img').forEach(img => {
+            if (!img.complete) img.addEventListener('load', () => measure(), { once: true, signal: abort.signal });
+          });
+
+          measure();
+          place(false);
           requestAnimationFrame(() => {
-            const reals = realsOf(track);
-            jumpTo(reals[0]);
+            measure();
+            place(false);
             startAuto();
           });
         };
