@@ -1254,8 +1254,14 @@ section {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: center center;
     display: block;
     transition: transform .35s
+}
+
+/* پرتره بلند: سر کامل از بالا، کراپ از پایین */
+.blog-card__media img.blog-media--top {
+    object-position: center 12%
 }
 
 .blog-card:hover .blog-card__media img {
