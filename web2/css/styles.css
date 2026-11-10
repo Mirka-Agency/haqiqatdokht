@@ -3171,15 +3171,11 @@ footer .brand-mark {
 
 @media(max-width:850px) {
     #products .product-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr)) !important
+        grid-template-columns: none !important
     }
 }
 
 @media(max-width:570px) {
-    #products .product-grid {
-        grid-template-columns: 1fr !important
-    }
-
     #products .product-image {
         height: auto !important;
         aspect-ratio: 1.75 !important
@@ -3187,6 +3183,54 @@ footer .brand-mark {
 }
 
 /* ========== پایان تنظیم فاصله کارت‌ها ========== */
+
+/* ---------- Mobile horizontal loop carousels ---------- */
+@media (max-width: 850px) {
+    #products .product-grid,
+    #videos .video-grid,
+    #blog .blog-grid {
+        display: flex !important;
+        flex-wrap: nowrap !important;
+        grid-template-columns: none !important;
+        gap: 14px !important;
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+        scroll-snap-type: x mandatory;
+        scroll-behavior: auto;
+        -webkit-overflow-scrolling: touch;
+        overscroll-behavior-x: contain;
+        padding: 4px 2px 18px;
+        margin-inline: -4px;
+        scrollbar-width: none;
+        touch-action: pan-x
+    }
+
+    #products .product-grid::-webkit-scrollbar,
+    #videos .video-grid::-webkit-scrollbar,
+    #blog .blog-grid::-webkit-scrollbar {
+        display: none
+    }
+
+    #products .product-grid > .product-card,
+    #videos .video-grid > .video-card,
+    #blog .blog-grid > .blog-card {
+        flex: 0 0 min(78vw, 290px) !important;
+        width: min(78vw, 290px) !important;
+        max-width: min(78vw, 290px) !important;
+        scroll-snap-align: center;
+        height: auto !important;
+        min-height: 100%
+    }
+
+    #products .product-grid > .product-card[hidden] {
+        display: none !important
+    }
+
+    #videos .video-card h3,
+    #blog .blog-card__body h3 {
+        font-size: 13.5px
+    }
+}
 
 /* ---------- Hero center on mobile ---------- */
 @media (max-width: 850px) {

@@ -11,7 +11,7 @@
   <!-- فونت ایران‌یکان -->
   <link rel="stylesheet" href="css/iranyekan.css">
   <!-- CSS اصلی -->
-  <link rel="stylesheet" href="css/styles.css?v=20260310b">
+  <link rel="stylesheet" href="css/styles.css?v=20260310c">
   <!-- فاصله کارت‌ها (قابل ویرایش) -->
   <link rel="stylesheet" href="css/product-cards.css">
 </head>
@@ -663,8 +663,138 @@
       if (dropToggle) dropToggle.addEventListener('click', e => { if (window.matchMedia('(max-width:850px)').matches) { e.preventDefault(); dropToggle.parentElement.classList.toggle('open') } });
       const searchBtn = document.getElementById('navSearch');
       if (searchBtn) searchBtn.addEventListener('click', () => document.getElementById('products')?.scrollIntoView({ behavior: 'smooth' }));
-      document.querySelectorAll('.filter-btn').forEach(btn => btn.addEventListener('click', () => { document.querySelectorAll('.filter-btn').forEach(b => { b.classList.remove('active'); b.setAttribute('aria-pressed', 'false') }); btn.classList.add('active'); btn.setAttribute('aria-pressed', 'true'); document.querySelectorAll('.product-card').forEach(card => { card.hidden = btn.dataset.filter !== 'all' && card.dataset.category !== btn.dataset.filter }) }));
+      document.querySelectorAll('.filter-btn').forEach(btn => btn.addEventListener('click', () => {
+        document.querySelectorAll('.filter-btn').forEach(b => { b.classList.remove('active'); b.setAttribute('aria-pressed', 'false') });
+        btn.classList.add('active'); btn.setAttribute('aria-pressed', 'true');
+        document.querySelectorAll('#products .product-grid > .product-card:not([data-clone])').forEach(card => {
+          card.hidden = btn.dataset.filter !== 'all' && card.dataset.category !== btn.dataset.filter;
+        });
+        window.dispatchEvent(new CustomEvent('mobile-carousels-refresh'));
+      }));
       const observer = new IntersectionObserver(entries => entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target) } }), { threshold: .08 }); document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+      /* Mobile horizontal loop carousels: products / videos / blog */
+      (() => {
+        const mq = window.matchMedia('(max-width:850px)');
+        const selectors = ['#products .product-grid', '#videos .video-grid', '#blog .blog-grid'];
+        const instances = new Map();
+
+        const destroy = (track) => {
+          const state = instances.get(track);
+          if (!state) return;
+          cancelAnimationFrame(state.raf);
+          state.cleanups.forEach(fn => fn());
+          instances.delete(track);
+        };
+
+        const clearClones = (track) => {
+          track.querySelectorAll('[data-clone="1"]').forEach(n => n.remove());
+        };
+
+        const visibleOriginals = (track) =>
+          [...track.children].filter(el => !el.dataset.clone && !el.hidden);
+
+        const setupTrack = (track) => {
+          destroy(track);
+          clearClones(track);
+          const items = visibleOriginals(track);
+          if (!mq.matches || items.length < 2) {
+            track.scrollLeft = 0;
+            return;
+          }
+
+          // Duplicate set once for seamless wrap
+          const frag = document.createDocumentFragment();
+          items.forEach(item => {
+            const clone = item.cloneNode(true);
+            clone.dataset.clone = '1';
+            clone.setAttribute('aria-hidden', 'true');
+            clone.querySelectorAll('iframe').forEach(f => { f.src = 'about:blank'; f.removeAttribute('src'); });
+            frag.appendChild(clone);
+          });
+          track.appendChild(frag);
+
+          const gap = parseFloat(getComputedStyle(track).gap) || 14;
+          const setWidth = () => items.reduce((sum, el, i) => sum + el.offsetWidth + (i ? gap : 0), 0);
+
+          let paused = false;
+          let locking = false;
+          const cleanups = [];
+
+          const normalize = () => {
+            if (locking) return;
+            const w = setWidth();
+            if (w <= 0) return;
+            const max = track.scrollWidth - track.clientWidth;
+            let x = track.scrollLeft;
+            // Chromium RTL may use negative scrollLeft
+            if (x < 0) {
+              if (x <= -w) {
+                locking = true;
+                track.scrollLeft = x + w;
+                locking = false;
+              } else if (x > -1) {
+                locking = true;
+                track.scrollLeft = x - w;
+                locking = false;
+              }
+              return;
+            }
+            if (x >= w) {
+              locking = true;
+              track.scrollLeft = x - w;
+              locking = false;
+            } else if (max > 0 && x > max - 2) {
+              locking = true;
+              track.scrollLeft = Math.max(0, x - w);
+              locking = false;
+            }
+          };
+
+          const onScroll = () => normalize();
+          track.addEventListener('scroll', onScroll, { passive: true });
+          cleanups.push(() => track.removeEventListener('scroll', onScroll));
+
+          const pause = () => {
+            paused = true;
+            clearTimeout(track._resumeT);
+            track._resumeT = setTimeout(() => { paused = false; }, 2800);
+          };
+          ['pointerdown', 'touchstart', 'wheel'].forEach(ev => {
+            track.addEventListener(ev, pause, { passive: true });
+            cleanups.push(() => track.removeEventListener(ev, pause));
+          });
+
+          let raf = 0;
+          const isRtl = getComputedStyle(track).direction === 'rtl';
+          const tick = () => {
+            if (mq.matches && !paused && !reducedMotion.matches && !locking) {
+              const delta = isRtl ? -0.55 : 0.55;
+              track.scrollLeft += delta;
+              normalize();
+            }
+            raf = requestAnimationFrame(tick);
+          };
+          raf = requestAnimationFrame(tick);
+          instances.set(track, { raf, cleanups });
+        };
+
+        const refreshAll = () => {
+          selectors.forEach(sel => {
+            const track = document.querySelector(sel);
+            if (track) setupTrack(track);
+          });
+        };
+
+        refreshAll();
+        window.addEventListener('resize', () => {
+          clearTimeout(window._carouselResizeT);
+          window._carouselResizeT = setTimeout(refreshAll, 180);
+        }, { passive: true });
+        window.addEventListener('mobile-carousels-refresh', () => setTimeout(refreshAll, 40));
+        if (mq.addEventListener) mq.addEventListener('change', refreshAll);
+        else mq.addListener(refreshAll);
+      })();
       const sections = document.querySelectorAll('main [id]');
       const navAnchors = document.querySelectorAll('.nav-links > a, .nav-link-drop');
       const navObserver = new IntersectionObserver(entries => entries.forEach(e => {
