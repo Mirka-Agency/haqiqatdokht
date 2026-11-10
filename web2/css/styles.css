@@ -45,7 +45,10 @@
 html {
     scroll-behavior: smooth;
     scroll-padding-top: 105px;
-    background: var(--ink-strong)
+    background: var(--ink-strong);
+    overflow-x: clip;
+    max-width: 100%;
+    width: 100%
 }
 
 body {
@@ -55,9 +58,18 @@ body {
     font-family: 'IRANYekan', Tahoma, sans-serif;
     font-size: 14px;
     line-height: 1.9;
-    overflow-x: hidden;
+    overflow-x: clip;
+    max-width: 100%;
+    width: 100%;
+    position: relative;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility
+}
+
+main {
+    overflow-x: clip;
+    max-width: 100%;
+    width: 100%
 }
 
 button,
@@ -3197,11 +3209,16 @@ footer .brand-mark {
 
 /* ---------- Mobile carousels + arrows ---------- */
 .carousel-shell {
-    position: relative
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0
 }
 
 .carousel-viewport {
     width: 100%;
+    max-width: 100%;
+    min-width: 0;
     overflow: hidden
 }
 
@@ -3248,8 +3265,20 @@ footer .brand-mark {
 }
 
 @media (max-width: 850px) {
+    .container,
+    .products-layout,
+    .categories,
+    .videos-section,
+    .blog-section,
+    section {
+        max-width: 100%;
+        min-width: 0;
+        overflow-x: clip
+    }
+
     .carousel-shell.is-carousel {
-        padding-inline: 22px
+        padding-inline: 26px;
+        overflow: hidden
     }
 
     .carousel-shell.is-carousel .carousel-btn {
@@ -3258,7 +3287,10 @@ footer .brand-mark {
 
     .carousel-shell.is-carousel .carousel-viewport {
         overflow: hidden;
-        touch-action: pan-y
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        touch-action: pan-y pinch-zoom
     }
 
     #products .product-grid.carousel-track,
@@ -3267,25 +3299,28 @@ footer .brand-mark {
         display: flex !important;
         flex-wrap: nowrap !important;
         grid-template-columns: none !important;
-        gap: 14px !important;
+        gap: var(--slide-gap, 12px) !important;
         overflow: visible !important;
-        width: max-content !important;
+        width: auto !important;
         max-width: none !important;
+        min-width: 0 !important;
         padding: 6px 0 18px;
         margin: 0;
         direction: ltr;
-        will-change: transform
+        will-change: transform;
+        box-sizing: border-box
     }
 
-    #products .product-grid.carousel-track > .product-card,
-    #videos .video-grid.carousel-track > .video-card,
-    #blog .blog-grid.carousel-track > .blog-card {
-        flex: 0 0 min(78vw, 300px) !important;
-        width: min(78vw, 300px) !important;
-        max-width: min(78vw, 300px) !important;
+    #products .product-grid.carousel-track > *,
+    #videos .video-grid.carousel-track > *,
+    #blog .blog-grid.carousel-track > * {
+        flex: 0 0 var(--slide-size, 260px) !important;
+        width: var(--slide-size, 260px) !important;
+        max-width: var(--slide-size, 260px) !important;
         height: auto !important;
-        min-height: 100%;
-        direction: rtl
+        min-width: 0 !important;
+        direction: rtl;
+        box-sizing: border-box
     }
 
     #products .product-grid.carousel-track > .product-card[hidden] {
