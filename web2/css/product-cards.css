@@ -137,21 +137,23 @@
 
 /* ---------- ریسپانسیو: کروسل افقی موبایل ---------- */
 @media (max-width: 850px) {
-  #products .product-grid {
+  #products .product-grid.carousel-track {
     display: flex !important;
     flex-wrap: nowrap !important;
     grid-template-columns: none !important;
     grid-auto-rows: auto !important;
     overflow-x: auto !important;
     gap: 14px !important;
+    direction: ltr !important;
   }
 
   #products .product-card {
-    flex: 0 0 min(78vw, 290px) !important;
-    width: min(78vw, 290px) !important;
-    max-width: min(78vw, 290px) !important;
+    flex: 0 0 min(76vw, 280px) !important;
+    width: min(76vw, 280px) !important;
+    max-width: min(76vw, 280px) !important;
     height: auto !important;
     align-self: stretch !important;
+    direction: rtl !important;
   }
 }
 

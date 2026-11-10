@@ -11,9 +11,9 @@
   <!-- فونت ایران‌یکان -->
   <link rel="stylesheet" href="css/iranyekan.css">
   <!-- CSS اصلی -->
-  <link rel="stylesheet" href="css/styles.css?v=20260310c">
+  <link rel="stylesheet" href="css/styles.css?v=20260310d">
   <!-- فاصله کارت‌ها (قابل ویرایش) -->
-  <link rel="stylesheet" href="css/product-cards.css?v=20260310c">
+  <link rel="stylesheet" href="css/product-cards.css?v=20260310d">
 </head>
 
 <body>
@@ -277,43 +277,51 @@
             <button class="filter-btn" data-filter="home" aria-pressed="false">چرخ خیاطی خانگی</button>
             <button class="filter-btn" data-filter="iron" aria-pressed="false">اتو صنعتی</button>
           </div>
-          <div class="product-grid">
-            <article class="product-card reveal" data-category="industrial">
-              <div class="product-image"><img src="assets/category-industrial.webp" alt="چرخ خیاطی صنعتی" loading="lazy"
-                  decoding="async"></div>
-              <div class="product-body"><span class="product-type">ماشین‌آلات دوخت</span>
-                <h3>چرخ خیاطی صنعتی</h3>
-                <p>ماشین‌های دوخت برای کارگاه‌ها و خطوط تولید پوشاک.</p>
-                <div class="product-bottom"><span>مدل‌های صنعتی</span><button type="button" class="text-btn">مشاهده
-                    محصولات <svg>
-                      <use href="#i-arrow" />
-                    </svg></button></div>
-              </div>
-            </article>
-            <article class="product-card reveal" data-category="home">
-              <div class="product-image"><img src="assets/category-domestic.webp" alt="چرخ خیاطی خانگی" loading="lazy"
-                  decoding="async"></div>
-              <div class="product-body"><span class="product-type">دوخت خانگی</span>
-                <h3>چرخ خیاطی خانگی</h3>
-                <p>مدل‌های مناسب دوخت روزمره، خیاطی شخصی و کارهای خانگی.</p>
-                <div class="product-bottom"><span>مدل‌های خانگی</span><button type="button" class="text-btn">مشاهده
-                    محصولات <svg>
-                      <use href="#i-arrow" />
-                    </svg></button></div>
-              </div>
-            </article>
-            <article class="product-card reveal" data-category="iron">
-              <div class="product-image"><img src="assets/category-iron.webp" alt="اتو صنعتی" loading="lazy"
-                  decoding="async"></div>
-              <div class="product-body"><span class="product-type">تجهیزات اتوکشی</span>
-                <h3>اتو صنعتی</h3>
-                <p>تجهیزات اتوکشی و آماده‌سازی پوشاک برای کارگاه‌ها و تولیدی‌ها.</p>
-                <div class="product-bottom"><span>تجهیزات اتوکشی</span><button type="button" class="text-btn">مشاهده
-                    محصولات <svg>
-                      <use href="#i-arrow" />
-                    </svg></button></div>
-              </div>
-            </article>
+          <div class="carousel-shell" data-carousel>
+            <button type="button" class="carousel-btn carousel-btn--prev" aria-label="قبلی"><svg>
+                <use href="#i-arrow" />
+              </svg></button>
+            <div class="product-grid carousel-track">
+              <article class="product-card reveal" data-category="industrial">
+                <div class="product-image"><img src="assets/category-industrial.webp" alt="چرخ خیاطی صنعتی"
+                    loading="lazy" decoding="async"></div>
+                <div class="product-body"><span class="product-type">ماشین‌آلات دوخت</span>
+                  <h3>چرخ خیاطی صنعتی</h3>
+                  <p>ماشین‌های دوخت برای کارگاه‌ها و خطوط تولید پوشاک.</p>
+                  <div class="product-bottom"><span>مدل‌های صنعتی</span><button type="button" class="text-btn">مشاهده
+                      محصولات <svg>
+                        <use href="#i-arrow" />
+                      </svg></button></div>
+                </div>
+              </article>
+              <article class="product-card reveal" data-category="home">
+                <div class="product-image"><img src="assets/category-domestic.webp" alt="چرخ خیاطی خانگی" loading="lazy"
+                    decoding="async"></div>
+                <div class="product-body"><span class="product-type">دوخت خانگی</span>
+                  <h3>چرخ خیاطی خانگی</h3>
+                  <p>مدل‌های مناسب دوخت روزمره، خیاطی شخصی و کارهای خانگی.</p>
+                  <div class="product-bottom"><span>مدل‌های خانگی</span><button type="button" class="text-btn">مشاهده
+                      محصولات <svg>
+                        <use href="#i-arrow" />
+                      </svg></button></div>
+                </div>
+              </article>
+              <article class="product-card reveal" data-category="iron">
+                <div class="product-image"><img src="assets/category-iron.webp" alt="اتو صنعتی" loading="lazy"
+                    decoding="async"></div>
+                <div class="product-body"><span class="product-type">تجهیزات اتوکشی</span>
+                  <h3>اتو صنعتی</h3>
+                  <p>تجهیزات اتوکشی و آماده‌سازی پوشاک برای کارگاه‌ها و تولیدی‌ها.</p>
+                  <div class="product-bottom"><span>تجهیزات اتوکشی</span><button type="button" class="text-btn">مشاهده
+                      محصولات <svg>
+                        <use href="#i-arrow" />
+                      </svg></button></div>
+                </div>
+              </article>
+            </div>
+            <button type="button" class="carousel-btn carousel-btn--next" aria-label="بعدی"><svg>
+                <use href="#i-arrow" />
+              </svg></button>
           </div>
         </div>
       </div>
@@ -328,35 +336,43 @@
             <p class="section-note">معرفی دستگاه‌ها و آموزش‌های عملی از آرشیو ویدئوهای حقیقت دوخت.</p>
           </div>
         </div>
-        <div class="video-grid">
-          <article class="video-card reveal">
-            <div class="video-card__frame">
-              <iframe src="https://www.aparat.com/video/video/embed/videohash/lqsiud2/vt/frame"
-                title="چرخ خیاطی صنعتی G18 پریشس" loading="lazy" allowfullscreen></iframe>
-            </div>
-            <h3>چرخ خیاطی صنعتی G18 پریشس</h3>
-          </article>
-          <article class="video-card reveal">
-            <div class="video-card__frame">
-              <iframe src="https://www.aparat.com/video/video/embed/videohash/y042p50/vt/frame"
-                title="معرفی کارخانه پریشس" loading="lazy" allowfullscreen></iframe>
-            </div>
-            <h3>معرفی کارخانه پریشس</h3>
-          </article>
-          <article class="video-card reveal">
-            <div class="video-card__frame">
-              <iframe src="https://www.aparat.com/video/video/embed/videohash/ysbBr/vt/frame"
-                title="معرفی چرخ خیاطی وستا 2010" loading="lazy" allowfullscreen></iframe>
-            </div>
-            <h3>معرفی چرخ خیاطی وستا 2010</h3>
-          </article>
-          <article class="video-card reveal">
-            <div class="video-card__frame">
-              <iframe src="https://www.aparat.com/video/video/embed/videohash/m33bqw2/vt/frame"
-                title="معرفی چرخ خیاطی وستا 2015" loading="lazy" allowfullscreen></iframe>
-            </div>
-            <h3>معرفی چرخ خیاطی وستا 2015</h3>
-          </article>
+        <div class="carousel-shell" data-carousel>
+          <button type="button" class="carousel-btn carousel-btn--prev" aria-label="قبلی"><svg>
+              <use href="#i-arrow" />
+            </svg></button>
+          <div class="video-grid carousel-track">
+            <article class="video-card reveal">
+              <div class="video-card__frame">
+                <iframe src="https://www.aparat.com/video/video/embed/videohash/lqsiud2/vt/frame"
+                  title="چرخ خیاطی صنعتی G18 پریشس" loading="lazy" allowfullscreen></iframe>
+              </div>
+              <h3>چرخ خیاطی صنعتی G18 پریشس</h3>
+            </article>
+            <article class="video-card reveal">
+              <div class="video-card__frame">
+                <iframe src="https://www.aparat.com/video/video/embed/videohash/y042p50/vt/frame"
+                  title="معرفی کارخانه پریشس" loading="lazy" allowfullscreen></iframe>
+              </div>
+              <h3>معرفی کارخانه پریشس</h3>
+            </article>
+            <article class="video-card reveal">
+              <div class="video-card__frame">
+                <iframe src="https://www.aparat.com/video/video/embed/videohash/ysbBr/vt/frame"
+                  title="معرفی چرخ خیاطی وستا 2010" loading="lazy" allowfullscreen></iframe>
+              </div>
+              <h3>معرفی چرخ خیاطی وستا 2010</h3>
+            </article>
+            <article class="video-card reveal">
+              <div class="video-card__frame">
+                <iframe src="https://www.aparat.com/video/video/embed/videohash/m33bqw2/vt/frame"
+                  title="معرفی چرخ خیاطی وستا 2015" loading="lazy" allowfullscreen></iframe>
+              </div>
+              <h3>معرفی چرخ خیاطی وستا 2015</h3>
+            </article>
+          </div>
+          <button type="button" class="carousel-btn carousel-btn--next" aria-label="بعدی"><svg>
+              <use href="#i-arrow" />
+            </svg></button>
         </div>
         <div class="blog-more reveal">
           <button type="button" class="btn btn-outline">مشاهده همه فیلم‌های آموزشی <svg>
@@ -375,65 +391,73 @@
             <p class="section-note">از تفاوت ماشین‌آلات تا تعمیر و نمایشگاه؛ دانش کاربردی صنعت دوخت.</p>
           </div>
         </div>
-        <div class="blog-grid">
-          <article class="blog-card reveal">
-            <div class="blog-card__media">
-              <img
-                src="https://haqiqatdokht.com/wp-content/uploads/2026/11/%D8%AA%D9%81%D8%A7%D9%88%D8%AA-%DA%86%D8%B1%D8%AE-%D8%AE%DB%8C%D8%A7%D8%B7%DB%8C-%D8%B5%D9%86%D8%B9%D8%AA%DB%8C-%D9%88-%DA%86%D8%B1%D8%AE-%DA%AF%D9%84%D8%AF%D9%88%D8%B2%DB%8C-300x193.jpg"
-                alt="تفاوت چرخ خیاطی صنعتی و چرخ گلدوزی" loading="lazy" decoding="async">
-            </div>
-            <div class="blog-card__body">
-              <h3>تفاوت چرخ خیاطی صنعتی و چرخ گلدوزی</h3>
-              <p>اگر می‌خواهید برای کارگاه یا تولیدی‌تان دستگاه بخرید، احتمالاً این سؤال ذهنتان را درگیر کرده است: چرخ
-                گلدوزی همان چرخ خیاطی صنعتی است یا دو دستگاه کاملاً متفاوت‌اند؟</p>
-              <button type="button" class="blog-card__more">ادامه مطلب <svg>
-                  <use href="#i-arrow" />
-                </svg></button>
-            </div>
-          </article>
-          <article class="blog-card reveal">
-            <div class="blog-card__media">
-              <img src="https://haqiqatdokht.com/wp-content/uploads/2025/05/image_2025-05-20_16-40-51-768x421.png"
-                alt="اولین نمایشگاه ماشین آلات و تجهیزات صنعت دوخت" loading="lazy" decoding="async">
-            </div>
-            <div class="blog-card__body">
-              <h3>اولین نمایشگاه ماشین آلات و تجهیزات صنعت دوخت</h3>
-              <p>در تاریخ ۱۵ تا ۱۸ اردیبهشت ۱۴۰۴، نخستین نمایشگاه تخصصی صنعت تجهیزات و ماشین‌آلات دوخت در محل نمایشگاه
-                بین‌المللی شهر آفتاب برگزار شد.</p>
-              <button type="button" class="blog-card__more">ادامه مطلب <svg>
-                  <use href="#i-arrow" />
-                </svg></button>
-            </div>
-          </article>
-          <article class="blog-card reveal">
-            <div class="blog-card__media">
-              <img src="https://haqiqatdokht.com/wp-content/uploads/2025/04/HAQIQAT-03.5-MOHAMMADREZA-768x1365.jpg"
-                alt="مصاحبه اختصاصی شبکه ایران مد تی وی با مهندس حقیقت" loading="lazy" decoding="async">
-            </div>
-            <div class="blog-card__body">
-              <h3>مصاحبه اختصاصی شبکه ایران مد تی وی با مهندس حقیقت</h3>
-              <p>مصاحبه اختصاصی با مهندس محمدرضا حقیقت، مدیرعامل شرکت یک قرن دوخت حقیقت، پیرامون برگزاری اولین نمایشگاه
-                تخصصی ماشین‌آلات دوخت.</p>
-              <button type="button" class="blog-card__more">ادامه مطلب <svg>
-                  <use href="#i-arrow" />
-                </svg></button>
-            </div>
-          </article>
-          <article class="blog-card reveal">
-            <div class="blog-card__media">
-              <img
-                src="https://haqiqatdokht.com/wp-content/uploads/2025/02/%D9%86%D8%AD%D9%88%D9%87-%D8%AA%D8%B9%D9%85%DB%8C%D8%B1-%DA%86%D8%B1%D8%AE-%D8%AE%DB%8C%D8%A7%D8%B7%DB%8C-%D8%AE%D8%A7%D9%86%DA%AF%DB%8C-%D8%AF%D8%B1-%D8%AE%D8%A7%D9%86%D9%87-300x238.webp"
-                alt="نحوه تعمیر چرخ خیاطی خانگی در خانه" loading="lazy" decoding="async">
-            </div>
-            <div class="blog-card__body">
-              <h3>نحوه تعمیر چرخ خیاطی خانگی در خانه</h3>
-              <p>با رایج‌ترین مشکلات چرخ خیاطی خانگی، ابزارهای مورد نیاز و نحوه برطرف کردن عیوب آشنا شوید تا بدون نیاز
-                به تعمیرکار مشکل را حل کنید.</p>
-              <button type="button" class="blog-card__more">ادامه مطلب <svg>
-                  <use href="#i-arrow" />
-                </svg></button>
-            </div>
-          </article>
+        <div class="carousel-shell" data-carousel>
+          <button type="button" class="carousel-btn carousel-btn--prev" aria-label="قبلی"><svg>
+              <use href="#i-arrow" />
+            </svg></button>
+          <div class="blog-grid carousel-track">
+            <article class="blog-card reveal">
+              <div class="blog-card__media">
+                <img
+                  src="https://haqiqatdokht.com/wp-content/uploads/2026/11/%D8%AA%D9%81%D8%A7%D9%88%D8%AA-%DA%86%D8%B1%D8%AE-%D8%AE%DB%8C%D8%A7%D8%B7%DB%8C-%D8%B5%D9%86%D8%B9%D8%AA%DB%8C-%D9%88-%DA%86%D8%B1%D8%AE-%DA%AF%D9%84%D8%AF%D9%88%D8%B2%DB%8C-300x193.jpg"
+                  alt="تفاوت چرخ خیاطی صنعتی و چرخ گلدوزی" loading="lazy" decoding="async">
+              </div>
+              <div class="blog-card__body">
+                <h3>تفاوت چرخ خیاطی صنعتی و چرخ گلدوزی</h3>
+                <p>اگر می‌خواهید برای کارگاه یا تولیدی‌تان دستگاه بخرید، احتمالاً این سؤال ذهنتان را درگیر کرده است: چرخ
+                  گلدوزی همان چرخ خیاطی صنعتی است یا دو دستگاه کاملاً متفاوت‌اند؟</p>
+                <button type="button" class="blog-card__more">ادامه مطلب <svg>
+                    <use href="#i-arrow" />
+                  </svg></button>
+              </div>
+            </article>
+            <article class="blog-card reveal">
+              <div class="blog-card__media">
+                <img src="https://haqiqatdokht.com/wp-content/uploads/2025/05/image_2025-05-20_16-40-51-768x421.png"
+                  alt="اولین نمایشگاه ماشین آلات و تجهیزات صنعت دوخت" loading="lazy" decoding="async">
+              </div>
+              <div class="blog-card__body">
+                <h3>اولین نمایشگاه ماشین آلات و تجهیزات صنعت دوخت</h3>
+                <p>در تاریخ ۱۵ تا ۱۸ اردیبهشت ۱۴۰۴، نخستین نمایشگاه تخصصی صنعت تجهیزات و ماشین‌آلات دوخت در محل نمایشگاه
+                  بین‌المللی شهر آفتاب برگزار شد.</p>
+                <button type="button" class="blog-card__more">ادامه مطلب <svg>
+                    <use href="#i-arrow" />
+                  </svg></button>
+              </div>
+            </article>
+            <article class="blog-card reveal">
+              <div class="blog-card__media">
+                <img src="https://haqiqatdokht.com/wp-content/uploads/2025/04/HAQIQAT-03.5-MOHAMMADREZA-768x1365.jpg"
+                  alt="مصاحبه اختصاصی شبکه ایران مد تی وی با مهندس حقیقت" loading="lazy" decoding="async">
+              </div>
+              <div class="blog-card__body">
+                <h3>مصاحبه اختصاصی شبکه ایران مد تی وی با مهندس حقیقت</h3>
+                <p>مصاحبه اختصاصی با مهندس محمدرضا حقیقت، مدیرعامل شرکت یک قرن دوخت حقیقت، پیرامون برگزاری اولین نمایشگاه
+                  تخصصی ماشین‌آلات دوخت.</p>
+                <button type="button" class="blog-card__more">ادامه مطلب <svg>
+                    <use href="#i-arrow" />
+                  </svg></button>
+              </div>
+            </article>
+            <article class="blog-card reveal">
+              <div class="blog-card__media">
+                <img
+                  src="https://haqiqatdokht.com/wp-content/uploads/2025/02/%D9%86%D8%AD%D9%88%D9%87-%D8%AA%D8%B9%D9%85%DB%8C%D8%B1-%DA%86%D8%B1%D8%AE-%D8%AE%DB%8C%D8%A7%D8%B7%DB%8C-%D8%AE%D8%A7%D9%86%DA%AF%DB%8C-%D8%AF%D8%B1-%D8%AE%D8%A7%D9%86%D9%87-300x238.webp"
+                  alt="نحوه تعمیر چرخ خیاطی خانگی در خانه" loading="lazy" decoding="async">
+              </div>
+              <div class="blog-card__body">
+                <h3>نحوه تعمیر چرخ خیاطی خانگی در خانه</h3>
+                <p>با رایج‌ترین مشکلات چرخ خیاطی خانگی، ابزارهای مورد نیاز و نحوه برطرف کردن عیوب آشنا شوید تا بدون نیاز
+                  به تعمیرکار مشکل را حل کنید.</p>
+                <button type="button" class="blog-card__more">ادامه مطلب <svg>
+                    <use href="#i-arrow" />
+                  </svg></button>
+              </div>
+            </article>
+          </div>
+          <button type="button" class="carousel-btn carousel-btn--next" aria-label="بعدی"><svg>
+              <use href="#i-arrow" />
+            </svg></button>
         </div>
         <div class="blog-more reveal">
           <button type="button" class="btn btn-outline">مشاهده همه مطالب وبلاگ <svg>
@@ -673,123 +697,99 @@
       }));
       const observer = new IntersectionObserver(entries => entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target) } }), { threshold: .08 }); document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-      /* Mobile horizontal loop carousels: products / videos / blog */
+      /* Mobile carousels with full loop + prev/next */
       (() => {
         const mq = window.matchMedia('(max-width:850px)');
-        const selectors = ['#products .product-grid', '#videos .video-grid', '#blog .blog-grid'];
-        const instances = new Map();
+        const shells = [...document.querySelectorAll('[data-carousel]')];
+        const states = new WeakMap();
 
-        const destroy = (track) => {
-          const state = instances.get(track);
+        const visibleSlides = (track) =>
+          [...track.children].filter(el => !el.hidden && !el.dataset.clone);
+
+        const goTo = (shell, index, smooth = true) => {
+          const state = states.get(shell);
           if (!state) return;
-          cancelAnimationFrame(state.raf);
-          state.cleanups.forEach(fn => fn());
-          instances.delete(track);
+          const slides = visibleSlides(state.track);
+          if (!slides.length) return;
+          const n = slides.length;
+          const i = ((index % n) + n) % n;
+          state.index = i;
+          const slide = slides[i];
+          const left = slide.offsetLeft - (state.track.clientWidth - slide.clientWidth) / 2;
+          state.track.scrollTo({ left, behavior: smooth ? 'smooth' : 'auto' });
         };
 
-        const clearClones = (track) => {
-          track.querySelectorAll('[data-clone="1"]').forEach(n => n.remove());
-        };
+        const setup = (shell) => {
+          const track = shell.querySelector('.carousel-track');
+          const prev = shell.querySelector('.carousel-btn--prev');
+          const next = shell.querySelector('.carousel-btn--next');
+          if (!track || !prev || !next) return;
 
-        const visibleOriginals = (track) =>
-          [...track.children].filter(el => !el.dataset.clone && !el.hidden);
+          const old = states.get(shell);
+          if (old?.timer) clearInterval(old.timer);
 
-        const setupTrack = (track) => {
-          destroy(track);
-          clearClones(track);
-          const items = visibleOriginals(track);
-          if (!mq.matches || items.length < 2) {
+          const slides = visibleSlides(track);
+          shell.classList.toggle('is-carousel', mq.matches && slides.length > 1);
+          if (!mq.matches || slides.length < 2) {
             track.scrollLeft = 0;
+            states.set(shell, { track, index: 0, timer: null });
             return;
           }
 
-          // Duplicate set once for seamless wrap
-          const frag = document.createDocumentFragment();
-          items.forEach(item => {
-            const clone = item.cloneNode(true);
-            clone.dataset.clone = '1';
-            clone.setAttribute('aria-hidden', 'true');
-            clone.querySelectorAll('iframe').forEach(f => { f.src = 'about:blank'; f.removeAttribute('src'); });
-            frag.appendChild(clone);
-          });
-          track.appendChild(frag);
+          let index = 0;
+          let timer = null;
+          const state = { track, index, timer };
+          states.set(shell, state);
 
-          const gap = parseFloat(getComputedStyle(track).gap) || 14;
-          const setWidth = () => items.reduce((sum, el, i) => sum + el.offsetWidth + (i ? gap : 0), 0);
-
-          let paused = false;
-          let locking = false;
-          const cleanups = [];
-
-          const normalize = () => {
-            if (locking) return;
-            const w = setWidth();
-            if (w <= 0) return;
-            const max = track.scrollWidth - track.clientWidth;
-            let x = track.scrollLeft;
-            // Chromium RTL may use negative scrollLeft
-            if (x < 0) {
-              if (x <= -w) {
-                locking = true;
-                track.scrollLeft = x + w;
-                locking = false;
-              } else if (x > -1) {
-                locking = true;
-                track.scrollLeft = x - w;
-                locking = false;
-              }
-              return;
-            }
-            if (x >= w) {
-              locking = true;
-              track.scrollLeft = x - w;
-              locking = false;
-            } else if (max > 0 && x > max - 2) {
-              locking = true;
-              track.scrollLeft = Math.max(0, x - w);
-              locking = false;
-            }
+          const pauseAndResume = () => {
+            if (state.timer) clearInterval(state.timer);
+            state.timer = null;
+            if (reducedMotion.matches) return;
+            clearTimeout(shell._resumeT);
+            shell._resumeT = setTimeout(startAuto, 3500);
           };
 
-          const onScroll = () => normalize();
-          track.addEventListener('scroll', onScroll, { passive: true });
-          cleanups.push(() => track.removeEventListener('scroll', onScroll));
-
-          const pause = () => {
-            paused = true;
-            clearTimeout(track._resumeT);
-            track._resumeT = setTimeout(() => { paused = false; }, 2800);
+          const startAuto = () => {
+            if (state.timer) clearInterval(state.timer);
+            if (reducedMotion.matches || !mq.matches) return;
+            state.timer = setInterval(() => {
+              goTo(shell, state.index + 1, true);
+            }, 3200);
           };
-          ['pointerdown', 'touchstart', 'wheel'].forEach(ev => {
-            track.addEventListener(ev, pause, { passive: true });
-            cleanups.push(() => track.removeEventListener(ev, pause));
-          });
 
-          let raf = 0;
-          const isRtl = getComputedStyle(track).direction === 'rtl';
-          const tick = () => {
-            if (mq.matches && !paused && !reducedMotion.matches && !locking) {
-              const delta = isRtl ? -0.55 : 0.55;
-              track.scrollLeft += delta;
-              normalize();
-            }
-            raf = requestAnimationFrame(tick);
+          prev.onclick = () => { pauseAndResume(); goTo(shell, state.index - 1, true); };
+          next.onclick = () => { pauseAndResume(); goTo(shell, state.index + 1, true); };
+
+          track.onpointerdown = pauseAndResume;
+          track.ontouchstart = pauseAndResume;
+
+          // Keep index in sync after manual swipe
+          let scrollT;
+          track.onscroll = () => {
+            clearTimeout(scrollT);
+            scrollT = setTimeout(() => {
+              const slidesNow = visibleSlides(track);
+              if (!slidesNow.length) return;
+              const center = track.scrollLeft + track.clientWidth / 2;
+              let best = 0, bestDist = Infinity;
+              slidesNow.forEach((slide, i) => {
+                const c = slide.offsetLeft + slide.clientWidth / 2;
+                const d = Math.abs(c - center);
+                if (d < bestDist) { bestDist = d; best = i; }
+              });
+              state.index = best;
+            }, 80);
           };
-          raf = requestAnimationFrame(tick);
-          instances.set(track, { raf, cleanups });
+
+          goTo(shell, 0, false);
+          startAuto();
         };
 
-        const refreshAll = () => {
-          selectors.forEach(sel => {
-            const track = document.querySelector(sel);
-            if (track) setupTrack(track);
-          });
-        };
-
+        const refreshAll = () => shells.forEach(setup);
         refreshAll();
         window.addEventListener('resize', () => {
           clearTimeout(window._carouselResizeT);
-          window._carouselResizeT = setTimeout(refreshAll, 180);
+          window._carouselResizeT = setTimeout(refreshAll, 160);
         }, { passive: true });
         window.addEventListener('mobile-carousels-refresh', () => setTimeout(refreshAll, 40));
         if (mq.addEventListener) mq.addEventListener('change', refreshAll);

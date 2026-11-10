@@ -3184,11 +3184,64 @@ footer .brand-mark {
 
 /* ========== پایان تنظیم فاصله کارت‌ها ========== */
 
-/* ---------- Mobile horizontal loop carousels ---------- */
+/* ---------- Mobile carousels + arrows ---------- */
+.carousel-shell {
+    position: relative
+}
+
+.carousel-btn {
+    display: none;
+    position: absolute;
+    top: 42%;
+    z-index: 5;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: 1px solid var(--line);
+    background: rgba(255, 255, 255, .96);
+    box-shadow: 0 8px 22px rgba(42, 46, 53, .12);
+    color: var(--ink);
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 0;
+    transition: transform .2s, background .2s, color .2s
+}
+
+.carousel-btn svg {
+    width: 18px;
+    height: 18px;
+    display: block
+}
+
+.carousel-btn--prev {
+    right: -2px;
+    transform: translateY(-50%)
+}
+
+.carousel-btn--next {
+    left: -2px;
+    transform: translateY(-50%) rotate(180deg)
+}
+
+.carousel-btn:active {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent)
+}
+
 @media (max-width: 850px) {
-    #products .product-grid,
-    #videos .video-grid,
-    #blog .blog-grid {
+    .carousel-shell.is-carousel .carousel-btn {
+        display: inline-flex
+    }
+
+    .carousel-shell.is-carousel {
+        padding-inline: 18px
+    }
+
+    #products .product-grid.carousel-track,
+    #videos .video-grid.carousel-track,
+    #blog .blog-grid.carousel-track {
         display: flex !important;
         flex-wrap: nowrap !important;
         grid-template-columns: none !important;
@@ -3196,39 +3249,47 @@ footer .brand-mark {
         overflow-x: auto !important;
         overflow-y: hidden !important;
         scroll-snap-type: x mandatory;
-        scroll-behavior: auto;
+        scroll-behavior: smooth;
         -webkit-overflow-scrolling: touch;
         overscroll-behavior-x: contain;
-        padding: 4px 2px 18px;
-        margin-inline: -4px;
+        padding: 6px 8px 20px;
+        margin: 0;
         scrollbar-width: none;
-        touch-action: pan-x
+        touch-action: pan-x;
+        direction: ltr
     }
 
-    #products .product-grid::-webkit-scrollbar,
-    #videos .video-grid::-webkit-scrollbar,
-    #blog .blog-grid::-webkit-scrollbar {
+    #products .product-grid.carousel-track::-webkit-scrollbar,
+    #videos .video-grid.carousel-track::-webkit-scrollbar,
+    #blog .blog-grid.carousel-track::-webkit-scrollbar {
         display: none
     }
 
-    #products .product-grid > .product-card,
-    #videos .video-grid > .video-card,
-    #blog .blog-grid > .blog-card {
-        flex: 0 0 min(78vw, 290px) !important;
-        width: min(78vw, 290px) !important;
-        max-width: min(78vw, 290px) !important;
+    #products .product-grid.carousel-track > .product-card,
+    #videos .video-grid.carousel-track > .video-card,
+    #blog .blog-grid.carousel-track > .blog-card {
+        flex: 0 0 min(76vw, 280px) !important;
+        width: min(76vw, 280px) !important;
+        max-width: min(76vw, 280px) !important;
         scroll-snap-align: center;
         height: auto !important;
-        min-height: 100%
+        min-height: 100%;
+        direction: rtl
     }
 
-    #products .product-grid > .product-card[hidden] {
+    #products .product-grid.carousel-track > .product-card[hidden] {
         display: none !important
     }
 
     #videos .video-card h3,
     #blog .blog-card__body h3 {
         font-size: 13.5px
+    }
+}
+
+@media (min-width: 851px) {
+    .carousel-btn {
+        display: none !important
     }
 }
 
