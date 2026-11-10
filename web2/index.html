@@ -4,6 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta name="theme-color" content="#fbfcfd">
   <meta name="description"
     content="حقیقت دوخت؛ واردات و تأمین تخصصی ماشین‌آلات دوخت، چرخ خیاطی صنعتی و قطعات با محوریت سابقه بیش از یک قرن.">
@@ -11,9 +12,9 @@
   <!-- فونت ایران‌یکان -->
   <link rel="stylesheet" href="css/iranyekan.css">
   <!-- CSS اصلی -->
-  <link rel="stylesheet" href="css/styles.css?v=20260310j">
+  <link rel="stylesheet" href="css/styles.css?v=20260310k">
   <!-- فاصله کارت‌ها (قابل ویرایش) -->
-  <link rel="stylesheet" href="css/product-cards.css?v=20260310j">
+  <link rel="stylesheet" href="css/product-cards.css?v=20260310k">
 </head>
 
 <body>
@@ -686,22 +687,22 @@
       }));
       const observer = new IntersectionObserver(entries => entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target) } }), { threshold: .08 }); document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-      /* Mobile carousels: transform loop, swipe only, no page scroll */
+      /* Mobile carousels: seamless loop, swipe only */
       (() => {
         const mq = window.matchMedia('(max-width:850px)');
-        const GAP = 12;
-        const shells = [...document.querySelectorAll('[data-carousel]')];
+        document.querySelectorAll('.carousel-btn').forEach(n => n.remove());
 
         const setup = (shell) => {
           const viewport = shell.querySelector('.carousel-viewport');
           const track = shell.querySelector('.carousel-track');
           if (!viewport || !track) return;
+          if (shell._abort) shell._abort.abort();
+          if (shell._timer) clearInterval(shell._timer);
+          clearTimeout(shell._unlock);
 
-          if (track._abort) track._abort.abort();
-          if (track._timer) clearInterval(track._timer);
           track.querySelectorAll('[data-clone]').forEach(n => n.remove());
+          track.style.transition = 'none';
           track.style.transform = '';
-          track.style.transition = '';
           viewport.style.height = '';
 
           const originals = [...track.children].filter(el => !el.hidden);
@@ -709,110 +710,114 @@
           shell.classList.toggle('is-carousel', active);
           if (!active) return;
 
-          const cloneLast = originals[originals.length - 1].cloneNode(true);
-          const cloneFirst = originals[0].cloneNode(true);
-          [cloneLast, cloneFirst].forEach(c => {
-            c.dataset.clone = '1';
-            c.setAttribute('aria-hidden', 'true');
-            c.querySelectorAll('iframe').forEach(f => f.removeAttribute('src'));
+          const n = originals.length;
+          const frag = document.createDocumentFragment();
+          originals.forEach(el => {
+            const copy = el.cloneNode(true);
+            copy.dataset.clone = '1';
+            copy.setAttribute('aria-hidden', 'true');
+            frag.appendChild(copy);
           });
-          track.insertBefore(cloneLast, track.firstChild);
-          track.appendChild(cloneFirst);
+          track.appendChild(frag);
 
-          const count = originals.length;
           const abort = new AbortController();
-          track._abort = abort;
-          let index = 1;
+          shell._abort = abort;
+          let index = 0;
           let step = 0;
-          let busy = false;
+          let locked = false;
 
-          const kids = () => [...track.children].filter(el => !el.hidden);
+          const items = () => [...track.children].filter(el => !el.hidden);
 
           const measure = () => {
-            const slide = Math.max(180, Math.round(viewport.clientWidth * 0.84));
+            const slide = Math.max(200, Math.round(viewport.clientWidth * 0.86));
             shell.style.setProperty('--slide', slide + 'px');
             void track.offsetWidth;
-            const list = kids();
-            step = list.length > 1 ? list[1].offsetLeft - list[0].offsetLeft : slide + GAP;
-            if (!step || step < 40) step = slide + GAP;
-            const heights = list.map(el => el.offsetHeight).filter(Boolean);
-            const h = heights.length ? Math.max(...heights) : 0;
+            const list = items();
+            step = list.length > 1 ? Math.round(list[1].offsetLeft - list[0].offsetLeft) : slide + 12;
+            if (!step || step < 40) step = slide + 12;
+            const h = Math.max(0, ...list.map(el => el.offsetHeight || 0));
             if (h) viewport.style.height = h + 'px';
           };
 
-          const place = (animate) => {
-            const slideW = kids()[0] ? kids()[0].offsetWidth : step - GAP;
-            const x = (viewport.clientWidth - slideW) / 2 - index * step;
-            track.style.transition = animate ? 'transform .42s cubic-bezier(.22,.8,.25,1)' : 'none';
-            track.style.transform = `translate3d(${Math.round(x)}px,0,0)`;
+          const paint = (animate) => {
+            const w = items()[0] ? items()[0].offsetWidth : step - 12;
+            const x = Math.round((viewport.clientWidth - w) / 2 - index * step);
+            if (!animate) {
+              track.style.transition = 'none';
+              void track.offsetWidth;
+            } else {
+              track.style.transition = 'transform .4s ease';
+            }
+            track.style.transform = `translate3d(${x}px,0,0)`;
           };
 
-          const settle = () => {
-            let jumped = false;
-            if (index <= 0) { index = count; jumped = true; }
-            else if (index >= count + 1) { index = 1; jumped = true; }
-            if (jumped) place(false);
-            busy = false;
+          const wrap = () => {
+            if (index >= n) index -= n;
+            else if (index < 0) index += n;
+            else { locked = false; return; }
+            paint(false);
+            locked = false;
           };
 
-          const move = (dir) => {
-            if (busy || !step) return;
-            busy = true;
+          const go = (dir) => {
+            if (locked || !step) return;
+            locked = true;
             index += dir;
-            place(true);
-            clearTimeout(track._unlock);
-            track._unlock = setTimeout(settle, 460);
+            paint(true);
+            clearTimeout(shell._unlock);
+            shell._unlock = setTimeout(wrap, 430);
           };
-
-          const stopAuto = () => { if (track._timer) { clearInterval(track._timer); track._timer = null; } };
-          const startAuto = () => {
-            stopAuto();
-            if (reducedMotion.matches) return;
-            track._timer = setInterval(() => move(1), 3600);
-          };
-          const pause = () => {
-            stopAuto();
-            clearTimeout(track._resume);
-            track._resume = setTimeout(startAuto, 4500);
-          };
-
-          let sx = 0, sy = 0, tracking = false;
-          viewport.addEventListener('touchstart', (e) => {
-            const t = e.touches[0];
-            sx = t.clientX; sy = t.clientY; tracking = true;
-            pause();
-          }, { passive: true, signal: abort.signal });
-          viewport.addEventListener('touchend', (e) => {
-            if (!tracking) return;
-            tracking = false;
-            const t = e.changedTouches[0];
-            const dx = t.clientX - sx;
-            const dy = t.clientY - sy;
-            if (Math.abs(dx) < 36 || Math.abs(dx) < Math.abs(dy)) return;
-            move(dx < 0 ? 1 : -1);
-          }, { passive: true, signal: abort.signal });
-          viewport.addEventListener('touchcancel', () => { tracking = false; }, { signal: abort.signal });
 
           track.addEventListener('transitionend', (e) => {
             if (e.target !== track || e.propertyName !== 'transform') return;
-            clearTimeout(track._unlock);
-            settle();
+            if (!locked) return;
+            clearTimeout(shell._unlock);
+            wrap();
           }, { signal: abort.signal });
 
+          const stop = () => { if (shell._timer) { clearInterval(shell._timer); shell._timer = null; } };
+          const play = () => {
+            stop();
+            if (reducedMotion.matches) return;
+            shell._timer = setInterval(() => go(1), 2800);
+          };
+
+          let sx = 0, sy = 0, dragging = false;
+          viewport.addEventListener('touchstart', (e) => {
+            sx = e.touches[0].clientX;
+            sy = e.touches[0].clientY;
+            dragging = true;
+            stop();
+          }, { passive: true, signal: abort.signal });
+          viewport.addEventListener('touchmove', (e) => {
+            if (!dragging) return;
+            const dx = e.touches[0].clientX - sx;
+            const dy = e.touches[0].clientY - sy;
+            if (Math.abs(dx) > 12 && Math.abs(dx) > Math.abs(dy)) e.preventDefault();
+          }, { passive: false, signal: abort.signal });
+          viewport.addEventListener('touchend', (e) => {
+            if (!dragging) return;
+            dragging = false;
+            const dx = e.changedTouches[0].clientX - sx;
+            const dy = e.changedTouches[0].clientY - sy;
+            if (Math.abs(dx) >= 40 && Math.abs(dx) > Math.abs(dy)) go(dx < 0 ? 1 : -1);
+            clearTimeout(shell._resume);
+            shell._resume = setTimeout(play, 4000);
+          }, { signal: abort.signal });
+          viewport.addEventListener('touchcancel', () => { dragging = false; }, { signal: abort.signal });
+
+          const realign = () => { measure(); paint(false); };
           track.querySelectorAll('img').forEach(img => {
-            if (!img.complete) img.addEventListener('load', () => measure(), { once: true, signal: abort.signal });
+            if (!img.complete) img.addEventListener('load', realign, { once: true, signal: abort.signal });
           });
+          window.addEventListener('load', realign, { signal: abort.signal });
 
           measure();
-          place(false);
-          requestAnimationFrame(() => {
-            measure();
-            place(false);
-            startAuto();
-          });
+          paint(false);
+          requestAnimationFrame(() => { measure(); paint(false); play(); });
         };
 
-        const refreshAll = () => shells.forEach(setup);
+        const refreshAll = () => document.querySelectorAll('[data-carousel]').forEach(setup);
         refreshAll();
         let resizeT = 0;
         window.addEventListener('resize', () => { clearTimeout(resizeT); resizeT = setTimeout(refreshAll, 180); }, { passive: true });
