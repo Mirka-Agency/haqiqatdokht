@@ -142,17 +142,18 @@
     flex-wrap: nowrap !important;
     grid-template-columns: none !important;
     grid-auto-rows: auto !important;
-    overflow: visible !important;
-    width: auto !important;
-    max-width: none !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
     gap: 12px !important;
     direction: ltr !important;
   }
 
   #products .product-card {
-    flex: 0 0 var(--slide-size, 260px) !important;
-    width: var(--slide-size, 260px) !important;
-    max-width: var(--slide-size, 260px) !important;
+    flex: 0 0 84% !important;
+    width: 84% !important;
+    max-width: 84% !important;
     height: auto !important;
     align-self: stretch !important;
     direction: rtl !important;

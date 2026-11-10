@@ -11,9 +11,9 @@
   <!-- فونت ایران‌یکان -->
   <link rel="stylesheet" href="css/iranyekan.css">
   <!-- CSS اصلی -->
-  <link rel="stylesheet" href="css/styles.css?v=20260310g">
+  <link rel="stylesheet" href="css/styles.css?v=20260310h">
   <!-- فاصله کارت‌ها (قابل ویرایش) -->
-  <link rel="stylesheet" href="css/product-cards.css?v=20260310g">
+  <link rel="stylesheet" href="css/product-cards.css?v=20260310h">
 </head>
 
 <body>
@@ -704,150 +704,123 @@
       }));
       const observer = new IntersectionObserver(entries => entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target) } }), { threshold: .08 }); document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-      /* Mobile carousels: seamless loop + no page sideways scroll */
+      /* Mobile carousels: native scroll (page stays fixed) + seamless loop */
       (() => {
         const mq = window.matchMedia('(max-width:850px)');
         const shells = [...document.querySelectorAll('[data-carousel]')];
-        const states = new WeakMap();
-        const GAP = 12;
 
-        const realSlides = (track) =>
+        const realsOf = (track) =>
           [...track.children].filter(el => !el.dataset.clone && !el.hidden);
 
-        const clearClones = (track) => {
-          track.querySelectorAll('[data-clone]').forEach(n => n.remove());
-        };
-
-        const measure = (shell, viewport, track) => {
-          const size = Math.max(200, Math.round(viewport.clientWidth * 0.86));
-          shell.style.setProperty('--slide-size', size + 'px');
-          shell.style.setProperty('--slide-gap', GAP + 'px');
-          return size + GAP;
-        };
-
-        const paint = (state, animate) => {
-          state.track.style.transition = animate
-            ? 'transform .4s cubic-bezier(.22,.7,.25,1)'
-            : 'none';
-          state.track.style.transform = `translate3d(${-state.index * state.step}px,0,0)`;
-        };
-
         const setup = (shell) => {
-          const viewport = shell.querySelector('.carousel-viewport');
           const track = shell.querySelector('.carousel-track');
           const prev = shell.querySelector('.carousel-btn--prev');
           const next = shell.querySelector('.carousel-btn--next');
-          if (!viewport || !track || !prev || !next) return;
+          if (!track || !prev || !next) return;
 
-          const old = states.get(shell);
-          if (old) {
-            if (old.timer) clearInterval(old.timer);
-            if (old.abort) old.abort.abort();
-            clearTimeout(old.unlockT);
-          }
+          if (track._abort) track._abort.abort();
+          if (track._timer) clearInterval(track._timer);
+          track.querySelectorAll('[data-clone]').forEach(n => n.remove());
+          track.style.transform = 'none';
 
-          clearClones(track);
-          track.style.transform = '';
-          track.style.transition = '';
-
-          const originals = realSlides(track);
+          const originals = realsOf(track);
           const active = mq.matches && originals.length > 1;
           shell.classList.toggle('is-carousel', active);
+          if (!active) { track.scrollLeft = 0; return; }
 
-          if (!active) {
-            states.set(shell, { track, index: 0, step: 0, count: 0, timer: null });
-            return;
-          }
-
-          // [cloneLast] + originals + [cloneFirst] → seamless loop
-          const first = originals[0];
-          const last = originals[originals.length - 1];
-          const cloneFirst = first.cloneNode(true);
-          const cloneLast = last.cloneNode(true);
-          [cloneFirst, cloneLast].forEach(c => {
+          const cloneLast = originals[originals.length - 1].cloneNode(true);
+          const cloneFirst = originals[0].cloneNode(true);
+          [cloneLast, cloneFirst].forEach(c => {
             c.dataset.clone = '1';
             c.setAttribute('aria-hidden', 'true');
-            c.querySelectorAll('iframe').forEach(f => { f.removeAttribute('src'); });
           });
           track.insertBefore(cloneLast, track.firstChild);
           track.appendChild(cloneFirst);
 
           const abort = new AbortController();
-          const step = measure(shell, viewport, track);
-          const count = originals.length;
-          // start on first real slide (index 1 because of leading clone)
-          const state = { track, viewport, index: 1, step, count, timer: null, locked: false, abort };
-          states.set(shell, state);
+          track._abort = abort;
+          let jumping = false;
 
-          const stopAuto = () => { if (state.timer) { clearInterval(state.timer); state.timer = null; } };
+          const items = () => [...track.children].filter(el => !el.hidden);
+          const contentLeft = (el) => {
+            const tr = track.getBoundingClientRect();
+            const er = el.getBoundingClientRect();
+            return track.scrollLeft + (er.left - tr.left);
+          };
+          const centerOf = (el) => contentLeft(el) - (track.clientWidth - el.clientWidth) / 2;
+          const step = () => {
+            const list = items();
+            if (list.length < 2) return track.clientWidth * 0.86;
+            return Math.abs(contentLeft(list[1]) - contentLeft(list[0])) || track.clientWidth * 0.86;
+          };
+          const jumpTo = (el) => {
+            if (!el) return;
+            jumping = true;
+            track.style.scrollSnapType = 'none';
+            track.scrollLeft = centerOf(el);
+            requestAnimationFrame(() => {
+              track.style.scrollSnapType = '';
+              jumping = false;
+            });
+          };
+          const closest = () => {
+            const list = items();
+            const mid = track.scrollLeft + track.clientWidth / 2;
+            let best = list[0], bestD = Infinity, idx = 0;
+            list.forEach((el, i) => {
+              const c = contentLeft(el) + el.clientWidth / 2;
+              const d = Math.abs(c - mid);
+              if (d < bestD) { bestD = d; best = el; idx = i; }
+            });
+            return { el: best, idx, list };
+          };
+          const normalize = () => {
+            if (jumping) return;
+            const { el, idx, list } = closest();
+            if (!el || !el.dataset.clone) return;
+            const reals = list.filter(n => !n.dataset.clone);
+            jumpTo(idx === 0 ? reals[reals.length - 1] : reals[0]);
+          };
+
+          const go = (dir) => {
+            track.scrollTo({ left: track.scrollLeft + dir * step(), behavior: 'smooth' });
+          };
+
+          const stopAuto = () => { if (track._timer) { clearInterval(track._timer); track._timer = null; } };
           const startAuto = () => {
             stopAuto();
             if (reducedMotion.matches || !mq.matches) return;
-            state.timer = setInterval(() => move(1), 3600);
+            track._timer = setInterval(() => go(1), 3800);
           };
           const bump = () => {
             stopAuto();
-            clearTimeout(shell._resumeT);
-            shell._resumeT = setTimeout(startAuto, 4500);
+            clearTimeout(track._resume);
+            track._resume = setTimeout(startAuto, 4200);
           };
 
-          const settle = () => {
-            if (state.index === 0) {
-              state.index = state.count;
-              paint(state, false);
-            } else if (state.index === state.count + 1) {
-              state.index = 1;
-              paint(state, false);
-            }
-            state.locked = false;
-          };
+          prev.onclick = (e) => { e.preventDefault(); bump(); go(-1); };
+          next.onclick = (e) => { e.preventDefault(); bump(); go(1); };
 
-          const move = (dir) => {
-            if (state.locked) return;
-            state.locked = true;
-            state.index += dir;
-            paint(state, true);
-            clearTimeout(state.unlockT);
-            state.unlockT = setTimeout(settle, 450);
-          };
-
-          prev.onclick = (e) => { e.preventDefault(); bump(); move(-1); };
-          next.onclick = (e) => { e.preventDefault(); bump(); move(1); };
-
-          let sx = 0, sy = 0, dragging = false;
-          viewport.addEventListener('touchstart', (e) => {
-            const t = e.touches[0];
-            sx = t.clientX; sy = t.clientY; dragging = true; bump();
+          let scrollT = 0;
+          track.addEventListener('scroll', () => {
+            if (jumping) return;
+            clearTimeout(scrollT);
+            scrollT = setTimeout(normalize, 90);
           }, { passive: true, signal: abort.signal });
-          viewport.addEventListener('touchend', (e) => {
-            if (!dragging) return;
-            dragging = false;
-            const t = e.changedTouches[0];
-            const dx = t.clientX - sx, dy = t.clientY - sy;
-            if (Math.abs(dx) < 36 || Math.abs(dx) < Math.abs(dy)) return;
-            move(dx < 0 ? 1 : -1);
-          }, { passive: true, signal: abort.signal });
-
-          track.addEventListener('transitionend', (e) => {
-            if (e.target !== track || e.propertyName !== 'transform') return;
-            clearTimeout(state.unlockT);
-            settle();
-          }, { signal: abort.signal });
-
-          window.addEventListener('resize', () => {
-            state.step = measure(shell, viewport, track);
-            paint(state, false);
-          }, { passive: true, signal: abort.signal });
+          track.addEventListener('pointerdown', bump, { passive: true, signal: abort.signal });
+          track.addEventListener('touchstart', bump, { passive: true, signal: abort.signal });
 
           requestAnimationFrame(() => {
-            state.step = measure(shell, viewport, track);
-            paint(state, false);
+            const reals = realsOf(track);
+            jumpTo(reals[0]);
             startAuto();
           });
         };
 
         const refreshAll = () => shells.forEach(setup);
         refreshAll();
+        let resizeT = 0;
+        window.addEventListener('resize', () => { clearTimeout(resizeT); resizeT = setTimeout(refreshAll, 180); }, { passive: true });
         window.addEventListener('mobile-carousels-refresh', () => setTimeout(refreshAll, 40));
         if (mq.addEventListener) mq.addEventListener('change', refreshAll);
         else mq.addListener(refreshAll);
