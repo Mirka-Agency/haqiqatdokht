@@ -901,6 +901,12 @@ section {
     }
 }
 
+@media (max-width: 850px) {
+    .categories .filter-tabs {
+        display: none
+    }
+}
+
 .product-grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
