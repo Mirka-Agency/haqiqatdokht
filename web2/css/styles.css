@@ -3462,3 +3462,34 @@ footer .brand-mark {
         bottom: 18px !important
     }
 }
+
+/* ---------- Mobile: swipe over video iframes ---------- */
+@media (max-width: 850px) {
+    .carousel-shell.is-carousel .video-card__frame:not(.is-active) iframe {
+        pointer-events: none
+    }
+
+    /* لایه شفاف روی ویدیو: سوایپ به اسلایدر می‌رسد، ضربه ویدیو را فعال می‌کند */
+    .carousel-shell.is-carousel .video-card__frame:not(.is-active)::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: 2;
+        cursor: pointer;
+        background: radial-gradient(circle at center, rgba(193, 31, 42, .92) 0 26px, transparent 27px)
+    }
+
+    .carousel-shell.is-carousel .video-card__frame:not(.is-active)::before {
+        content: "";
+        position: absolute;
+        z-index: 3;
+        top: 50%;
+        left: 50%;
+        width: 18px;
+        height: 20px;
+        transform: translate(-40%, -50%);
+        background: #fff;
+        clip-path: polygon(0 0, 100% 50%, 0 100%);
+        pointer-events: none
+    }
+}

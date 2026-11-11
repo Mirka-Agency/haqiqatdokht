@@ -12,7 +12,7 @@
   <!-- فونت ایران‌یکان -->
   <link rel="stylesheet" href="css/iranyekan.css">
   <!-- CSS اصلی -->
-  <link rel="stylesheet" href="css/styles.css?v=20260311l">
+  <link rel="stylesheet" href="css/styles.css?v=20260311m">
   <!-- فاصله کارت‌ها (قابل ویرایش) -->
   <link rel="stylesheet" href="css/product-cards.css?v=20260311k">
 </head>
@@ -702,6 +702,21 @@
             adaptiveHeight: true,
             waitForAnimate: true
           });
+          /* ویدیوها: ضربه = فعال‌سازی پخش، سوایپ = ورق زدن؛ با تغییر اسلاید ویدیو متوقف می‌شود */
+          if (track.querySelector('.video-card__frame')) {
+            const stopAll = () => track.querySelectorAll('.video-card__frame.is-active').forEach(f => {
+              f.classList.remove('is-active');
+              const ifr = f.querySelector('iframe'); if (ifr) ifr.src = ifr.src;
+            });
+            $track.off('beforeChange.vshield').on('beforeChange.vshield', stopAll);
+            if (!track.dataset.vshield) {
+              track.dataset.vshield = '1';
+              track.addEventListener('click', e => {
+                const f = e.target.closest('.video-card__frame');
+                if (f && mq.matches) f.classList.add('is-active');
+              });
+            }
+          }
           track.querySelectorAll('img').forEach(img => {
             if (!img.complete) img.addEventListener('load', () => {
               if ($track.hasClass('slick-initialized')) $track.slick('setPosition');
