@@ -146,7 +146,8 @@
     width: 100% !important;
     max-width: 100% !important;
     overflow-x: auto !important;
-    overflow-y: hidden !important;
+    overflow-y: clip !important;
+    scrollbar-width: none !important;
     gap: 12px !important;
     direction: ltr !important;
   }

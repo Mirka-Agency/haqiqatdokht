@@ -45,8 +45,10 @@
 html {
     scroll-behavior: smooth;
     scroll-padding-top: 105px;
-    background: var(--ink-strong);
-    overflow-x: hidden;
+    background: var(--bg);
+    direction: ltr;
+    overflow-x: clip;
+    overflow-y: auto;
     overscroll-behavior-x: none;
     max-width: 100%;
     width: 100%
@@ -54,12 +56,13 @@ html {
 
 body {
     margin: 0;
+    direction: rtl;
     background: var(--bg);
     color: var(--ink);
     font-family: 'IRANYekan', Tahoma, sans-serif;
     font-size: 14px;
     line-height: 1.9;
-    overflow-x: hidden;
+    overflow: visible;
     overscroll-behavior-x: none;
     touch-action: pan-y;
     max-width: 100%;
@@ -70,7 +73,7 @@ body {
 }
 
 main {
-    overflow-x: hidden;
+    overflow: visible;
     max-width: 100%;
     width: 100%
 }
@@ -194,7 +197,9 @@ header {
     backdrop-filter: blur(18px);
     border-top: 3px solid var(--accent);
     border-bottom: 1px solid var(--line);
-    box-shadow: 0 8px 28px rgba(42, 46, 53, .06)
+    box-shadow: 0 8px 28px rgba(42, 46, 53, .06);
+    overflow: visible;
+    max-height: none
 }
 
 .nav {
@@ -431,11 +436,13 @@ header {
     border: 1px solid var(--line);
     background: white;
     border-radius: 10px;
-    place-items: center
+    place-items: center;
+    overflow: hidden
 }
 
 .mobile-toggle svg {
-    width: 21px
+    width: 21px;
+    height: 21px
 }
 
 /* ---------- 05) HERO ---------- */
@@ -1808,11 +1815,13 @@ footer {
     border-radius: 9px;
     color: rgba(255, 255, 255, .72);
     display: grid;
-    place-items: center
+    place-items: center;
+    overflow: hidden
 }
 
 .back-top svg {
-    width: 17px
+    width: 17px;
+    height: 17px
 }
 
 .toast {
@@ -3204,7 +3213,13 @@ footer .brand-mark {
     section {
         max-width: 100%;
         min-width: 0;
-        overflow-x: hidden
+        overflow-x: clip
+    }
+
+    header,
+    header .container,
+    header .nav {
+        overflow: visible
     }
 
     .carousel-shell.is-carousel {
@@ -3234,14 +3249,15 @@ footer .brand-mark {
         margin: 0 !important;
         padding: 4px 0 16px !important;
         overflow-x: auto !important;
-        overflow-y: hidden !important;
+        overflow-y: clip !important;
         direction: ltr !important;
         scroll-snap-type: x mandatory;
         scroll-behavior: auto;
         -webkit-overflow-scrolling: touch;
         overscroll-behavior-x: contain;
         touch-action: pan-x pan-y;
-        scrollbar-width: none
+        scrollbar-width: none !important;
+        -ms-overflow-style: none
     }
 
     .carousel-shell.is-carousel .carousel-track::-webkit-scrollbar {
