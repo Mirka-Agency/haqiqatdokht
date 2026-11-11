@@ -2749,6 +2749,10 @@ footer {
     object-fit: contain
 }
 
+.categories .brands-intro__logos .logo-precious {
+    height: 128px
+}
+
 @media (max-width: 850px) {
     .categories .brands-intro {
         display: flex;
@@ -2762,6 +2766,10 @@ footer {
 
     .categories .brands-intro__logos img {
         height: 72px
+    }
+
+    .categories .brands-intro__logos .logo-precious {
+        height: 100px
     }
 }
 
