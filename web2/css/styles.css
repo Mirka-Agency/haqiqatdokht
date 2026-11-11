@@ -2744,13 +2744,13 @@ footer {
 
 .categories .brands-intro__logos img {
     display: block;
-    height: 92px;
+    height: 74px;
     width: auto;
     object-fit: contain
 }
 
 .categories .brands-intro__logos .logo-precious {
-    height: 128px
+    height: 102px
 }
 
 @media (max-width: 850px) {
@@ -2766,11 +2766,11 @@ footer {
     }
 
     .categories .brands-intro__logos img {
-        height: 72px
+        height: 58px
     }
 
     .categories .brands-intro__logos .logo-precious {
-        height: 100px
+        height: 80px
     }
 }
 
