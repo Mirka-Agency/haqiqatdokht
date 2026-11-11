@@ -667,16 +667,23 @@
         toggle.setAttribute('aria-expanded', 'false');
         toggle.setAttribute('aria-label', 'باز کردن منو');
       };
+      let menuScrollY = 0;
       toggle.addEventListener('click', () => {
         const opened = links.classList.toggle('open');
         toggle.setAttribute('aria-expanded', String(opened));
         toggle.setAttribute('aria-label', opened ? 'بستن منو' : 'باز کردن منو');
+        if (opened) menuScrollY = window.scrollY;
       });
       document.addEventListener('click', e => {
         if (!links.classList.contains('open')) return;
         if (e.target.closest('#navLinks') || e.target.closest('#mobileToggle')) return;
         closeMenu();
       });
+      window.addEventListener('scroll', () => {
+        if (!links.classList.contains('open')) return;
+        if (Math.abs(window.scrollY - menuScrollY) < 8) return;
+        closeMenu();
+      }, { passive: true });
       document.querySelectorAll('.nav-links a').forEach(a => a.addEventListener('click', () => {
         if (a.classList.contains('nav-link-drop') && window.matchMedia('(max-width:850px)').matches) return;
         closeMenu();
