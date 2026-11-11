@@ -12,9 +12,9 @@
   <!-- فونت ایران‌یکان -->
   <link rel="stylesheet" href="css/iranyekan.css">
   <!-- CSS اصلی -->
-  <link rel="stylesheet" href="css/styles.css?v=20260311g">
+  <link rel="stylesheet" href="css/styles.css?v=20260311h">
   <!-- فاصله کارت‌ها (قابل ویرایش) -->
-  <link rel="stylesheet" href="css/product-cards.css?v=20260311d">
+  <link rel="stylesheet" href="css/product-cards.css?v=20260311h">
 </head>
 
 <body dir="rtl">
@@ -676,28 +676,33 @@
       }));
       const observer = new IntersectionObserver(entries => entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target) } }), { threshold: .08 }); document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-      /* Mobile carousels: one-card steps, invisible loop wrap */
+      /* Mobile carousels: transform loop, the wrap never scrolls backward */
       (() => {
         const mq = window.matchMedia('(max-width:850px)');
         document.querySelectorAll('.carousel-btn').forEach(n => n.remove());
 
         const setup = (shell) => {
+          const viewport = shell.querySelector('.carousel-viewport');
           const track = shell.querySelector('.carousel-track');
-          if (!track) return;
+          if (!viewport || !track) return;
           if (shell._abort) shell._abort.abort();
           if (shell._auto) clearInterval(shell._auto);
-          if (shell._raf) cancelAnimationFrame(shell._raf);
           clearTimeout(shell._resume);
 
           track.querySelectorAll('[data-clone], [data-spacer]').forEach(n => n.remove());
-          track.style.transform = 'none';
-          track.style.scrollSnapType = '';
+          track.style.scrollSnapType = 'none';
           track.scrollLeft = 0;
 
           const originals = [...track.children].filter(el => !el.hidden);
           const active = mq.matches && originals.length > 1;
           shell.classList.toggle('is-carousel', active);
-          if (!active) return;
+          if (!active) {
+            track.style.transition = 'none';
+            track.style.transform = 'none';
+            viewport.style.height = '';
+            track.style.removeProperty('--slide');
+            return;
+          }
 
           const lead = originals[originals.length - 1].cloneNode(true);
           const tail = originals[0].cloneNode(true);
@@ -708,180 +713,125 @@
           track.insertBefore(lead, track.firstChild);
           track.appendChild(tail);
 
-          const padFor = () => {
-            const card = track.querySelector('.product-card, .video-card, .blog-card');
-            const pad = card ? Math.max(0, (track.clientWidth - card.offsetWidth) / 2) : 0;
-            track.style.setProperty('--loop-pad', pad + 'px');
-          };
-          const spacer = (edge) => {
-            const el = document.createElement('div');
-            el.dataset.spacer = edge;
-            el.setAttribute('aria-hidden', 'true');
-            return el;
-          };
-          padFor();
-          track.insertBefore(spacer('start'), track.firstChild);
-          track.appendChild(spacer('end'));
-          padFor();
-
           const abort = new AbortController();
           shell._abort = abort;
-          let animating = false;
-          let touching = false;
+          let index = 1;
+          let dragging = false;
 
           const slides = () => [...track.children].filter(el => !el.hidden && !el.dataset.spacer);
-          const reals = () => slides().filter(el => !el.dataset.clone);
-          const centerOf = (el) => el.offsetLeft - (track.clientWidth - el.offsetWidth) / 2;
-          const metrics = () => {
-            const list = slides();
-            const real = reals();
-            const step = (list[2] ? list[2].offsetLeft - list[1].offsetLeft : 0) || (real[0].offsetWidth + 12);
-            const setWidth = list.length > real.length
-              ? list[list.length - 1].offsetLeft - real[0].offsetLeft
-              : step * real.length;
-            return { list, real, step, setWidth };
+          const count = () => slides().filter(el => !el.dataset.clone).length;
+          const measure = () => {
+            const view = viewport.clientWidth || window.innerWidth;
+            track.style.setProperty('--slide', Math.round(view * 0.84) + 'px');
+            viewport.style.height = track.offsetHeight + 'px';
+            return slides();
+          };
+          const place = (i, animate) => {
+            const list = measure();
+            const el = list[Math.max(0, Math.min(list.length - 1, i))];
+            if (!el) return;
+            index = list.indexOf(el);
+            shell._index = index;
+            const x = (viewport.clientWidth - el.offsetWidth) / 2 - el.offsetLeft;
+            track.style.transition = animate ? 'transform .62s cubic-bezier(.22,.61,.36,1)' : 'none';
+            track.style.transform = `translate3d(${x}px,0,0)`;
+            if (!animate) track.getBoundingClientRect();
+          };
+          const normalize = () => {
+            const n = count();
+            if (index > n) place(index - n, false);
+            else if (index < 1) place(index + n, false);
+          };
+          const step = (dir) => {
+            if (dragging) return;
+            const n = count();
+            if (dir > 0 && index > n) place(1, false);
+            if (dir < 0 && index < 1) place(n, false);
+            place(index + dir, !reducedMotion.matches);
+            if (reducedMotion.matches) normalize();
           };
 
-          const lockSnap = () => { track.style.scrollSnapType = 'none'; };
-          const unlockSnap = () => {
-            requestAnimationFrame(() => requestAnimationFrame(() => {
-              if (!animating && !touching) track.style.scrollSnapType = '';
-            }));
-          };
-
-          const wrap = () => {
-            const { real, step, setWidth } = metrics();
-            if (!real.length || !setWidth) return false;
-            const first = centerOf(real[0]);
-            const moved = { value: false };
-            if (track.scrollLeft > first + setWidth - step * 0.5) {
-              track.scrollLeft -= setWidth;
-              moved.value = true;
-            } else if (track.scrollLeft < first - step * 0.5) {
-              track.scrollLeft += setWidth;
-              moved.value = true;
-            }
-            return moved.value;
-          };
-
-          const animateBy = (distance) => {
-            animating = true;
-            lockSnap();
-            const { real, step, setWidth } = metrics();
-            const first = centerOf(real[0]);
-            const last = centerOf(real[real.length - 1]);
-            if (distance > 0) {
-              if (track.scrollLeft > last + step * 0.5) track.scrollLeft -= setWidth;
-              if (track.scrollLeft + distance > last + step * 0.5) track.scrollLeft -= setWidth;
-            } else if (distance < 0) {
-              if (track.scrollLeft < first - step * 0.5) track.scrollLeft += setWidth;
-              if (track.scrollLeft + distance < first - step * 0.5) track.scrollLeft += setWidth;
-            }
-            const from = track.scrollLeft;
-            const to = from + distance;
-            const t0 = performance.now();
-            const frame = (now) => {
-              if (touching) {
-                animating = false;
-                track.style.scrollSnapType = '';
-                return;
-              }
-              const p = Math.min(1, (now - t0) / 680);
-              const e = 1 - Math.pow(1 - p, 3);
-              track.scrollLeft = from + (to - from) * e;
-              if (p < 1) shell._raf = requestAnimationFrame(frame);
-              else {
-                track.scrollLeft = to;
-                animating = false;
-                unlockSnap();
-              }
-            };
-            shell._raf = requestAnimationFrame(frame);
-          };
-
-          let idle = 0;
-          track.addEventListener('scroll', () => {
-            if (animating || touching) return;
-            clearTimeout(idle);
-            idle = setTimeout(() => {
-              if (animating || touching) return;
-              lockSnap();
-              wrap();
-              unlockSnap();
-            }, 80);
-          }, { passive: true, signal: abort.signal });
+          track.addEventListener('transitionend', (e) => {
+            if (e.target !== track || e.propertyName !== 'transform' || dragging) return;
+            normalize();
+          }, { signal: abort.signal });
 
           const stop = () => { if (shell._auto) { clearInterval(shell._auto); shell._auto = null; } };
           const play = () => {
             stop();
             if (reducedMotion.matches) return;
             shell._auto = setInterval(() => {
-              if (animating || touching || document.hidden) return;
-              const { step } = metrics();
-              animateBy(step);
+              if (dragging || document.hidden) return;
+              step(1);
             }, 2800);
           };
           const pause = () => {
-            touching = true;
-            if (shell._raf) cancelAnimationFrame(shell._raf);
-            animating = false;
             stop();
             clearTimeout(shell._resume);
-            shell._resume = setTimeout(() => { touching = false; play(); }, 4200);
+            shell._resume = setTimeout(play, 4200);
           };
-          const release = () => {
-            touching = false;
-            clearTimeout(shell._settle);
-            shell._settle = setTimeout(() => {
-              if (animating || touching) return;
-              lockSnap();
-              wrap();
-              const { real } = metrics();
-              let best = real[0], bestD = Infinity;
-              real.forEach(el => {
-                const d = Math.abs(centerOf(el) - track.scrollLeft);
-                if (d < bestD) { bestD = d; best = el; }
-              });
-              if (best && bestD > 2) track.scrollLeft = centerOf(best);
-              unlockSnap();
-            }, 160);
+
+          let startX = 0, startY = 0, startTx = 0, mode = '';
+          const tx = () => {
+            const m = /translate3d\(([-\d.]+)px/.exec(track.style.transform);
+            return m ? parseFloat(m[1]) : 0;
           };
-          track.addEventListener('pointerdown', pause, { signal: abort.signal });
-          window.addEventListener('pointerup', release, { signal: abort.signal });
-          window.addEventListener('pointercancel', release, { signal: abort.signal });
+          viewport.addEventListener('pointerdown', (e) => {
+            if (e.pointerType === 'mouse' && e.button !== 0) return;
+            dragging = true;
+            mode = '';
+            startX = e.clientX;
+            startY = e.clientY;
+            startTx = tx();
+            pause();
+            track.style.transition = 'none';
+          }, { signal: abort.signal });
+          viewport.addEventListener('pointermove', (e) => {
+            if (!dragging) return;
+            const dx = e.clientX - startX;
+            const dy = e.clientY - startY;
+            if (!mode) {
+              if (Math.abs(dx) < 8 && Math.abs(dy) < 8) return;
+              mode = Math.abs(dx) > Math.abs(dy) ? 'x' : 'y';
+            }
+            if (mode !== 'x') return;
+            track.style.transform = `translate3d(${startTx + dx}px,0,0)`;
+          }, { signal: abort.signal });
+          const endDrag = (e) => {
+            if (!dragging) return;
+            dragging = false;
+            if (mode !== 'x') return;
+            const dx = e.clientX - startX;
+            if (dx <= -36) step(1);
+            else if (dx >= 36) step(-1);
+            else place(index, true);
+          };
+          viewport.addEventListener('pointerup', endDrag, { signal: abort.signal });
+          viewport.addEventListener('pointercancel', endDrag, { signal: abort.signal });
+
+          track.querySelectorAll('img').forEach(img => {
+            if (!img.complete) img.addEventListener('load', () => { viewport.style.height = track.offsetHeight + 'px'; }, { signal: abort.signal });
+          });
 
           requestAnimationFrame(() => {
-            lockSnap();
-            const { real } = metrics();
-            track.scrollLeft = centerOf(real[0]);
-            unlockSnap();
+            place(1, false);
             play();
           });
         };
 
         const refreshAll = (force) => document.querySelectorAll('[data-carousel]').forEach(shell => {
           const track = shell.querySelector('.carousel-track');
-          if (!force && mq.matches && track && track.querySelector('[data-clone]')) {
-            const card = track.querySelector('.product-card, .video-card, .blog-card');
-            if (card) {
-              const pad = Math.max(0, (track.clientWidth - card.offsetWidth) / 2);
-              track.style.setProperty('--loop-pad', pad + 'px');
-            }
-            const cards = [...track.children].filter(el => !el.hidden && !el.dataset.clone && !el.dataset.spacer);
-            const mid = track.getBoundingClientRect().left + track.clientWidth / 2;
-            let best = null, bestD = Infinity;
-            cards.forEach(el => {
-              const r = el.getBoundingClientRect();
-              const d = Math.abs((r.left + r.right) / 2 - mid);
-              if (d < bestD) { bestD = d; best = el; }
-            });
-            if (!best) return;
-            const next = best.offsetLeft - (track.clientWidth - best.offsetWidth) / 2;
-            if (Math.abs(track.scrollLeft - next) > 2) {
-              track.style.scrollSnapType = 'none';
-              track.scrollLeft = next;
-              requestAnimationFrame(() => { track.style.scrollSnapType = ''; });
-            }
+          if (!force && mq.matches && shell.classList.contains('is-carousel') && track && track.querySelector('[data-clone]')) {
+            const viewport = shell.querySelector('.carousel-viewport');
+            const view = viewport.clientWidth || window.innerWidth;
+            track.style.setProperty('--slide', Math.round(view * 0.84) + 'px');
+            viewport.style.height = track.offsetHeight + 'px';
+            const list = [...track.children].filter(el => !el.hidden && !el.dataset.spacer);
+            const current = list[shell._index] || list.find(el => !el.dataset.clone);
+            if (!current) return;
+            const x = (viewport.clientWidth - current.offsetWidth) / 2 - current.offsetLeft;
+            track.style.transition = 'none';
+            track.style.transform = `translate3d(${x}px,0,0)`;
             return;
           }
           setup(shell);

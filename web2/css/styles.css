@@ -3229,6 +3229,7 @@ footer .brand-mark {
 
     .carousel-shell.is-carousel .carousel-viewport {
         overflow: hidden;
+        position: relative;
         width: 100%;
         max-width: 100%;
         min-width: 0
@@ -3238,54 +3239,34 @@ footer .brand-mark {
     #videos .carousel-shell.is-carousel .carousel-track,
     #blog .carousel-shell.is-carousel .carousel-track,
     .carousel-shell.is-carousel .carousel-track {
-        position: relative !important;
+        position: absolute !important;
+        left: 0 !important;
+        top: 0 !important;
         display: flex !important;
         flex-wrap: nowrap !important;
         grid-template-columns: none !important;
-        width: 100% !important;
-        max-width: 100% !important;
+        width: max-content !important;
+        max-width: none !important;
         min-width: 0 !important;
         gap: 12px !important;
         margin: 0 !important;
         padding: 4px 0 16px !important;
-        overflow-x: auto !important;
-        overflow-y: clip !important;
+        overflow: visible !important;
         direction: ltr !important;
-        scroll-snap-type: x mandatory;
-        scroll-behavior: auto;
-        -webkit-overflow-scrolling: touch;
-        overscroll-behavior-x: contain;
-        touch-action: pan-x pan-y;
-        scrollbar-width: none !important;
-        -ms-overflow-style: none
-    }
-
-    .carousel-shell.is-carousel .carousel-track::-webkit-scrollbar {
-        display: none;
-        height: 0
+        scroll-snap-type: none !important;
+        touch-action: pan-y;
+        will-change: transform
     }
 
     .carousel-shell.is-carousel .carousel-track > * {
-        flex: 0 0 84% !important;
-        width: 84% !important;
-        max-width: 84% !important;
-        min-width: 0 !important;
-        height: auto !important;
-        scroll-snap-align: center;
-        direction: rtl;
-        box-sizing: border-box
-    }
-
-    .carousel-shell.is-carousel .carousel-track > [data-spacer] {
-        flex: 0 0 var(--loop-pad, 0px) !important;
-        width: var(--loop-pad, 0px) !important;
+        flex: 0 0 var(--slide, 84%) !important;
+        width: var(--slide, 84%) !important;
         max-width: none !important;
         min-width: 0 !important;
-        height: 1px !important;
-        padding: 0 !important;
-        margin: 0 !important;
+        height: auto !important;
         scroll-snap-align: none !important;
-        pointer-events: none
+        direction: rtl;
+        box-sizing: border-box
     }
 
     .carousel-shell.is-carousel .carousel-track > [hidden] {
