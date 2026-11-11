@@ -1988,15 +1988,6 @@ footer {
         min-width: 0
     }
 
-    .nav-item--drop:hover .nav-drop,
-    .nav-item--drop:focus-within .nav-drop {
-        display: none
-    }
-
-    .nav-item--drop.open .nav-drop {
-        display: grid
-    }
-
     .nav-drop a {
         padding: 8px 10px;
         color: var(--muted)
@@ -3556,5 +3547,243 @@ footer .brand-mark {
         background: #fff;
         clip-path: polygon(0 0, 100% 50%, 0 100%);
         pointer-events: none
+    }
+}
+
+/* ================= Mobile menu: bottom-rounded sheet ================= */
+.nav-sheet-foot,
+.nav-backdrop {
+    display: none
+}
+
+@media (max-width: 850px) {
+    html.menu-open {
+        overflow: hidden
+    }
+
+    header .mobile-toggle {
+        transition: background .2s, border-color .2s, color .2s
+    }
+
+    header .mobile-toggle[aria-expanded="true"] {
+        background: var(--accent);
+        border-color: var(--accent);
+        color: #fff
+    }
+
+    .nav-backdrop {
+        display: block;
+        position: absolute;
+        top: 100%;
+        right: 0;
+        left: 0;
+        height: 100vh;
+        z-index: 1;
+        background: rgba(26, 29, 34, .5);
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity .3s, visibility .3s
+    }
+
+    .nav-backdrop.show {
+        opacity: 1;
+        visibility: visible
+    }
+
+    header .nav-links {
+        display: flex;
+        top: 100%;
+        z-index: 2;
+        padding: 6px 20px 22px;
+        max-height: calc(100dvh - 76px);
+        overflow-y: auto;
+        overscroll-behavior: contain;
+        border-radius: 0 0 26px 26px;
+        border-bottom: 0;
+        box-shadow: 0 24px 40px rgba(26, 29, 34, .18);
+        visibility: hidden;
+        opacity: 0;
+        transform: translateY(-12px);
+        pointer-events: none;
+        transition: opacity .25s, transform .3s cubic-bezier(.22, 1, .36, 1), visibility .3s
+    }
+
+    header .nav-links.open {
+        visibility: visible;
+        opacity: 1;
+        transform: none;
+        pointer-events: auto
+    }
+
+    header .nav-links>a,
+    header .nav-link-drop {
+        width: 100%;
+        min-height: 58px;
+        padding: 0 4px;
+        gap: 10px;
+        justify-content: flex-start;
+        font-size: 16px;
+        font-weight: 700;
+        color: var(--ink-strong);
+        background: transparent;
+        border-bottom: 1px solid var(--line)
+    }
+
+    header .nav-link-drop {
+        justify-content: space-between;
+        border-bottom: 0
+    }
+
+    header .nav-links>a.active {
+        color: var(--accent)
+    }
+
+    header .nav-links>a.active::before {
+        content: "";
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: var(--accent);
+        flex: none
+    }
+
+    header .nav-item--drop {
+        border-bottom: 1px solid var(--line)
+    }
+
+    header .nav-item--drop:hover .nav-link-drop,
+    header .nav-item--drop:focus-within .nav-link-drop,
+    header .nav-link-drop.active {
+        background: transparent
+    }
+
+    header .nav-item--drop.open .nav-link-drop {
+        color: var(--accent)
+    }
+
+    header .nav-chevron {
+        width: 22px;
+        height: 22px
+    }
+
+    header .nav-item--drop:hover .nav-chevron,
+    header .nav-item--drop:focus-within .nav-chevron {
+        transform: none
+    }
+
+    header .nav-item--drop.open .nav-chevron {
+        transform: rotate(180deg)
+    }
+
+    header .nav-drop,
+    header .nav-item--drop:hover .nav-drop,
+    header .nav-item--drop:focus-within .nav-drop {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        max-height: 0;
+        padding: 0;
+        overflow: hidden;
+        opacity: 0;
+        transition: max-height .35s ease, opacity .25s, padding .25s
+    }
+
+    header .nav-item--drop.open .nav-drop {
+        display: flex;
+        max-height: 220px;
+        padding: 0 0 16px;
+        opacity: 1
+    }
+
+    header .nav-drop a {
+        display: inline-flex;
+        align-items: center;
+        min-height: 44px;
+        padding: 0 16px;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        background: var(--pale);
+        color: var(--ink);
+        font-size: 14px;
+        font-weight: 650
+    }
+
+    header .nav-drop a:active {
+        background: rgba(193, 31, 42, .1);
+        border-color: var(--accent);
+        color: var(--accent)
+    }
+
+    .nav-sheet-foot {
+        display: block;
+        margin-top: 18px
+    }
+
+    .nav-sheet-actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px
+    }
+
+    .sheet-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        min-height: 50px;
+        border-radius: 14px;
+        font-size: 14.5px;
+        font-weight: 800
+    }
+
+    .sheet-btn svg {
+        width: 20px;
+        height: 20px;
+        flex: none
+    }
+
+    .sheet-btn--call {
+        background: var(--accent);
+        color: #fff
+    }
+
+    .sheet-btn--wa {
+        background: #fff;
+        color: #128c4a;
+        border: 1.5px solid #128c4a
+    }
+
+    .nav-sheet-meta {
+        margin: 12px 0 0;
+        text-align: center;
+        font-size: 12.5px;
+        color: var(--muted)
+    }
+
+    header .nav-links>* {
+        opacity: 0;
+        transform: translateY(8px);
+        transition: opacity .3s, transform .3s
+    }
+
+    header .nav-links.open>* {
+        opacity: 1;
+        transform: none
+    }
+
+    header .nav-links.open>*:nth-child(2) { transition-delay: .04s }
+    header .nav-links.open>*:nth-child(3) { transition-delay: .08s }
+    header .nav-links.open>*:nth-child(4) { transition-delay: .12s }
+    header .nav-links.open>*:nth-child(5) { transition-delay: .16s }
+    header .nav-links.open>*:nth-child(6) { transition-delay: .2s }
+    header .nav-links.open>*:nth-child(7) { transition-delay: .24s }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    header .nav-links,
+    header .nav-links>*,
+    .nav-backdrop,
+    header .nav-drop {
+        transition: none !important
     }
 }
