@@ -12,7 +12,7 @@
   <!-- فونت ایران‌یکان -->
   <link rel="stylesheet" href="css/iranyekan.css">
   <!-- CSS اصلی -->
-  <link rel="stylesheet" href="css/styles.css?v=20260311i">
+  <link rel="stylesheet" href="css/styles.css?v=20260311j">
   <!-- فاصله کارت‌ها (قابل ویرایش) -->
   <link rel="stylesheet" href="css/product-cards.css?v=20260311i">
 </head>
@@ -163,7 +163,6 @@
             <a href="#products" role="menuitem">همه محصولات</a>
             <a href="#products" role="menuitem">چرخ خیاطی صنعتی</a>
             <a href="#products" role="menuitem">چرخ خیاطی خانگی</a>
-            <a href="#products" role="menuitem">اتو صنعتی</a>
           </div>
         </div>
         <a href="#videos">فیلم آموزشی</a>
@@ -271,7 +270,6 @@
             <button class="filter-btn active" data-filter="all" aria-pressed="true">همه محصولات</button>
             <button class="filter-btn" data-filter="industrial" aria-pressed="false">چرخ خیاطی صنعتی</button>
             <button class="filter-btn" data-filter="home" aria-pressed="false">چرخ خیاطی خانگی</button>
-            <button class="filter-btn" data-filter="iron" aria-pressed="false">اتو صنعتی</button>
           </div>
           <div class="carousel-shell" data-carousel>
             <div class="carousel-viewport">
@@ -295,18 +293,6 @@
                   <h3>چرخ خیاطی خانگی</h3>
                   <p>مدل‌های مناسب دوخت روزمره، خیاطی شخصی و کارهای خانگی.</p>
                   <div class="product-bottom"><span>مدل‌های خانگی</span><button type="button" class="text-btn">مشاهده
-                      محصولات <svg>
-                        <use href="#i-arrow" />
-                      </svg></button></div>
-                </div>
-              </article>
-              <article class="product-card reveal" data-category="iron">
-                <div class="product-image"><img src="assets/category-iron.webp" alt="اتو صنعتی" loading="lazy"
-                    decoding="async"></div>
-                <div class="product-body"><span class="product-type">تجهیزات اتوکشی</span>
-                  <h3>اتو صنعتی</h3>
-                  <p>تجهیزات اتوکشی و آماده‌سازی پوشاک برای کارگاه‌ها و تولیدی‌ها.</p>
-                  <div class="product-bottom"><span>تجهیزات اتوکشی</span><button type="button" class="text-btn">مشاهده
                       محصولات <svg>
                         <use href="#i-arrow" />
                       </svg></button></div>
@@ -750,9 +736,8 @@
           };
           const frame = () => {
             if (!alive) return;
-            const d = goal - pos;
-            if (Math.abs(d) < 0.004) { pos = goal; settle(); }
-            else pos += d * (reducedMotion.matches ? 1 : 0.18);
+            pos = goal;
+            settle();
             draw();
             shell._raf = requestAnimationFrame(frame);
           };

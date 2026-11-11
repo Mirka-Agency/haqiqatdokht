@@ -3258,7 +3258,9 @@ footer .brand-mark {
         will-change: transform
     }
 
-    .carousel-shell.is-carousel .carousel-track > * {
+    .carousel-shell.is-carousel .carousel-track > *,
+    .carousel-shell.is-carousel .carousel-track .reveal,
+    .carousel-shell.is-carousel .carousel-track .reveal.visible {
         flex: 0 0 var(--slide, 84%) !important;
         width: var(--slide, 84%) !important;
         max-width: none !important;
@@ -3266,7 +3268,12 @@ footer .brand-mark {
         height: auto !important;
         scroll-snap-align: none !important;
         direction: rtl;
-        box-sizing: border-box
+        box-sizing: border-box;
+        opacity: 1 !important;
+        transform: none !important;
+        filter: none !important;
+        animation: none !important;
+        transition: none !important
     }
 
     .carousel-shell.is-carousel .carousel-track > [hidden] {
