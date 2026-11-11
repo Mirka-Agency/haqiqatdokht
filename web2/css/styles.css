@@ -3229,7 +3229,8 @@ footer .brand-mark {
     left: 0;
     display: block;
     margin-left: auto;
-    margin-right: auto
+    margin-right: auto;
+    will-change: transform
 }
 
 .slick-track:before,
@@ -3249,8 +3250,8 @@ footer .brand-mark {
     min-height: 1px
 }
 
-[dir='rtl'] .slick-slide {
-    float: right
+[dir='rtl'] .carousel-shell.is-carousel .slick-slide {
+    float: left
 }
 
 .slick-initialized .slick-slide {
@@ -3298,6 +3299,7 @@ footer .brand-mark {
         padding: 0 !important;
         overflow: hidden !important;
         transform: none !important;
+        direction: ltr !important;
         grid-template-columns: none !important
     }
 
@@ -3314,7 +3316,7 @@ footer .brand-mark {
     .carousel-shell.is-carousel .slick-slide.reveal.visible {
         display: flex !important;
         flex-direction: column !important;
-        float: right !important;
+        float: left !important;
         height: auto !important;
         max-width: none !important;
         opacity: 1 !important;

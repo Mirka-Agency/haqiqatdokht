@@ -12,7 +12,7 @@
   <!-- فونت ایران‌یکان -->
   <link rel="stylesheet" href="css/iranyekan.css">
   <!-- CSS اصلی -->
-  <link rel="stylesheet" href="css/styles.css?v=20260311k">
+  <link rel="stylesheet" href="css/styles.css?v=20260311l">
   <!-- فاصله کارت‌ها (قابل ویرایش) -->
   <link rel="stylesheet" href="css/product-cards.css?v=20260311k">
 </head>
@@ -679,12 +679,13 @@
           if ($track.hasClass('slick-initialized')) $track.slick('unslick');
           track.querySelectorAll('[data-clone]').forEach(n => n.remove());
           if (viewport) viewport.style.height = '';
+          track.setAttribute('dir', 'ltr');
           const visible = [...track.children].filter(el => !el.hidden);
           const active = mq.matches && visible.length > 1;
           shell.classList.toggle('is-carousel', active);
           if (!active) return;
           $track.slick({
-            rtl: true,
+            rtl: false,
             infinite: true,
             slidesToShow: 1,
             slidesToScroll: 1,
@@ -693,13 +694,13 @@
             arrows: false,
             dots: false,
             autoplay: !reducedMotion.matches,
-            autoplaySpeed: 2600,
+            autoplaySpeed: 3400,
             pauseOnHover: false,
             pauseOnFocus: false,
             swipe: true,
             touchMove: true,
-            speed: reducedMotion.matches ? 0 : 450,
-            cssEase: 'ease',
+            speed: reducedMotion.matches ? 0 : 900,
+            cssEase: 'cubic-bezier(.22, 1, .36, 1)',
             slide: 'article',
             adaptiveHeight: false,
             waitForAnimate: true
