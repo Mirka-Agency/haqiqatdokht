@@ -1989,7 +1989,10 @@ footer {
     }
 
     .nav-item--drop:hover .nav-drop,
-    .nav-item--drop:focus-within .nav-drop,
+    .nav-item--drop:focus-within .nav-drop {
+        display: none
+    }
+
     .nav-item--drop.open .nav-drop {
         display: grid
     }
