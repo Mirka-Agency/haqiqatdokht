@@ -2170,18 +2170,32 @@ footer {
     }
 
     .floating-note {
-        padding: 9px 12px;
-        bottom: 15px;
-        right: 50%;
-        transform: translateX(50%)
+        padding: 6px 8px;
+        gap: 6px;
+        bottom: 10px;
+        right: 8px;
+        left: auto;
+        transform: none;
+        border-radius: 10px
+    }
+
+    .floating-note .circle {
+        width: 20px;
+        height: 20px;
+        border-radius: 6px
+    }
+
+    .floating-note .circle svg {
+        width: 12px;
+        height: 12px
     }
 
     .floating-note strong {
-        font-size: 11px
+        font-size: 9px
     }
 
     .floating-note small {
-        font-size: 9px
+        font-size: 7.5px
     }
 
     .side-label {
@@ -3437,27 +3451,50 @@ footer .brand-mark {
         display: flex !important;
         justify-content: center !important;
         align-items: center !important;
-        width: 100% !important;
+        position: relative !important;
+        width: min(68%, 250px) !important;
         margin-inline: auto !important;
         transform: none !important;
-        left: 0 !important;
-        right: 0 !important
+        left: auto !important;
+        right: auto !important
     }
 
     .hero .machine-motion .hero-video,
     .hero .hero-video {
         display: block !important;
-        width: min(68%, 250px) !important;
+        width: 100% !important;
         max-width: 250px !important;
         margin-inline: auto !important;
         transform: none !important
     }
 
     .hero .floating-note {
-        right: 50% !important;
-        transform: translateX(50%) !important;
+        right: 8px !important;
         left: auto !important;
-        bottom: 18px !important
+        bottom: 8px !important;
+        transform: none !important;
+        padding: 5px 7px !important;
+        gap: 5px !important;
+        border-radius: 9px !important
+    }
+
+    .hero .floating-note .circle {
+        width: 18px !important;
+        height: 18px !important;
+        border-radius: 5px !important
+    }
+
+    .hero .floating-note .circle svg {
+        width: 11px !important;
+        height: 11px !important
+    }
+
+    .hero .floating-note strong {
+        font-size: 8.5px !important
+    }
+
+    .hero .floating-note small {
+        font-size: 7px !important
     }
 }
 
