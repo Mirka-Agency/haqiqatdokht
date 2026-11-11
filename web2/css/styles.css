@@ -2718,6 +2718,52 @@ footer {
     max-width: 720px
 }
 
+.categories .brands-intro {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    direction: rtl;
+    text-align: right;
+    gap: 36px
+}
+
+.categories .brands-intro__text {
+    direction: rtl;
+    text-align: right;
+    min-width: 0;
+    flex: 1 1 auto
+}
+
+.categories .brands-intro__logos {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex: none;
+    direction: rtl
+}
+
+.categories .brands-intro__logos img {
+    display: block;
+    height: 72px;
+    width: auto
+}
+
+@media (max-width: 850px) {
+    .categories .brands-intro {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch
+    }
+
+    .categories .brands-intro__logos {
+        justify-content: flex-start
+    }
+
+    .categories .brands-intro__logos img {
+        height: 58px
+    }
+}
+
 
 /* ---------- 16) HISTORY PHOTO ---------- */
 /* Archival photograph — keep the entire original image visible */
