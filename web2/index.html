@@ -662,8 +662,25 @@
           heroVisual.style.setProperty('--pointer-y', '0px');
         });
       }
-      toggle.addEventListener('click', () => { const opened = links.classList.toggle('open'); toggle.setAttribute('aria-expanded', String(opened)); toggle.setAttribute('aria-label', opened ? 'بستن منو' : 'باز کردن منو') });
-      document.querySelectorAll('.nav-links a').forEach(a => a.addEventListener('click', () => { links.classList.remove('open'); toggle.setAttribute('aria-expanded', 'false') }));
+      const closeMenu = () => {
+        links.classList.remove('open');
+        toggle.setAttribute('aria-expanded', 'false');
+        toggle.setAttribute('aria-label', 'باز کردن منو');
+      };
+      toggle.addEventListener('click', () => {
+        const opened = links.classList.toggle('open');
+        toggle.setAttribute('aria-expanded', String(opened));
+        toggle.setAttribute('aria-label', opened ? 'بستن منو' : 'باز کردن منو');
+      });
+      document.addEventListener('click', e => {
+        if (!links.classList.contains('open')) return;
+        if (e.target.closest('#navLinks') || e.target.closest('#mobileToggle')) return;
+        closeMenu();
+      });
+      document.querySelectorAll('.nav-links a').forEach(a => a.addEventListener('click', () => {
+        if (a.classList.contains('nav-link-drop') && window.matchMedia('(max-width:850px)').matches) return;
+        closeMenu();
+      }));
       const dropToggle = document.querySelector('.nav-link-drop');
       if (dropToggle) dropToggle.addEventListener('click', e => { if (window.matchMedia('(max-width:850px)').matches) { e.preventDefault(); dropToggle.parentElement.classList.toggle('open') } });
       const searchBtn = document.getElementById('navSearch');
