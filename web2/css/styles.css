@@ -3186,7 +3186,7 @@ footer .brand-mark {
 
 /* ========== پایان تنظیم فاصله کارت‌ها ========== */
 
-/* ---------- Mobile carousels (swipe loop, no arrows) ---------- */
+/* ---------- Mobile carousels: Slick ---------- */
 .carousel-shell {
     position: relative;
     width: 100%;
@@ -3200,8 +3200,61 @@ footer .brand-mark {
     min-width: 0
 }
 
-.carousel-btn {
+.carousel-btn,
+.carousel-shell .slick-arrow,
+.carousel-shell .slick-dots {
     display: none !important
+}
+
+.slick-slider {
+    position: relative;
+    display: block;
+    box-sizing: border-box;
+    user-select: none;
+    touch-action: pan-y;
+    -webkit-tap-highlight-color: transparent
+}
+
+.slick-list {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    margin: 0;
+    padding: 0
+}
+
+.slick-track {
+    position: relative;
+    top: 0;
+    left: 0;
+    display: block;
+    margin-left: auto;
+    margin-right: auto
+}
+
+.slick-track:before,
+.slick-track:after {
+    display: table;
+    content: ''
+}
+
+.slick-track:after {
+    clear: both
+}
+
+.slick-slide {
+    display: none;
+    float: left;
+    height: 100%;
+    min-height: 1px
+}
+
+[dir='rtl'] .slick-slide {
+    float: right
+}
+
+.slick-initialized .slick-slide {
+    display: block
 }
 
 @media (max-width: 850px) {
@@ -3231,44 +3284,39 @@ footer .brand-mark {
         overflow: hidden;
         position: relative;
         width: 100%;
-        max-width: 100%;
-        min-width: 0
+        max-width: 100%
     }
 
-    #products .carousel-shell.is-carousel .carousel-track,
-    #videos .carousel-shell.is-carousel .carousel-track,
-    #blog .carousel-shell.is-carousel .carousel-track,
-    .carousel-shell.is-carousel .carousel-track {
-        position: absolute !important;
-        left: 0 !important;
-        top: 0 !important;
-        display: flex !important;
-        flex-wrap: nowrap !important;
-        grid-template-columns: none !important;
-        width: max-content !important;
-        max-width: none !important;
-        min-width: 0 !important;
-        gap: 12px !important;
+    .carousel-shell.is-carousel .carousel-track.slick-initialized {
+        position: relative !important;
+        left: auto !important;
+        top: auto !important;
+        display: block !important;
+        width: 100% !important;
+        max-width: 100% !important;
         margin: 0 !important;
-        padding: 4px 0 16px !important;
-        overflow: visible !important;
-        direction: ltr !important;
-        scroll-snap-type: none !important;
-        touch-action: pan-y;
-        will-change: transform
+        padding: 0 !important;
+        overflow: hidden !important;
+        transform: none !important;
+        grid-template-columns: none !important
     }
 
-    .carousel-shell.is-carousel .carousel-track > *,
-    .carousel-shell.is-carousel .carousel-track .reveal,
-    .carousel-shell.is-carousel .carousel-track .reveal.visible {
-        flex: 0 0 var(--slide, 84%) !important;
-        width: var(--slide, 84%) !important;
-        max-width: none !important;
-        min-width: 0 !important;
-        height: auto !important;
-        scroll-snap-align: none !important;
+    .carousel-shell.is-carousel .slick-slide {
+        height: auto;
         direction: rtl;
-        box-sizing: border-box;
+        box-sizing: border-box
+    }
+
+    .carousel-shell.is-carousel .slick-initialized .slick-slide.product-card,
+    .carousel-shell.is-carousel .slick-initialized .slick-slide.video-card,
+    .carousel-shell.is-carousel .slick-initialized .slick-slide.blog-card,
+    .carousel-shell.is-carousel .slick-slide.reveal,
+    .carousel-shell.is-carousel .slick-slide.reveal.visible {
+        display: flex !important;
+        flex-direction: column !important;
+        float: right !important;
+        height: auto !important;
+        max-width: none !important;
         opacity: 1 !important;
         transform: none !important;
         filter: none !important;
