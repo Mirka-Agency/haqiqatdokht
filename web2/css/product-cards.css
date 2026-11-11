@@ -139,23 +139,22 @@
 @media (max-width: 850px) {
   #products .carousel-shell.is-carousel .product-grid.carousel-track {
     display: flex !important;
-    position: absolute !important;
-    left: 0 !important;
-    top: 0 !important;
+    position: relative !important;
     flex-wrap: nowrap !important;
     grid-template-columns: none !important;
     grid-auto-rows: auto !important;
-    width: max-content !important;
-    max-width: none !important;
-    overflow: visible !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
     gap: 12px !important;
     direction: ltr !important;
   }
 
   .carousel-shell.is-carousel #products .product-card {
-    flex: 0 0 var(--slide, 260px) !important;
-    width: var(--slide, 260px) !important;
-    max-width: var(--slide, 260px) !important;
+    flex: 0 0 84% !important;
+    width: 84% !important;
+    max-width: 84% !important;
     height: auto !important;
     align-self: stretch !important;
     direction: rtl !important;

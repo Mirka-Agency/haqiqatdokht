@@ -3246,40 +3246,49 @@ footer .brand-mark {
     }
 
     .carousel-shell.is-carousel .carousel-viewport {
-        position: relative;
         overflow: hidden;
         width: 100%;
         max-width: 100%;
-        min-width: 0;
-        touch-action: pan-y
+        min-width: 0
     }
 
     #products .carousel-shell.is-carousel .carousel-track,
     #videos .carousel-shell.is-carousel .carousel-track,
     #blog .carousel-shell.is-carousel .carousel-track,
     .carousel-shell.is-carousel .carousel-track {
-        position: absolute !important;
-        top: 0;
-        left: 0;
+        position: relative !important;
         display: flex !important;
         flex-wrap: nowrap !important;
         grid-template-columns: none !important;
-        width: max-content !important;
-        max-width: none !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
         gap: 12px !important;
         margin: 0 !important;
-        padding: 0 !important;
-        overflow: visible !important;
+        padding: 4px 0 16px !important;
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
         direction: ltr !important;
-        will-change: transform
+        scroll-snap-type: x mandatory;
+        scroll-behavior: auto;
+        -webkit-overflow-scrolling: touch;
+        overscroll-behavior-x: contain;
+        touch-action: pan-x pan-y;
+        scrollbar-width: none
+    }
+
+    .carousel-shell.is-carousel .carousel-track::-webkit-scrollbar {
+        display: none;
+        height: 0
     }
 
     .carousel-shell.is-carousel .carousel-track > * {
-        flex: 0 0 var(--slide, 260px) !important;
-        width: var(--slide, 260px) !important;
-        max-width: var(--slide, 260px) !important;
+        flex: 0 0 84% !important;
+        width: 84% !important;
+        max-width: 84% !important;
         min-width: 0 !important;
         height: auto !important;
+        scroll-snap-align: center;
         direction: rtl;
         box-sizing: border-box
     }
