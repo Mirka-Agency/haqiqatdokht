@@ -2761,7 +2761,8 @@ footer {
     }
 
     .categories .brands-intro__logos {
-        justify-content: flex-start
+        justify-content: center;
+        width: 100%
     }
 
     .categories .brands-intro__logos img {
