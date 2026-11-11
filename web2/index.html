@@ -12,7 +12,7 @@
   <!-- فونت ایران‌یکان -->
   <link rel="stylesheet" href="css/iranyekan.css">
   <!-- CSS اصلی -->
-  <link rel="stylesheet" href="css/styles.css?v=20260311u">
+  <link rel="stylesheet" href="css/styles.css?v=20260311v">
   <!-- فاصله کارت‌ها (قابل ویرایش) -->
   <link rel="stylesheet" href="css/product-cards.css?v=20260311k">
 </head>
@@ -743,10 +743,10 @@
           if ($track.hasClass('slick-initialized')) $track.slick('unslick');
           track.querySelectorAll('[data-clone]').forEach(n => n.remove());
           if (viewport) viewport.style.height = '';
-          track.setAttribute('dir', 'ltr');
           const visible = [...track.children].filter(el => !el.hidden);
           const active = mq.matches && visible.length > 1;
           shell.classList.toggle('is-carousel', active);
+          track.setAttribute('dir', active ? 'ltr' : 'rtl');
           if (!active) return;
           $track.slick({
             rtl: false,

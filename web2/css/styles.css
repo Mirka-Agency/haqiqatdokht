@@ -3015,7 +3015,7 @@ footer {
     background: var(--blue);
     border-color: var(--blue);
     box-shadow: 0 8px 20px rgba(184, 49, 59, .14);
-    direction: ltr;
+    direction: rtl;
     letter-spacing: .2px
 }
 
@@ -3550,6 +3550,21 @@ footer .brand-mark {
     }
 }
 
+.product-card,
+.video-card,
+.blog-card,
+.filter-tabs,
+.section-heading,
+.store-card,
+.faq-block,
+footer {
+    direction: rtl
+}
+
+.carousel-track:not(.slick-initialized) {
+    direction: rtl !important
+}
+
 /* ================= Mobile menu: bottom-rounded sheet ================= */
 .nav-sheet-foot,
 .nav-backdrop {
@@ -3786,4 +3801,19 @@ footer .brand-mark {
     header .nav-drop {
         transition: none !important
     }
+}
+
+.product-card,
+.video-card,
+.blog-card,
+.filter-tabs,
+.section-heading,
+.store-card,
+.faq-block,
+footer {
+    direction: rtl
+}
+
+.carousel-track:not(.slick-initialized) {
+    direction: rtl !important
 }
