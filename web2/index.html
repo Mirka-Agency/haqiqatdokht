@@ -12,7 +12,7 @@
   <!-- فونت ایران‌یکان -->
   <link rel="stylesheet" href="css/iranyekan.css">
   <!-- CSS اصلی -->
-  <link rel="stylesheet" href="css/styles.css?v=20260311f">
+  <link rel="stylesheet" href="css/styles.css?v=20260311g">
   <!-- فاصله کارت‌ها (قابل ویرایش) -->
   <link rel="stylesheet" href="css/product-cards.css?v=20260311d">
 </head>
@@ -676,7 +676,7 @@
       }));
       const observer = new IntersectionObserver(entries => entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target) } }), { threshold: .08 }); document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-      /* Mobile carousels: native scroll loop, no page shift */
+      /* Mobile carousels: one-card steps, invisible loop wrap */
       (() => {
         const mq = window.matchMedia('(max-width:850px)');
         document.querySelectorAll('.carousel-btn').forEach(n => n.remove());
@@ -685,10 +685,13 @@
           const track = shell.querySelector('.carousel-track');
           if (!track) return;
           if (shell._abort) shell._abort.abort();
-          if (shell._timer) clearInterval(shell._timer);
+          if (shell._auto) clearInterval(shell._auto);
+          if (shell._raf) cancelAnimationFrame(shell._raf);
+          clearTimeout(shell._resume);
 
-          track.querySelectorAll('[data-clone]').forEach(n => n.remove());
+          track.querySelectorAll('[data-clone], [data-spacer]').forEach(n => n.remove());
           track.style.transform = 'none';
+          track.style.scrollSnapType = '';
           track.scrollLeft = 0;
 
           const originals = [...track.children].filter(el => !el.hidden);
@@ -705,91 +708,190 @@
           track.insertBefore(lead, track.firstChild);
           track.appendChild(tail);
 
+          const padFor = () => {
+            const card = track.querySelector('.product-card, .video-card, .blog-card');
+            const pad = card ? Math.max(0, (track.clientWidth - card.offsetWidth) / 2) : 0;
+            track.style.setProperty('--loop-pad', pad + 'px');
+          };
+          const spacer = (edge) => {
+            const el = document.createElement('div');
+            el.dataset.spacer = edge;
+            el.setAttribute('aria-hidden', 'true');
+            return el;
+          };
+          padFor();
+          track.insertBefore(spacer('start'), track.firstChild);
+          track.appendChild(spacer('end'));
+          padFor();
+
           const abort = new AbortController();
           shell._abort = abort;
-          let jumping = false;
+          let animating = false;
+          let touching = false;
 
-          const slides = () => [...track.children].filter(el => !el.hidden);
+          const slides = () => [...track.children].filter(el => !el.hidden && !el.dataset.spacer);
           const reals = () => slides().filter(el => !el.dataset.clone);
-
-          const place = (el, smooth) => {
-            if (!el) return;
-            const delta = el.getBoundingClientRect().left - track.getBoundingClientRect().left;
-            const left = track.scrollLeft + delta - (track.clientWidth - el.offsetWidth) / 2;
-            jumping = !smooth;
-            if (!smooth) track.style.scrollSnapType = 'none';
-            track.scrollTo({ left: Math.max(0, left), behavior: smooth ? 'smooth' : 'auto' });
-            if (!smooth) {
-              requestAnimationFrame(() => {
-                track.style.scrollSnapType = '';
-                jumping = false;
-              });
-            }
-          };
-
-          const nearest = () => {
+          const centerOf = (el) => el.offsetLeft - (track.clientWidth - el.offsetWidth) / 2;
+          const metrics = () => {
             const list = slides();
-            const mid = track.getBoundingClientRect().left + track.clientWidth / 2;
-            let best = list[0], bestD = Infinity, idx = 0;
-            list.forEach((el, i) => {
-              const r = el.getBoundingClientRect();
-              const d = Math.abs((r.left + r.right) / 2 - mid);
-              if (d < bestD) { bestD = d; best = el; idx = i; }
-            });
-            return { el: best, idx };
-          };
-
-          const normalize = () => {
-            if (jumping) return;
-            const { el } = nearest();
-            if (!el || !el.dataset.clone) return;
             const real = reals();
-            const list = slides();
-            const isLead = el === list[0];
-            place(isLead ? real[real.length - 1] : real[0], false);
+            const step = (list[2] ? list[2].offsetLeft - list[1].offsetLeft : 0) || (real[0].offsetWidth + 12);
+            const setWidth = list.length > real.length
+              ? list[list.length - 1].offsetLeft - real[0].offsetLeft
+              : step * real.length;
+            return { list, real, step, setWidth };
           };
 
-          const go = (dir) => {
-            const { idx } = nearest();
-            const list = slides();
-            const next = list[idx + dir];
-            if (next) place(next, true);
+          const lockSnap = () => { track.style.scrollSnapType = 'none'; };
+          const unlockSnap = () => {
+            requestAnimationFrame(() => requestAnimationFrame(() => {
+              if (!animating && !touching) track.style.scrollSnapType = '';
+            }));
+          };
+
+          const wrap = () => {
+            const { real, step, setWidth } = metrics();
+            if (!real.length || !setWidth) return false;
+            const first = centerOf(real[0]);
+            const moved = { value: false };
+            if (track.scrollLeft > first + setWidth - step * 0.5) {
+              track.scrollLeft -= setWidth;
+              moved.value = true;
+            } else if (track.scrollLeft < first - step * 0.5) {
+              track.scrollLeft += setWidth;
+              moved.value = true;
+            }
+            return moved.value;
+          };
+
+          const animateBy = (distance) => {
+            animating = true;
+            lockSnap();
+            const { real, step, setWidth } = metrics();
+            const first = centerOf(real[0]);
+            const last = centerOf(real[real.length - 1]);
+            if (distance > 0) {
+              if (track.scrollLeft > last + step * 0.5) track.scrollLeft -= setWidth;
+              if (track.scrollLeft + distance > last + step * 0.5) track.scrollLeft -= setWidth;
+            } else if (distance < 0) {
+              if (track.scrollLeft < first - step * 0.5) track.scrollLeft += setWidth;
+              if (track.scrollLeft + distance < first - step * 0.5) track.scrollLeft += setWidth;
+            }
+            const from = track.scrollLeft;
+            const to = from + distance;
+            const t0 = performance.now();
+            const frame = (now) => {
+              if (touching) {
+                animating = false;
+                track.style.scrollSnapType = '';
+                return;
+              }
+              const p = Math.min(1, (now - t0) / 680);
+              const e = 1 - Math.pow(1 - p, 3);
+              track.scrollLeft = from + (to - from) * e;
+              if (p < 1) shell._raf = requestAnimationFrame(frame);
+              else {
+                track.scrollLeft = to;
+                animating = false;
+                unlockSnap();
+              }
+            };
+            shell._raf = requestAnimationFrame(frame);
           };
 
           let idle = 0;
           track.addEventListener('scroll', () => {
-            if (jumping) return;
+            if (animating || touching) return;
             clearTimeout(idle);
-            idle = setTimeout(normalize, 140);
+            idle = setTimeout(() => {
+              if (animating || touching) return;
+              lockSnap();
+              wrap();
+              unlockSnap();
+            }, 80);
           }, { passive: true, signal: abort.signal });
 
-          const stop = () => { if (shell._timer) { clearInterval(shell._timer); shell._timer = null; } };
+          const stop = () => { if (shell._auto) { clearInterval(shell._auto); shell._auto = null; } };
           const play = () => {
             stop();
             if (reducedMotion.matches) return;
-            shell._timer = setInterval(() => go(1), 2800);
+            shell._auto = setInterval(() => {
+              if (animating || touching || document.hidden) return;
+              const { step } = metrics();
+              animateBy(step);
+            }, 2800);
           };
           const pause = () => {
+            touching = true;
+            if (shell._raf) cancelAnimationFrame(shell._raf);
+            animating = false;
             stop();
             clearTimeout(shell._resume);
-            shell._resume = setTimeout(play, 4200);
+            shell._resume = setTimeout(() => { touching = false; play(); }, 4200);
+          };
+          const release = () => {
+            touching = false;
+            clearTimeout(shell._settle);
+            shell._settle = setTimeout(() => {
+              if (animating || touching) return;
+              lockSnap();
+              wrap();
+              const { real } = metrics();
+              let best = real[0], bestD = Infinity;
+              real.forEach(el => {
+                const d = Math.abs(centerOf(el) - track.scrollLeft);
+                if (d < bestD) { bestD = d; best = el; }
+              });
+              if (best && bestD > 2) track.scrollLeft = centerOf(best);
+              unlockSnap();
+            }, 160);
           };
           track.addEventListener('pointerdown', pause, { signal: abort.signal });
-          track.addEventListener('touchstart', pause, { passive: true, signal: abort.signal });
+          window.addEventListener('pointerup', release, { signal: abort.signal });
+          window.addEventListener('pointercancel', release, { signal: abort.signal });
 
           requestAnimationFrame(() => {
-            place(reals()[0], false);
+            lockSnap();
+            const { real } = metrics();
+            track.scrollLeft = centerOf(real[0]);
+            unlockSnap();
             play();
           });
         };
 
-        const refreshAll = () => document.querySelectorAll('[data-carousel]').forEach(setup);
-        refreshAll();
+        const refreshAll = (force) => document.querySelectorAll('[data-carousel]').forEach(shell => {
+          const track = shell.querySelector('.carousel-track');
+          if (!force && mq.matches && track && track.querySelector('[data-clone]')) {
+            const card = track.querySelector('.product-card, .video-card, .blog-card');
+            if (card) {
+              const pad = Math.max(0, (track.clientWidth - card.offsetWidth) / 2);
+              track.style.setProperty('--loop-pad', pad + 'px');
+            }
+            const cards = [...track.children].filter(el => !el.hidden && !el.dataset.clone && !el.dataset.spacer);
+            const mid = track.getBoundingClientRect().left + track.clientWidth / 2;
+            let best = null, bestD = Infinity;
+            cards.forEach(el => {
+              const r = el.getBoundingClientRect();
+              const d = Math.abs((r.left + r.right) / 2 - mid);
+              if (d < bestD) { bestD = d; best = el; }
+            });
+            if (!best) return;
+            const next = best.offsetLeft - (track.clientWidth - best.offsetWidth) / 2;
+            if (Math.abs(track.scrollLeft - next) > 2) {
+              track.style.scrollSnapType = 'none';
+              track.scrollLeft = next;
+              requestAnimationFrame(() => { track.style.scrollSnapType = ''; });
+            }
+            return;
+          }
+          setup(shell);
+        });
+        refreshAll(true);
         let resizeT = 0;
-        window.addEventListener('resize', () => { clearTimeout(resizeT); resizeT = setTimeout(refreshAll, 180); }, { passive: true });
-        window.addEventListener('mobile-carousels-refresh', () => setTimeout(refreshAll, 40));
-        if (mq.addEventListener) mq.addEventListener('change', refreshAll);
-        else mq.addListener(refreshAll);
+        window.addEventListener('resize', () => { clearTimeout(resizeT); resizeT = setTimeout(() => refreshAll(false), 180); }, { passive: true });
+        window.addEventListener('mobile-carousels-refresh', () => setTimeout(() => refreshAll(true), 40));
+        if (mq.addEventListener) mq.addEventListener('change', () => refreshAll(true));
+        else mq.addListener(() => refreshAll(true));
       })();
       const sections = document.querySelectorAll('main [id]');
       const navAnchors = document.querySelectorAll('.nav-links > a, .nav-link-drop');

@@ -3276,6 +3276,18 @@ footer .brand-mark {
         box-sizing: border-box
     }
 
+    .carousel-shell.is-carousel .carousel-track > [data-spacer] {
+        flex: 0 0 var(--loop-pad, 0px) !important;
+        width: var(--loop-pad, 0px) !important;
+        max-width: none !important;
+        min-width: 0 !important;
+        height: 1px !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        scroll-snap-align: none !important;
+        pointer-events: none
+    }
+
     .carousel-shell.is-carousel .carousel-track > [hidden] {
         display: none !important
     }
