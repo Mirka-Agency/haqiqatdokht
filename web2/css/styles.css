@@ -1276,14 +1276,10 @@ section {
     transition: transform .35s
 }
 
-/* پرتره بلند: سر کامل از بالا، کراپ از پایین */
-.blog-card__media:has(img.blog-media--top) {
-    height: 200px
-}
-
+/* پرتره بلند: همان ارتفاع بقیه کارت‌ها، صورت داخل کادر */
 .blog-card__media img.blog-media--top {
     object-fit: cover !important;
-    object-position: center top !important
+    object-position: center 32% !important
 }
 
 .blog-card:hover .blog-card__media img {
