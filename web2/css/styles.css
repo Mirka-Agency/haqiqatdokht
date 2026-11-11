@@ -2146,7 +2146,7 @@ footer {
     }
 
     .hero-visual {
-        height: 325px;
+        height: auto;
         place-items: center
     }
 
@@ -2163,8 +2163,8 @@ footer {
     }
 
     .hero-video {
-        width: min(100%, 360px);
-        max-height: 280px;
+        width: min(68%, 250px);
+        max-height: 180px;
         border-radius: 20px;
         margin-inline: auto
     }
@@ -3422,6 +3422,8 @@ footer .brand-mark {
         place-items: center !important;
         justify-self: center !important;
         width: 100% !important;
+        height: auto !important;
+        min-height: 0 !important;
         margin-inline: auto !important;
         overflow: visible !important
     }
@@ -3445,8 +3447,8 @@ footer .brand-mark {
     .hero .machine-motion .hero-video,
     .hero .hero-video {
         display: block !important;
-        width: min(100%, 420px) !important;
-        max-width: 100% !important;
+        width: min(68%, 250px) !important;
+        max-width: 250px !important;
         margin-inline: auto !important;
         transform: none !important
     }
