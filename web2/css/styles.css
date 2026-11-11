@@ -2744,8 +2744,9 @@ footer {
 
 .categories .brands-intro__logos img {
     display: block;
-    height: 72px;
-    width: auto
+    height: 92px;
+    width: auto;
+    object-fit: contain
 }
 
 @media (max-width: 850px) {
@@ -2760,7 +2761,7 @@ footer {
     }
 
     .categories .brands-intro__logos img {
-        height: 58px
+        height: 72px
     }
 }
 
