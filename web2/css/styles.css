@@ -194,12 +194,7 @@ header {
     backdrop-filter: blur(18px);
     border-top: 3px solid var(--accent);
     border-bottom: 1px solid var(--line);
-    box-shadow: 0 8px 28px rgba(42, 46, 53, .06);
-    transition: box-shadow .2s
-}
-
-header.scrolled {
-    box-shadow: 0 12px 34px rgba(42, 46, 53, .09)
+    box-shadow: 0 8px 28px rgba(42, 46, 53, .06)
 }
 
 .nav {
@@ -2300,26 +2295,6 @@ footer {
 
 /* ---------- 14) MOTION SYSTEM ---------- */
 /* Motion system — subtle, white-first and respectful of reduced-motion preferences */
-.scroll-progress {
-    position: fixed;
-    top: 0;
-    right: 0;
-    left: 0;
-    height: 3px;
-    z-index: 250;
-    pointer-events: none;
-    background: transparent
-}
-
-.scroll-progress__bar {
-    height: 100%;
-    width: 100%;
-    transform: scaleX(0);
-    transform-origin: right center;
-    background: linear-gradient(90deg, var(--accent-soft), var(--accent));
-    will-change: transform
-}
-
 .hero {
     min-height: 0;
     display: flex;
@@ -2668,10 +2643,6 @@ footer {
         transform: none !important
     }
 
-    .scroll-progress__bar {
-        transition: none
-    }
-
     .reveal,
     .reveal.visible {
         filter: none !important;
@@ -2939,10 +2910,6 @@ footer {
 
 .hero-ambient__glow {
     background: radial-gradient(circle, rgba(193, 31, 42, .10), rgba(245, 246, 248, .25) 58%, transparent 72%)
-}
-
-.scroll-progress__bar {
-    background: linear-gradient(90deg, var(--accent-soft), var(--accent))
 }
 
 .hero-scroll-cue__line:after {

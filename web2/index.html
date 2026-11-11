@@ -12,17 +12,12 @@
   <!-- فونت ایران‌یکان -->
   <link rel="stylesheet" href="css/iranyekan.css">
   <!-- CSS اصلی -->
-  <link rel="stylesheet" href="css/styles.css?v=20260311b">
+  <link rel="stylesheet" href="css/styles.css?v=20260311c">
   <!-- فاصله کارت‌ها (قابل ویرایش) -->
   <link rel="stylesheet" href="css/product-cards.css?v=20260311a">
 </head>
 
 <body>
-  <!-- ========== ۱) نوار پیشرفت اسکرول ========== -->
-  <div class="scroll-progress" aria-hidden="true">
-    <div id="scrollProgressBar" class="scroll-progress__bar"></div>
-  </div>
-
   <!-- ========== ۲) آیکون‌های SVG ========== -->
   <svg width="0" height="0" style="position:absolute;overflow:hidden" xmlns="http://www.w3.org/2000/svg"
     aria-hidden="true">
@@ -633,26 +628,20 @@
   <!-- ========== ۱۴) جاوااسکریپت ========== -->
   <script>
     (() => {
-      const header = document.getElementById('siteHeader'), links = document.getElementById('navLinks'), toggle = document.getElementById('mobileToggle');
+      const links = document.getElementById('navLinks'), toggle = document.getElementById('mobileToggle');
       const hero = document.getElementById('home');
       const heroVisual = hero.querySelector('.hero-visual');
       const heroVideo = hero.querySelector('.hero-video');
-      const progressBar = document.getElementById('scrollProgressBar');
       const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
       if (heroVideo && reducedMotion.matches) { heroVideo.pause(); heroVideo.removeAttribute('autoplay'); }
       let ticking = false;
       const onScroll = () => {
-        if (ticking) return; ticking = true;
+        if (reducedMotion.matches || ticking) return;
+        ticking = true;
         requestAnimationFrame(() => {
-          const y = window.scrollY;
-          header.classList.toggle('scrolled', y > 12);
-          const travel = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
-          progressBar.style.transform = `scaleX(${Math.min(1, Math.max(0, y / travel))})`;
-          if (!reducedMotion.matches) {
-            const rect = hero.getBoundingClientRect();
-            if (rect.bottom > 0 && rect.top < window.innerHeight) {
-              heroVisual.style.setProperty('--parallax-y', `${Math.min(52, Math.max(0, -rect.top * .13)).toFixed(1)}px`);
-            }
+          const rect = hero.getBoundingClientRect();
+          if (rect.bottom > 0 && rect.top < window.innerHeight) {
+            heroVisual.style.setProperty('--parallax-y', `${Math.min(52, Math.max(0, -rect.top * .13)).toFixed(1)}px`);
           }
           ticking = false;
         });
